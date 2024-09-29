@@ -23,7 +23,7 @@ public class CountdownController : MonoBehaviour
     // 画面をタップしたらカウントダウンを開始
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))  // マウスクリックまたはタップ
+        if (Input.GetMouseButtonDown(0)||Input.GetKeyDown(KeyCode.Space))  // マウスクリックまたはタップ
         {
             StartCoroutine(StartCountdown());
         }
