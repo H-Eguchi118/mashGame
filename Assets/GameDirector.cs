@@ -10,13 +10,10 @@ public class GameDirector : MonoBehaviour
     public int count = 0;
     public int score = 0;
 
-    public TextMeshProUGUI timeUI;  // TextMeshPro用のUIテキスト    public GameObject gameStartUI;
+    public TextMeshProUGUI timeUI;  // TextMeshPro用のUIテキスト    
     public TextMeshProUGUI countUI;
-    //public TextMeshProUGUI scoreUI;
 
-   // private bool isGameClear = false;
     private bool isGameStarted = false;
-
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
     // Start is called before the first frame update
@@ -25,45 +22,60 @@ public class GameDirector : MonoBehaviour
         StartGame();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        timeUI.text =  time.ToString("F1");
-
-        // ゲームが開始されている場合、時間を減らす処理を追加
         if (isGameStarted && time > 0)
         {
+            UpdateTime();   // 時間の更新処理
+            CheckKeyInput();   // キーボード入力の確認処理
+            CheckGameOver();   // ゲームオーバー判定
 
-            time -= Time.deltaTime;
-           // UpdateTimeUI();
-
-
-            if (time <= 0)
-            {
-                GameOver();
-            }
         }
     }
 
-    // Button Aが押されたときの処理
+    // 時間を減らしてUIを更新する処理
+    void UpdateTime()
+    {
+        time -= Time.deltaTime;
+        timeUI.text = time.ToString("F1");
+    }
+
+    // キーボード入力があった場合の処理
+    void CheckKeyInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
+        {
+            count++;
+            lastButtonPressed = "L";
+            UpdateCountUI();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
+        {
+            count++;
+            lastButtonPressed = "R";
+            UpdateCountUI();
+        }
+    }
+
+    // ボタンAが押されたときの処理
     public void OnButtonLPressed()
     {
         if (lastButtonPressed != "L")
         {
             count++;
             lastButtonPressed = "L";
-            //UpdateCountUI();
+            UpdateCountUI();
         }
     }
 
-    // Button Bが押されたときの処理
+    // ボタンBが押されたときの処理
     public void OnButtonRPressed()
     {
         if (lastButtonPressed != "R")
         {
             count++;
             lastButtonPressed = "R";
-           UpdateCountUI();
+            UpdateCountUI();
         }
     }
 
@@ -73,10 +85,13 @@ public class GameDirector : MonoBehaviour
         countUI.text = count.ToString();
     }
 
-    // 残り時間を表示するUIの更新
-    void UpdateTimeUI()
+    // ゲームオーバーを確認する処理
+    void CheckGameOver()
     {
-        timeUI.text = "Time: " + time.ToString("F1");
+        if (time <= 0)
+        {
+            GameOver();
+        }
     }
 
     // ゲームオーバー処理
@@ -94,6 +109,5 @@ public class GameDirector : MonoBehaviour
         count = 0; // カウントもリセット
         lastButtonPressed = ""; // 最初はどのボタンも押されていない状態
         UpdateCountUI();
-       // UpdateTimeUI();
     }
 }
