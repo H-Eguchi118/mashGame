@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // TextMeshProを使うために必要
+using TMPro;
 
 public class GameDirector : MonoBehaviour
 {
     public float time = 30.0f;
-    public int startTime = 3;
-    public int count = 0;
+    public int count = 0;  // スタート時にリセットされる
     public int score = 0;
 
     public TextMeshProUGUI timeUI;  // TextMeshPro用のUIテキスト    
@@ -16,12 +15,6 @@ public class GameDirector : MonoBehaviour
     private bool isGameStarted = false;
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartGame();
-    }
-
     void Update()
     {
         if (isGameStarted && time > 0)
@@ -29,8 +22,13 @@ public class GameDirector : MonoBehaviour
             UpdateTime();   // 時間の更新処理
             CheckKeyInput();   // キーボード入力の確認処理
             CheckGameOver();   // ゲームオーバー判定
-
         }
+    }
+
+    // ゲーム開始時に呼び出される
+    public void StartGame()
+    {
+        isGameStarted = true;
     }
 
     // 時間を減らしてUIを更新する処理
@@ -99,15 +97,5 @@ public class GameDirector : MonoBehaviour
     {
         isGameStarted = false;
         Debug.Log("Game Over! Final Count: " + count);
-    }
-
-    // ゲーム開始時の処理
-    public void StartGame()
-    {
-        isGameStarted = true;
-        time = 30.0f; // ゲーム開始時に時間をリセット
-        count = 0; // カウントもリセット
-        lastButtonPressed = ""; // 最初はどのボタンも押されていない状態
-        UpdateCountUI();
     }
 }
