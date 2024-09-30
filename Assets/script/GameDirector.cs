@@ -97,5 +97,9 @@ public class GameDirector : MonoBehaviour
     {
         isGameStarted = false;
         Debug.Log("Game Over! Final Count: " + count);
+
+        FinishController finishController = FindObjectOfType<FinishController>();
+        finishController.ShowFinishUI(count);  // ゲーム終了時にスコアを表示
     }
+
 }
