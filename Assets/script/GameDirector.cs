@@ -15,6 +15,14 @@ public class GameDirector : MonoBehaviour
     private bool isGameStarted = false;
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
+    private GorstCharaController gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
+
+
+    private void Start()
+    {
+        gorstCharaController = FindObjectOfType<GorstCharaController>();
+
+    }
     void Update()
     {
         if (isGameStarted && time > 0)
@@ -46,12 +54,16 @@ public class GameDirector : MonoBehaviour
             count++;
             lastButtonPressed = "L";
             UpdateCountUI();
+            gorstCharaController.ViewGorstL();
+
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
             count++;
             lastButtonPressed = "R";
             UpdateCountUI();
+            gorstCharaController.ViewGorstR();
+
         }
     }
 
