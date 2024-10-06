@@ -20,12 +20,11 @@ public class GameDirector : MonoBehaviour
     private bool isGameStarted = false;
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
-    private GorstCharaController gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
+    public GorstCharaController gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
     public CountdownController countdownController;  // CountdownControllerの参照
 
     private void Start()
     {
-        gorstCharaController = FindObjectOfType<GorstCharaController>();
 
     }
     void Update()
@@ -124,7 +123,6 @@ public class GameDirector : MonoBehaviour
 
         FinishController finishController = FindObjectOfType<FinishController>();
         finishController.ShowFinishUI(count);  // ゲーム終了時にスコアを表示
-        gorstCharaController.ViewStanding();
 
 
         finishUI.SetActive(true); // FinishUI を表示

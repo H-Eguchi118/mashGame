@@ -160,6 +160,7 @@ MonoBehaviour:
   selectButton: {fileID: 145431172}
   finishUI: {fileID: 208061402}
   startUI: {fileID: 1544544913}
+  gorstCharaController: {fileID: 686855038}
   countdownController: {fileID: 1173681168}
 --- !u!4 &27252839
 Transform:
@@ -2266,6 +2267,7 @@ MonoBehaviour:
   countText: {fileID: 1633583810}
   highScoreText: {fileID: 837939576}
   newText: {fileID: 1259806142}
+  gorstCharaController: {fileID: 686855038}
 --- !u!4 &1392444079
 Transform:
   m_ObjectHideFlags: 0

@@ -16,6 +16,8 @@ public class FinishController : MonoBehaviour
     private int highScore;               // ハイスコア
     private string filePath;             // JSONファイルのパス
 
+    public GorstCharaController gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
+
 
     void Start()
     {
@@ -32,6 +34,8 @@ public class FinishController : MonoBehaviour
         count = finalCount;
         finishText.text = "FINISH!";
         countText.text = "Score: " + count.ToString();
+        gorstCharaController.ViewStanding();
+
 
 
         // ハイスコアの更新処理
