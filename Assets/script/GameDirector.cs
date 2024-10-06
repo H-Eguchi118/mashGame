@@ -13,6 +13,7 @@ public class GameDirector : MonoBehaviour
     public TextMeshProUGUI timeUI;  // TextMeshPro用のUIテキスト    
     public TextMeshProUGUI countUI;
     public Button retryButton;  // Retryボタンの参照
+    public Button selectButton;  // Selectボタンの参照
     public GameObject finishUI; // FinishUI のパネル
     public GameObject startUI;  // StartUI のパネル
 
@@ -25,8 +26,6 @@ public class GameDirector : MonoBehaviour
     private void Start()
     {
         gorstCharaController = FindObjectOfType<GorstCharaController>();
-        //startUI.SetActive(true); // ゲーム開始時に StartUI を表示
-        //finishUI.SetActive(false); // ゲーム開始時に FinishUI を非表示
 
     }
     void Update()
@@ -125,6 +124,8 @@ public class GameDirector : MonoBehaviour
 
         FinishController finishController = FindObjectOfType<FinishController>();
         finishController.ShowFinishUI(count);  // ゲーム終了時にスコアを表示
+        gorstCharaController.ViewStanding();
+
 
         finishUI.SetActive(true); // FinishUI を表示
         startUI.SetActive(false); // StartUI を非表示
@@ -150,4 +151,11 @@ public class GameDirector : MonoBehaviour
         finishUI.SetActive(false);  // FinishUIを非表示
         startUI.SetActive(true);    // StartUIを再表示
     }
+
+    public void PushSetectBtn()
+    {
+        gorstCharaController.ViewMoving();
+
+    }
+
 }

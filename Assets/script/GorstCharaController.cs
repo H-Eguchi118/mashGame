@@ -9,14 +9,15 @@ public class GorstCharaController : MonoBehaviour
     public Sprite standingSprite; // 立ち絵のスプライト
     public Sprite rightFootSprite; // 右足上げのスプライト
     public Sprite leftFootSprite; // 左足上げのスプライト
+    public Sprite movingSprite; // 動くスプライト
 
-    private enum CharacterState { Standing, RightFoot, LeftFoot }
+    private enum CharacterState { Standing, RightFoot, LeftFoot,Moving }
     private CharacterState currentState = CharacterState.Standing; // 現在のスプライトの状態
 
     void Start()
     {
         // 初期スプライトを設定
-        characterImage.sprite = standingSprite;
+        currentState = CharacterState.Standing;
 
         // characterImageのRectTransformを取得
         RectTransform rectTransform = characterImage.GetComponent<RectTransform>();
@@ -53,5 +54,13 @@ public class GorstCharaController : MonoBehaviour
     {
         characterImage.sprite = standingSprite; // 立ち絵に戻す
         currentState = CharacterState.Standing; // 状態を更新
+    }
+
+    public void ViewMoving()
+    {
+        characterImage.sprite = movingSprite; // 立ち絵に戻す
+
+        currentState = CharacterState.Moving; // 状態を更新
+
     }
 }

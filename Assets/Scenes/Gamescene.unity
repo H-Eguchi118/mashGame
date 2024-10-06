@@ -157,6 +157,7 @@ MonoBehaviour:
   timeUI: {fileID: 1022827456}
   countUI: {fileID: 1468822441}
   retryButton: {fileID: 1685124759}
+  selectButton: {fileID: 145431172}
   finishUI: {fileID: 208061402}
   startUI: {fileID: 1544544913}
   countdownController: {fileID: 1173681168}
@@ -365,7 +366,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 145431173}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 27252838}
+        m_TargetAssemblyTypeName: GameDirector, Assembly-CSharp
+        m_MethodName: PushSetectBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &145431173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,6 +509,7 @@ MonoBehaviour:
   standingSprite: {fileID: 21300000, guid: d237dfca4f5822f4c9db3e1d59395a45, type: 3}
   rightFootSprite: {fileID: 21300000, guid: 4e27ff658c15b11499cb6295f3448039, type: 3}
   leftFootSprite: {fileID: 21300000, guid: d2cb1d74ba6a9484f9aae70f6cad1ab7, type: 3}
+  movingSprite: {fileID: 21300000, guid: 57d99a7e5e218c64a95f0d88e93867f2, type: 3}
 --- !u!1 &171683258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,6 +1056,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &686855037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 686855039}
+  - component: {fileID: 686855038}
+  m_Layer: 0
+  m_Name: GorstCharaController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &686855038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686855037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e139187d37f904e4fbe493c478b20a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterImage: {fileID: 156803424}
+  standingSprite: {fileID: 21300000, guid: d237dfca4f5822f4c9db3e1d59395a45, type: 3}
+  rightFootSprite: {fileID: 21300000, guid: 4e27ff658c15b11499cb6295f3448039, type: 3}
+  leftFootSprite: {fileID: 21300000, guid: d2cb1d74ba6a9484f9aae70f6cad1ab7, type: 3}
+  movingSprite: {fileID: 21300000, guid: 57d99a7e5e218c64a95f0d88e93867f2, type: 3}
+--- !u!4 &686855039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686855037}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 576.31396, y: 532.46954, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &688114017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,10 +1494,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e139187d37f904e4fbe493c478b20a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterImage: {fileID: 156803424}
+  characterImage: {fileID: 0}
   standingSprite: {fileID: 21300000, guid: d237dfca4f5822f4c9db3e1d59395a45, type: 3}
   rightFootSprite: {fileID: 21300000, guid: 4e27ff658c15b11499cb6295f3448039, type: 3}
   leftFootSprite: {fileID: 21300000, guid: d2cb1d74ba6a9484f9aae70f6cad1ab7, type: 3}
+  movingSprite: {fileID: 0}
 --- !u!1 &837939574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3263,3 +3327,4 @@ SceneRoots:
   - {fileID: 27252839}
   - {fileID: 1173681169}
   - {fileID: 1392444079}
+  - {fileID: 686855039}

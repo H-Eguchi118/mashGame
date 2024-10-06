@@ -1,6 +1,7 @@
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class FinishController : MonoBehaviour
@@ -14,6 +15,7 @@ public class FinishController : MonoBehaviour
     private int count;                   // ゲームの最終カウント
     private int highScore;               // ハイスコア
     private string filePath;             // JSONファイルのパス
+
 
     void Start()
     {
@@ -30,6 +32,7 @@ public class FinishController : MonoBehaviour
         count = finalCount;
         finishText.text = "FINISH!";
         countText.text = "Score: " + count.ToString();
+
 
         // ハイスコアの更新処理
         if (count > highScore)
@@ -78,12 +81,5 @@ public class FinishController : MonoBehaviour
             newText.enabled = !newText.enabled;  // 表示と非表示を切り替える
             yield return new WaitForSeconds(0.5f);  // 0.5秒ごとに切り替え
         }
-    }
-
-    // RETRYボタンが押された時の処理
-    public void OnRetryButtonPressed()
-    {
-        GameDirector gameDirector = FindObjectOfType<GameDirector>();
-        gameDirector.PushRetryBtn(); // ゲームのリスタートを呼び出す
     }
 }
