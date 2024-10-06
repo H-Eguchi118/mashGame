@@ -15,9 +15,7 @@ public class CountdownController : MonoBehaviour
         // GameDirectorスクリプトを取得して関連付け
         gameDirector = FindObjectOfType<GameDirector>();
 
-        startUI.gameObject.SetActive(true);
-        countdownText.text = "Tap Screen";
-
+        ResetCountdown();
     }
 
     // 画面をタップしたらカウントダウンを開始
@@ -27,6 +25,14 @@ public class CountdownController : MonoBehaviour
         {
             StartCoroutine(StartCountdown());
         }
+    }
+
+    // カウントダウンを初期状態にリセットするメソッド
+    public void ResetCountdown()
+    {
+        countdown = 3;  // カウントをリセット
+        startUI.gameObject.SetActive(true);  // StartUIを表示
+        countdownText.text = "Tap Screen";  // 「Tap Screen」を表示
     }
 
     IEnumerator StartCountdown()

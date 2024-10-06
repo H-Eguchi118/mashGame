@@ -79,4 +79,11 @@ public class FinishController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);  // 0.5秒ごとに切り替え
         }
     }
+
+    // RETRYボタンが押された時の処理
+    public void OnRetryButtonPressed()
+    {
+        GameDirector gameDirector = FindObjectOfType<GameDirector>();
+        gameDirector.PushRetryBtn(); // ゲームのリスタートを呼び出す
+    }
 }

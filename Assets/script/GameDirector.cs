@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameDirector : MonoBehaviour
@@ -11,16 +12,21 @@ public class GameDirector : MonoBehaviour
 
     public TextMeshProUGUI timeUI;  // TextMeshPro用のUIテキスト    
     public TextMeshProUGUI countUI;
+    public Button retryButton;  // Retryボタンの参照
+    public GameObject finishUI; // FinishUI のパネル
+    public GameObject startUI;  // StartUI のパネル
 
     private bool isGameStarted = false;
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
     private GorstCharaController gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
-
+    public CountdownController countdownController;  // CountdownControllerの参照
 
     private void Start()
     {
         gorstCharaController = FindObjectOfType<GorstCharaController>();
+        //startUI.SetActive(true); // ゲーム開始時に StartUI を表示
+        //finishUI.SetActive(false); // ゲーム開始時に FinishUI を非表示
 
     }
     void Update()
@@ -37,6 +43,11 @@ public class GameDirector : MonoBehaviour
     public void StartGame()
     {
         isGameStarted = true;
+        count = 0; // カウントをリセット
+        score = 0; // スコアをリセット
+        time = 30.0f; // 時間をリセット
+
+        lastButtonPressed = ""; // 最後に押されたボタンの記録もリセット
     }
 
     // 時間を減らしてUIを更新する処理
@@ -95,11 +106,13 @@ public class GameDirector : MonoBehaviour
         countUI.text = count.ToString();
     }
 
+
     // ゲームオーバーを確認する処理
     void CheckGameOver()
     {
         if (time <= 0)
         {
+            time = 0;
             GameOver();
         }
     }
@@ -112,6 +125,29 @@ public class GameDirector : MonoBehaviour
 
         FinishController finishController = FindObjectOfType<FinishController>();
         finishController.ShowFinishUI(count);  // ゲーム終了時にスコアを表示
+
+        finishUI.SetActive(true); // FinishUI を表示
+        startUI.SetActive(false); // StartUI を非表示
     }
 
+
+    // RETRYボタンが押された時の処理
+    public void PushRetryBtn()
+    {
+        Debug.Log("Retry button pressed");
+
+        // CountdownControllerを初期状態に戻す
+        if (countdownController != null)
+        {
+            countdownController.ResetCountdown();  // カウントダウンのリセット
+        }
+        else
+        {
+            Debug.LogError("CountdownController is not found.");
+        }
+
+        // ゲーム画面のUI設定のリセット
+        finishUI.SetActive(false);  // FinishUIを非表示
+        startUI.SetActive(true);    // StartUIを再表示
+    }
 }
