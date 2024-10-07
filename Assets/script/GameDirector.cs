@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement; // シーン管理用のライブラリを追加
 
 public class GameDirector : MonoBehaviour
 {
@@ -25,7 +26,11 @@ public class GameDirector : MonoBehaviour
 
     private void Start()
     {
-
+        gorstCharaController = FindObjectOfType<GorstCharaController>();
+        if (gorstCharaController == null)
+        {
+            Debug.LogError("GorstCharaController is not found.");
+        }
     }
     void Update()
     {
@@ -43,7 +48,7 @@ public class GameDirector : MonoBehaviour
         isGameStarted = true;
         count = 0; // カウントをリセット
         score = 0; // スコアをリセット
-        time = 30.0f; // 時間をリセット
+        time = 3.0f; // 時間をリセット
 
         lastButtonPressed = ""; // 最後に押されたボタンの記録もリセット
     }
@@ -127,6 +132,7 @@ public class GameDirector : MonoBehaviour
 
         finishUI.SetActive(true); // FinishUI を表示
         startUI.SetActive(false); // StartUI を非表示
+
     }
 
 
@@ -153,6 +159,7 @@ public class GameDirector : MonoBehaviour
     public void PushSetectBtn()
     {
         gorstCharaController.ViewMoving();
+        SceneManager.LoadScene("SelectScene");  // SelectSceneに移動
 
     }
 

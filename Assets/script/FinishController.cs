@@ -34,6 +34,8 @@ public class FinishController : MonoBehaviour
         count = finalCount;
         finishText.text = "FINISH!";
         countText.text = "Score: " + count.ToString();
+
+        gorstCharaController = FindObjectOfType<GorstCharaController>();
         gorstCharaController.ViewStanding();
 
 
