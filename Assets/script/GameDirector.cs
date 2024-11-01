@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement; // ƒV[ƒ“ŠÇ——p‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğ’Ç‰Á
+using UnityEngine.SceneManagement; // ã‚·ãƒ¼ãƒ³ç®¡ç†ç”¨ã®ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’è¿½åŠ 
 
 public class GameDirector : MonoBehaviour
 {
-    public float time = 30.0f;
-    public int count = 0;  // ƒXƒ^[ƒg‚ÉƒŠƒZƒbƒg‚³‚ê‚é
+    public float time;
+    public int count = 0;  // ã‚¹ã‚¿ãƒ¼ãƒˆæ™‚ã«ãƒªã‚»ãƒƒãƒˆã•ã‚Œã‚‹
     public int score = 0;
 
-    public TextMeshProUGUI timeUI;  // TextMeshPro—p‚ÌUIƒeƒLƒXƒg    
+    public TextMeshProUGUI timeUI;  // TextMeshProç”¨ã®UIãƒ†ã‚­ã‚¹ãƒˆ    
     public TextMeshProUGUI countUI;
-    public Button retryButton;  // Retryƒ{ƒ^ƒ“‚ÌQÆ
-    public Button selectButton;  // Selectƒ{ƒ^ƒ“‚ÌQÆ
-    public GameObject finishUI; // FinishUI ‚Ìƒpƒlƒ‹
-    public GameObject startUI;  // StartUI ‚Ìƒpƒlƒ‹
+    public Button retryButton;  // Retryãƒœã‚¿ãƒ³ã®å‚ç…§
+    public Button selectButton;  // Selectãƒœã‚¿ãƒ³ã®å‚ç…§
+    public GameObject finishUI; // FinishUI ã®ãƒ‘ãƒãƒ«
+    public GameObject startUI;  // StartUI ã®ãƒ‘ãƒãƒ«
 
     private bool isGameStarted = false;
-    private string lastButtonPressed = ""; // ‘O‰ñ‰Ÿ‚³‚ê‚½ƒ{ƒ^ƒ“‚ğ‹L˜^
+    private string lastButtonPressed = ""; // å‰å›æŠ¼ã•ã‚ŒãŸãƒœã‚¿ãƒ³ã‚’è¨˜éŒ²
 
-    public GorstCharaController gorstCharaController;  // ƒQ[ƒ€‚ÌŠJn‚ğŠÇ—‚·‚éƒXƒNƒŠƒvƒg‚ÌQÆ
-    public CountdownController countdownController;  // CountdownController‚ÌQÆ
+    public GorstCharaController gorstCharaController;  // ã‚²ãƒ¼ãƒ ã®é–‹å§‹ã‚’ç®¡ç†ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å‚ç…§
+    public CountdownController countdownController;  // CountdownControllerã®å‚ç…§
 
     private void Start()
     {
@@ -36,31 +36,31 @@ public class GameDirector : MonoBehaviour
     {
         if (isGameStarted && time > 0)
         {
-            UpdateTime();   // ŠÔ‚ÌXVˆ—
-            CheckKeyInput();   // ƒL[ƒ{[ƒh“ü—Í‚ÌŠm”Fˆ—
-            CheckGameOver();   // ƒQ[ƒ€ƒI[ƒo[”»’è
+            UpdateTime();   // æ™‚é–“ã®æ›´æ–°å‡¦ç†
+            CheckKeyInput();   // ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›ã®ç¢ºèªå‡¦ç†
+            CheckGameOver();   // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼åˆ¤å®š
         }
     }
 
-    // ƒQ[ƒ€ŠJn‚ÉŒÄ‚Ño‚³‚ê‚é
+    // ã‚²ãƒ¼ãƒ é–‹å§‹æ™‚ã«å‘¼ã³å‡ºã•ã‚Œã‚‹
     public void StartGame()
     {
         isGameStarted = true;
-        count = 0; // ƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg
-        score = 0; // ƒXƒRƒA‚ğƒŠƒZƒbƒg
-        time = 3.0f; // ŠÔ‚ğƒŠƒZƒbƒg
+        count = 0; // ã‚«ã‚¦ãƒ³ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆ
+        score = 0; // ã‚¹ã‚³ã‚¢ã‚’ãƒªã‚»ãƒƒãƒˆ
+       // time = 3.0f; // æ™‚é–“ã‚’ãƒªã‚»ãƒƒãƒˆ
 
-        lastButtonPressed = ""; // ÅŒã‚É‰Ÿ‚³‚ê‚½ƒ{ƒ^ƒ“‚Ì‹L˜^‚àƒŠƒZƒbƒg
+        lastButtonPressed = ""; // æœ€å¾Œã«æŠ¼ã•ã‚ŒãŸãƒœã‚¿ãƒ³ã®è¨˜éŒ²ã‚‚ãƒªã‚»ãƒƒãƒˆ
     }
 
-    // ŠÔ‚ğŒ¸‚ç‚µ‚ÄUI‚ğXV‚·‚éˆ—
+    // æ™‚é–“ã‚’æ¸›ã‚‰ã—ã¦UIã‚’æ›´æ–°ã™ã‚‹å‡¦ç†
     void UpdateTime()
     {
         time -= Time.deltaTime;
         timeUI.text = time.ToString("F1");
     }
 
-    // ƒL[ƒ{[ƒh“ü—Í‚ª‚ ‚Á‚½ê‡‚Ìˆ—
+    // ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›ãŒã‚ã£ãŸå ´åˆã®å‡¦ç†
     void CheckKeyInput()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
@@ -81,7 +81,7 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    // ƒ{ƒ^ƒ“A‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
+    // ãƒœã‚¿ãƒ³AãŒæŠ¼ã•ã‚ŒãŸã¨ãã®å‡¦ç†
     public void OnButtonLPressed()
     {
         if (lastButtonPressed != "L")
@@ -92,7 +92,7 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    // ƒ{ƒ^ƒ“B‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
+    // ãƒœã‚¿ãƒ³BãŒæŠ¼ã•ã‚ŒãŸã¨ãã®å‡¦ç†
     public void OnButtonRPressed()
     {
         if (lastButtonPressed != "R")
@@ -103,14 +103,14 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    // ƒJƒEƒ“ƒg‚ğ•\¦‚·‚éUI‚ÌXV
+    // ã‚«ã‚¦ãƒ³ãƒˆã‚’è¡¨ç¤ºã™ã‚‹UIã®æ›´æ–°
     void UpdateCountUI()
     {
         countUI.text = count.ToString();
     }
 
 
-    // ƒQ[ƒ€ƒI[ƒo[‚ğŠm”F‚·‚éˆ—
+    // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã‚’ç¢ºèªã™ã‚‹å‡¦ç†
     void CheckGameOver()
     {
         if (time <= 0)
@@ -120,46 +120,46 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    // ƒQ[ƒ€ƒI[ƒo[ˆ—
+    // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†
     void GameOver()
     {
         isGameStarted = false;
         Debug.Log("Game Over! Final Count: " + count);
 
         FinishController finishController = FindObjectOfType<FinishController>();
-        finishController.ShowFinishUI(count);  // ƒQ[ƒ€I—¹‚ÉƒXƒRƒA‚ğ•\¦
+        finishController.ShowFinishUI(count);  // ã‚²ãƒ¼ãƒ çµ‚äº†æ™‚ã«ã‚¹ã‚³ã‚¢ã‚’è¡¨ç¤º
 
 
-        finishUI.SetActive(true); // FinishUI ‚ğ•\¦
-        startUI.SetActive(false); // StartUI ‚ğ”ñ•\¦
+        finishUI.SetActive(true); // FinishUI ã‚’è¡¨ç¤º
+        startUI.SetActive(false); // StartUI ã‚’éè¡¨ç¤º
 
     }
 
 
-    // RETRYƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Ìˆ—
+    // RETRYãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸæ™‚ã®å‡¦ç†
     public void PushRetryBtn()
     {
         Debug.Log("Retry button pressed");
 
-        // CountdownController‚ğ‰Šúó‘Ô‚É–ß‚·
+        // CountdownControllerã‚’åˆæœŸçŠ¶æ…‹ã«æˆ»ã™
         if (countdownController != null)
         {
-            countdownController.ResetCountdown();  // ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ÌƒŠƒZƒbƒg
+            countdownController.ResetCountdown();  // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã®ãƒªã‚»ãƒƒãƒˆ
         }
         else
         {
             Debug.LogError("CountdownController is not found.");
         }
 
-        // ƒQ[ƒ€‰æ–Ê‚ÌUIİ’è‚ÌƒŠƒZƒbƒg
-        finishUI.SetActive(false);  // FinishUI‚ğ”ñ•\¦
-        startUI.SetActive(true);    // StartUI‚ğÄ•\¦
+        // ã‚²ãƒ¼ãƒ ç”»é¢ã®UIè¨­å®šã®ãƒªã‚»ãƒƒãƒˆ
+        finishUI.SetActive(false);  // FinishUIã‚’éè¡¨ç¤º
+        startUI.SetActive(true);    // StartUIã‚’å†è¡¨ç¤º
     }
 
     public void PushSetectBtn()
     {
         gorstCharaController.ViewMoving();
-        SceneManager.LoadScene("SelectScene");  // SelectScene‚ÉˆÚ“®
+        SceneManager.LoadScene("SelectScene");  // SelectSceneã«ç§»å‹•
 
     }
 
