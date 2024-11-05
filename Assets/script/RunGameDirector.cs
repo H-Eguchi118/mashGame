@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement; // シーン管理用のライブラリを追加
 
 public class RunGameDirector : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class RunGameDirector : MonoBehaviour
     void Start()
     {
         time = 0;
+
     }
 
     // Update is called once per frame
@@ -21,4 +24,6 @@ public class RunGameDirector : MonoBehaviour
         timerText.text = time.ToString("F1");
 
     }
+
+
 }

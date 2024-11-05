@@ -21,11 +21,21 @@ public class RunPlayerController : MonoBehaviour
 
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
+    // 追加: スプライトの参照を保持するための変数
+    public Sprite standingSprite; // 立ち絵のスプライト
+    public Sprite rightFootSprite; // 右足上げのスプライト
+    public Sprite leftFootSprite; // 左足上げのスプライト
+
+    private SpriteRenderer spriteRenderer; // スプライトレンダラーの参照
+
     void Start()
     {
         Application.targetFrameRate = 60;
         this.rigid2D = GetComponent<Rigidbody2D>();
         currentRunForce = baseRunForce;  // 初期値を基本の走る力に設定
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite=standingSprite;//初期スプライトを設定
     }
 
     void Update()
@@ -41,11 +51,14 @@ public class RunPlayerController : MonoBehaviour
         {
             lastButtonPressed = "L";
             RunRight();
+            spriteRenderer.sprite=leftFootSprite;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
             lastButtonPressed = "R";
             RunRight();
+            spriteRenderer.sprite = rightFootSprite;
+
         }
         else if ((Input.GetKeyDown(KeyCode.Space)))
         {
