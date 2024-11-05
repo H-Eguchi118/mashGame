@@ -73,6 +73,8 @@ public class RunPlayerController : MonoBehaviour
         //連打速度
         RunForce();
 
+        Debug.Log("Current Run Force: " + currentRunForce); // デバッグ用
+
         // 力を加える
         rigid2D.AddForce(new Vector2(currentRunForce, 0), ForceMode2D.Impulse);
 
