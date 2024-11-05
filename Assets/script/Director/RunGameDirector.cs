@@ -8,12 +8,14 @@ using UnityEngine.SceneManagement; // シーン管理用のライブラリを追
 public class RunGameDirector : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
-
+    [SerializeField]private TextMeshProUGUI goalText;
     private float time;
+    private bool isTimerRunning = true;//タイマーが動作しているか
 
     void Start()
     {
         time = 0;
+        goalText.gameObject.SetActive(false);
 
     }
 
@@ -25,5 +27,11 @@ public class RunGameDirector : MonoBehaviour
 
     }
 
+    public void StopTimer()
+    {
+        isTimerRunning = false;
+        goalText.gameObject.SetActive(true);
+
+    }
 
 }

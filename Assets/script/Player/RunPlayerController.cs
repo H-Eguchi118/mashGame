@@ -28,6 +28,8 @@ public class RunPlayerController : MonoBehaviour
 
     private SpriteRenderer spriteRenderer; // スプライトレンダラーの参照
 
+    [SerializeField] private RunGameDirector gameDirector;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -35,7 +37,8 @@ public class RunPlayerController : MonoBehaviour
         currentRunForce = baseRunForce;  // 初期値を基本の走る力に設定
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite=standingSprite;//初期スプライトを設定
+        spriteRenderer.sprite = standingSprite;//初期スプライトを設定
+
     }
 
     void Update()
@@ -51,7 +54,7 @@ public class RunPlayerController : MonoBehaviour
         {
             lastButtonPressed = "L";
             RunRight();
-            spriteRenderer.sprite=leftFootSprite;
+            spriteRenderer.sprite = leftFootSprite;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
@@ -93,8 +96,8 @@ public class RunPlayerController : MonoBehaviour
 
     void Jump()
     {
-        if(Mathf.Abs(rigid2D.velocity.y)<0.01f)//地面にいるときのみジャンプ
-        rigid2D.AddForce(transform.up * this.JumpForce);
+        if (Mathf.Abs(rigid2D.velocity.y) < 0.01f)//地面にいるときのみジャンプ
+            rigid2D.AddForce(transform.up * this.JumpForce);
     }
 
 
@@ -127,12 +130,25 @@ public class RunPlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            rigid2D.velocity = Vector2.zero;
+            Debug.Log("hit enemy");
+            Debug.Log(rigid2D.velocity);
+        }
+
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.gameObject.tag == "Goal")
         {
             Debug.Log("Goal");
+            gameDirector.StopTimer();
         }
     }
 }
