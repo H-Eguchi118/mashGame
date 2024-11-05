@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerRunController : MonoBehaviour
+public class RunPlayerController : MonoBehaviour
 {
     Rigidbody2D rigid2D;
 
@@ -17,6 +18,8 @@ public class PlayerRunController : MonoBehaviour
                                         // private string lastButtonPressed = ""; // 前回押されたボタンを記録
     private float lastInputTime = 0f;      // 最後にボタンが押された時間
     private float lastInterval = 0f;       // 連打の速さを記録
+
+    private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
     void Start()
     {
@@ -34,12 +37,14 @@ public class PlayerRunController : MonoBehaviour
     //動作
     public void PlayerMoving()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
-            RunLeft();
+            lastButtonPressed = "L";
+            RunRight();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
+            lastButtonPressed = "R";
             RunRight();
         }
         else if ((Input.GetKeyDown(KeyCode.Space)))
@@ -55,21 +60,21 @@ public class PlayerRunController : MonoBehaviour
         //連打速度
         RunForce();
 
-        // 現在のX軸の速度に加速を加える
-        rigid2D.velocity=new Vector2(currentRunForce, rigid2D.velocity.y);
+        // 力を加える
+        rigid2D.AddForce(new Vector2(currentRunForce, 0), ForceMode2D.Impulse);
 
     }
 
     // 右方向に走るための力を加えるメソッド
-    void RunLeft()
-    {
-        //連打速度
-        RunForce();
+    //void RunLeft()
+    //{
+    //    //連打速度
+    //    RunForce();
 
-        // 力を加える
-        rigid2D.AddForce(new Vector2(-currentRunForce, 0), ForceMode2D.Force);
+    // 現在のX軸の速度に加速を加える
+    //    rigid2D.AddForce(new Vector2(-currentRunForce, 0), ForceMode2D.Force);
 
-    }
+    //}
 
     void Jump()
     {
@@ -104,6 +109,15 @@ public class PlayerRunController : MonoBehaviour
             // 最後に入力があった時間を更新
             lastInputTime = currentTime;
 
+        }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Goal")
+        {
+            Debug.Log("Goal");
         }
     }
 }
