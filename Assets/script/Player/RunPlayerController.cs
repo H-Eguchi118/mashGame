@@ -101,12 +101,16 @@ public class RunPlayerController : MonoBehaviour
     }
 
 
-    // 一定時間連打がないときに徐々に減速する
+    //一定時間連打がなければ速度を0にする
     void DecelerateOverTime()
     {
         if (Time.time - lastInputTime > 0.5f)  // 0.5秒間入力がない場合減速開始
         {
-            currentRunForce = Mathf.Max(currentRunForce - decayRate * Time.deltaTime, baseRunForce);  // 最小値を超えないように
+            rigid2D.velocity = Vector2.zero;
+
+            // 一定時間連打がないときに徐々に減速する
+            //currentRunForce = Mathf.Max(currentRunForce - decayRate * Time.deltaTime, baseRunForce);  // 最小値を超えないように
+
         }
     }
 
@@ -134,11 +138,32 @@ public class RunPlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            rigid2D.velocity = Vector2.zero;
             Debug.Log("hit enemy");
+            rigid2D.velocity = Vector2.zero;
             Debug.Log(rigid2D.velocity);
+
+            StartCoroutine(BlinkSprite());//点滅処理を開始
         }
 
+    }
+
+    IEnumerator BlinkSprite()
+    {
+        
+            float blinkDuration = 2.0f;//点滅の合計時間
+            float blinkIntarval = 0.2f;//点滅間隔
+            float blinkTime = 0f;//点滅時間のカウント
+
+            while (blinkTime < blinkDuration)
+            {
+                spriteRenderer.enabled = !spriteRenderer.enabled;//表示・非表示を切り替える
+                yield return new WaitForSeconds(blinkIntarval);  // blinkIntarvalごとに切り替え
+                blinkTime += blinkIntarval;
+            }
+
+            spriteRenderer.enabled = true;//終了したら表示に戻す
+
+        
     }
 
 
