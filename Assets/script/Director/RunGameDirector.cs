@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement; // シーン管理用のライブラリを追
 
 public class RunGameDirector : MonoBehaviour
 {
+    [SerializeField] private AudioManager _audioManager;
+
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField]private TextMeshProUGUI goalText;
     private float time;
@@ -16,14 +18,18 @@ public class RunGameDirector : MonoBehaviour
     {
         time = 0;
         goalText.gameObject.SetActive(false);
+        _audioManager.PlayRunningBgm();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
-        timerText.text = time.ToString("F1");
+        if (isTimerRunning)
+        {
+            time += Time.deltaTime;
+            timerText.text = time.ToString("F1");
+        }
 
     }
 
@@ -31,7 +37,9 @@ public class RunGameDirector : MonoBehaviour
     {
         isTimerRunning = false;
         goalText.gameObject.SetActive(true);
+        _audioManager.StopRunningBgm();
 
     }
+
 
 }
