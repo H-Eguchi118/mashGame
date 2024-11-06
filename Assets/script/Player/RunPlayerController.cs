@@ -1,3 +1,4 @@
+using Boomerang2DFramework.Framework.AudioManagement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,13 +29,15 @@ public class RunPlayerController : MonoBehaviour
 
     private SpriteRenderer spriteRenderer; // スプライトレンダラーの参照
 
-    [SerializeField] private RunGameDirector gameDirector;
+    [SerializeField] private RunGameDirector _runGameDirector;
+    [SerializeField] private AudioManager _audioManager;
 
     void Start()
     {
         Application.targetFrameRate = 60;
         this.rigid2D = GetComponent<Rigidbody2D>();
         currentRunForce = baseRunForce;  // 初期値を基本の走る力に設定
+        
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = standingSprite;//初期スプライトを設定
@@ -53,18 +56,22 @@ public class RunPlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
             lastButtonPressed = "L";
+            _audioManager.PlayLeftFootSound();
             RunRight();
             spriteRenderer.sprite = leftFootSprite;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
             lastButtonPressed = "R";
+            _audioManager.PlayRightFootSound();
             RunRight();
+
             spriteRenderer.sprite = rightFootSprite;
 
         }
         else if ((Input.GetKeyDown(KeyCode.Space)))
         {
+            _audioManager.PlayJumpSound();
             Jump();
 
         }
@@ -139,6 +146,7 @@ public class RunPlayerController : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("hit enemy");
+            _audioManager.PlayEnemyHitSound();
             rigid2D.velocity = Vector2.zero;
             Debug.Log(rigid2D.velocity);
 
@@ -173,7 +181,8 @@ public class RunPlayerController : MonoBehaviour
         if (other.gameObject.tag == "Goal")
         {
             Debug.Log("Goal");
-            gameDirector.StopTimer();
+            _audioManager.PlayRunningGoalSound();
+            _runGameDirector.StopTimer();
         }
     }
 }
