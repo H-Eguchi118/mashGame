@@ -163,6 +163,7 @@ MonoBehaviour:
   _gorstCharaController: {fileID: 686855038}
   _countdownController: {fileID: 1173681168}
   _audioManager: {fileID: 1004656034}
+  _finishController: {fileID: 1392444078}
 --- !u!4 &27252839
 Transform:
   m_ObjectHideFlags: 0
@@ -263,7 +264,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 27252838}
         m_TargetAssemblyTypeName: GameDirector, Assembly-CSharp
-        m_MethodName: PushSetectBtn
+        m_MethodName: PushSelectBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

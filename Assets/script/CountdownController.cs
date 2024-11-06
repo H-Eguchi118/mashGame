@@ -9,6 +9,7 @@ public class CountdownController : MonoBehaviour
     public Canvas startUI;          // カウントダウン用のUI
 
     private GameDirector gameDirector;  // ゲームの開始を管理するスクリプトの参照
+    private bool isCountingDown = false; // カウントダウン中かどうかのフラグ
 
     void Start()
     {
@@ -21,9 +22,10 @@ public class CountdownController : MonoBehaviour
     // 画面をタップしたらカウントダウンを開始
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)||Input.GetKeyDown(KeyCode.Space))  // マウスクリックまたはタップ
+        if ((!isCountingDown && Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))) // マウスクリックまたはタップ
         {
             StartCoroutine(StartCountdown());
+            isCountingDown = true;  // フラグを立ててカウントダウンが二重に始まらないようにする
         }
     }
 
@@ -33,7 +35,9 @@ public class CountdownController : MonoBehaviour
         countdown = 3;  // カウントをリセット
         startUI.gameObject.SetActive(true);  // StartUIを表示
         countdownText.text = "Tap Screen";  // 「Tap Screen」を表示
+        isCountingDown = false;  // カウントダウン中フラグをリセット
     }
+
 
     IEnumerator StartCountdown()
     {
@@ -52,10 +56,12 @@ public class CountdownController : MonoBehaviour
         countdownText.text = "Start!";
         yield return new WaitForSeconds(1.0f);
 
+        // カウントダウンUIを非表示
+        startUI.gameObject.SetActive(false);
+
         // カウントダウンが終了したらゲーム開始
         gameDirector.StartGame();
 
-        // カウントダウンUIを非表示
-        startUI.gameObject.SetActive(false);
+
     }
 }
