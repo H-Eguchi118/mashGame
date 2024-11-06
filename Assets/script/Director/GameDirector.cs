@@ -21,16 +21,19 @@ public class GameDirector : MonoBehaviour
     private bool isGameStarted = false;
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
-    public GorstCharaController gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
-    public CountdownController countdownController;  // CountdownControllerの参照
+    [SerializeField] private GorstCharaController _gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
+    [SerializeField] private CountdownController _countdownController;  // CountdownControllerの参照
+    [SerializeField] private AudioManager _audioManager;  // CountdownControllerの参照
+    [SerializeField] private FinishController _finishController;  // CountdownControllerの参照
 
     private void Start()
     {
-        gorstCharaController = FindObjectOfType<GorstCharaController>();
-        if (gorstCharaController == null)
+        _gorstCharaController = FindObjectOfType<GorstCharaController>();
+        if (_gorstCharaController == null)
         {
             Debug.LogError("GorstCharaController is not found.");
         }
+        
     }
     void Update()
     {
@@ -46,11 +49,8 @@ public class GameDirector : MonoBehaviour
     public void StartGame()
     {
         isGameStarted = true;
-        count = 0; // カウントをリセット
-        score = 0; // スコアをリセット
-       // time = 3.0f; // 時間をリセット
+        _audioManager.PlayCountBgm();
 
-        lastButtonPressed = ""; // 最後に押されたボタンの記録もリセット
     }
 
     // 時間を減らしてUIを更新する処理
@@ -68,7 +68,7 @@ public class GameDirector : MonoBehaviour
             count++;
             lastButtonPressed = "L";
             UpdateCountUI();
-            gorstCharaController.ViewGorstL();
+            _gorstCharaController.ViewGorstL();
 
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
@@ -76,12 +76,12 @@ public class GameDirector : MonoBehaviour
             count++;
             lastButtonPressed = "R";
             UpdateCountUI();
-            gorstCharaController.ViewGorstR();
+            _gorstCharaController.ViewGorstR();
 
         }
     }
 
-    // ボタンAが押されたときの処理
+    // ボタンLが押されたときの処理
     public void OnButtonLPressed()
     {
         if (lastButtonPressed != "L")
@@ -92,7 +92,7 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    // ボタンBが押されたときの処理
+    // ボタンRが押されたときの処理
     public void OnButtonRPressed()
     {
         if (lastButtonPressed != "R")
@@ -116,6 +116,7 @@ public class GameDirector : MonoBehaviour
         if (time <= 0)
         {
             time = 0;
+            _audioManager.StopCountBgm();
             GameOver();
         }
     }
@@ -126,9 +127,7 @@ public class GameDirector : MonoBehaviour
         isGameStarted = false;
         Debug.Log("Game Over! Final Count: " + count);
 
-        FinishController finishController = FindObjectOfType<FinishController>();
-        finishController.ShowFinishUI(count);  // ゲーム終了時にスコアを表示
-
+        _finishController.ShowFinishUI(count);  // ゲーム終了時にスコアを表示
 
         finishUI.SetActive(true); // FinishUI を表示
         startUI.SetActive(false); // StartUI を非表示
@@ -139,28 +138,44 @@ public class GameDirector : MonoBehaviour
     // RETRYボタンが押された時の処理
     public void PushRetryBtn()
     {
+        _audioManager.StopCountFinishSound();
+        _audioManager.PlayButtonSound();
         Debug.Log("Retry button pressed");
 
         // CountdownControllerを初期状態に戻す
-        if (countdownController != null)
+        if (_countdownController != null)
         {
-            countdownController.ResetCountdown();  // カウントダウンのリセット
+            finishUI.SetActive(false);  // FinishUIを非表示
+            ResetGame();
+            _countdownController.ResetCountdown();  // カウントダウンのリセット
         }
         else
         {
             Debug.LogError("CountdownController is not found.");
         }
 
-        // ゲーム画面のUI設定のリセット
-        finishUI.SetActive(false);  // FinishUIを非表示
-        startUI.SetActive(true);    // StartUIを再表示
+
     }
 
-    public void PushSetectBtn()
+    public void PushSelectBtn()
     {
-        gorstCharaController.ViewMoving();
+        Debug.Log("PushSelectBtn called");
+
+        _audioManager.StopCountFinishSound();
+        _audioManager.PlayButtonSound();
+        _gorstCharaController.ViewMoving();
         SceneManager.LoadScene("SelectScene");  // SelectSceneに移動
 
+    }
+
+     void ResetGame()
+    {
+        isGameStarted=false;
+        count = 0; // カウントをリセット
+        score = 0; // スコアをリセット
+        time = 3f;
+        lastButtonPressed = ""; // 最後に押されたボタンの記録もリセット
+        UpdateCountUI();
     }
 
 }

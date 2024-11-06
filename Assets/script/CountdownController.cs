@@ -4,47 +4,51 @@ using TMPro;
 
 public class CountdownController : MonoBehaviour
 {
-    public int countdown = 3;  // Unity‚©‚ç’²®‚Å‚«‚é‚æ‚¤‚Épublic‚É
+    public int countdown = 3;  // Unityã‹ã‚‰èª¿æ•´ã§ãã‚‹ã‚ˆã†ã«publicã«
     public TextMeshProUGUI countdownText;
-    public Canvas startUI;          // ƒJƒEƒ“ƒgƒ_ƒEƒ“—p‚ÌUI
+    public Canvas startUI;          // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ç”¨ã®UI
 
-    private GameDirector gameDirector;  // ƒQ[ƒ€‚ÌŠJn‚ğŠÇ—‚·‚éƒXƒNƒŠƒvƒg‚ÌQÆ
+    private GameDirector gameDirector;  // ã‚²ãƒ¼ãƒ ã®é–‹å§‹ã‚’ç®¡ç†ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å‚ç…§
+    private bool isCountingDown = false; // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ä¸­ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
 
     void Start()
     {
-        // GameDirectorƒXƒNƒŠƒvƒg‚ğæ“¾‚µ‚ÄŠÖ˜A•t‚¯
+        // GameDirectorã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’å–å¾—ã—ã¦é–¢é€£ä»˜ã‘
         gameDirector = FindObjectOfType<GameDirector>();
 
         ResetCountdown();
     }
 
-    // ‰æ–Ê‚ğƒ^ƒbƒv‚µ‚½‚çƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğŠJn
+    // ç”»é¢ã‚’ã‚¿ãƒƒãƒ—ã—ãŸã‚‰ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’é–‹å§‹
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)||Input.GetKeyDown(KeyCode.Space))  // ƒ}ƒEƒXƒNƒŠƒbƒN‚Ü‚½‚Íƒ^ƒbƒv
+        if ((!isCountingDown && Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))) // ãƒã‚¦ã‚¹ã‚¯ãƒªãƒƒã‚¯ã¾ãŸã¯ã‚¿ãƒƒãƒ—
         {
             StartCoroutine(StartCountdown());
+            isCountingDown = true;  // ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã¦ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ãŒäºŒé‡ã«å§‹ã¾ã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
         }
     }
 
-    // ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğ‰Šúó‘Ô‚ÉƒŠƒZƒbƒg‚·‚éƒƒ\ƒbƒh
+    // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’åˆæœŸçŠ¶æ…‹ã«ãƒªã‚»ãƒƒãƒˆã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     public void ResetCountdown()
     {
-        countdown = 3;  // ƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg
-        startUI.gameObject.SetActive(true);  // StartUI‚ğ•\¦
-        countdownText.text = "Tap Screen";  // uTap Screenv‚ğ•\¦
+        countdown = 3;  // ã‚«ã‚¦ãƒ³ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆ
+        startUI.gameObject.SetActive(true);  // StartUIã‚’è¡¨ç¤º
+        countdownText.text = "Tap Screen";  // ã€ŒTap Screenã€ã‚’è¡¨ç¤º
+        isCountingDown = false;  // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ä¸­ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
     }
+
 
     IEnumerator StartCountdown()
     {
 
-        // ƒJƒEƒ“ƒgƒ_ƒEƒ“ŠJn
+        // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³é–‹å§‹
         while (countdown > 0)
         {
-            // ”š‚ÌƒtƒHƒ“ƒgƒTƒCƒY‚ğ700‚Éİ’è
+            // æ•°å­—ã®ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’700ã«è¨­å®š
             countdownText.fontSize = 700;
             countdownText.text = countdown.ToString();
-            yield return new WaitForSeconds(1.0f);  // 1•b‘Ò‹@
+            yield return new WaitForSeconds(1.0f);  // 1ç§’å¾…æ©Ÿ
             countdown--;
         }
 
@@ -52,10 +56,12 @@ public class CountdownController : MonoBehaviour
         countdownText.text = "Start!";
         yield return new WaitForSeconds(1.0f);
 
-        // ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ªI—¹‚µ‚½‚çƒQ[ƒ€ŠJn
+        // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³UIã‚’éè¡¨ç¤º
+        startUI.gameObject.SetActive(false);
+
+        // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ãŒçµ‚äº†ã—ãŸã‚‰ã‚²ãƒ¼ãƒ é–‹å§‹
         gameDirector.StartGame();
 
-        // ƒJƒEƒ“ƒgƒ_ƒEƒ“UI‚ğ”ñ•\¦
-        startUI.gameObject.SetActive(false);
+
     }
 }

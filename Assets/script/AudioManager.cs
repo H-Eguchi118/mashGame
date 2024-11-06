@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioSource runningGoalSound;//ゴール音
     [SerializeField] private AudioSource buttonSound;//ボタン音
+    [SerializeField] private AudioSource countFinishSound;//カウントフィニッシュUI音
 
     [SerializeField] private AudioSource runningBgm;//ランニングシーンBGM
     [SerializeField] private AudioSource countBgm;//カウントシーンBGM
@@ -91,6 +92,14 @@ public class AudioManager : MonoBehaviour
             countBgm.Play();
         }
     }
+    public void StopCountBgm()
+    {
+        if (countBgm != null)
+        {
+            countBgm.Stop();
+        }
+    }
+
 
     public void PlaySelectBgm()
     {
@@ -99,5 +108,22 @@ public class AudioManager : MonoBehaviour
             selectBgm.Play();
         }
     }
+
+    public void PlayCountFinishSound()
+    {
+        if (countFinishSound != null)
+        {
+            countFinishSound.Play();
+        }
+    }
+
+    public void StopCountFinishSound()
+    {
+        if (countFinishSound != null)
+        {
+            countFinishSound.Stop();
+        }
+    }
+
 
 }

@@ -3,89 +3,91 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Boomerang2DFramework.Framework.AudioManagement;
 
 public class FinishController : MonoBehaviour
 {
-    public Canvas finishUI;               // I—¹‰æ–Ê‚ÌCanvas
-    public TextMeshProUGUI finishText;    // I—¹ƒƒbƒZ[ƒW—p‚ÌText
-    public TextMeshProUGUI countText;     // ÅIƒJƒEƒ“ƒg‚ğ•\¦‚·‚éText
-    public TextMeshProUGUI highScoreText; // ƒnƒCƒXƒRƒA‚ğ•\¦‚·‚éText
-    public TextMeshProUGUI newText; // ƒnƒCƒXƒRƒA‚ğ•\¦‚·‚éText
+    public Canvas finishUI;               // çµ‚äº†ç”»é¢ã®Canvas
+    public TextMeshProUGUI finishText;    // çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç”¨ã®Text
+    public TextMeshProUGUI countText;     // æœ€çµ‚ã‚«ã‚¦ãƒ³ãƒˆã‚’è¡¨ç¤ºã™ã‚‹Text
+    public TextMeshProUGUI highScoreText; // ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’è¡¨ç¤ºã™ã‚‹Text
+    public TextMeshProUGUI newText; // ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’è¡¨ç¤ºã™ã‚‹Text
 
-    private int count;                   // ƒQ[ƒ€‚ÌÅIƒJƒEƒ“ƒg
-    private int highScore;               // ƒnƒCƒXƒRƒA
-    private string filePath;             // JSONƒtƒ@ƒCƒ‹‚ÌƒpƒX
+    private int count;                   // ã‚²ãƒ¼ãƒ ã®æœ€çµ‚ã‚«ã‚¦ãƒ³ãƒˆ
+    private int highScore;               // ãƒã‚¤ã‚¹ã‚³ã‚¢
+    private string filePath;             // JSONãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
 
-    public GorstCharaController gorstCharaController;  // ƒQ[ƒ€‚ÌŠJn‚ğŠÇ—‚·‚éƒXƒNƒŠƒvƒg‚ÌQÆ
+    [SerializeField] private GorstCharaController _gorstCharaController;  // ã‚²ãƒ¼ãƒ ã®é–‹å§‹ã‚’ç®¡ç†ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å‚ç…§
+    [SerializeField] private AudioManager _audioManager;  // ã‚²ãƒ¼ãƒ ã®é–‹å§‹ã‚’ç®¡ç†ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å‚ç…§
 
 
     void Start()
     {
-        filePath = Application.persistentDataPath + "/scoreData.json";  // •Û‘¶æƒtƒ@ƒCƒ‹ƒpƒX‚ğİ’è
-        finishUI.gameObject.SetActive(false);  // ƒQ[ƒ€ŠJn‚ÍI—¹‰æ–Ê‚ğ”ñ•\¦
-        newText.gameObject.SetActive(false);   // ‰Šúó‘Ô‚Å‚Íunew Record!v‚ğ”ñ•\¦
-        LoadHighScore();                       // •Û‘¶‚³‚ê‚½ƒnƒCƒXƒRƒA‚ğ“Ç‚İ‚Ş
+        filePath = Application.persistentDataPath + "/scoreData.json";  // ä¿å­˜å…ˆãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’è¨­å®š
+        finishUI.gameObject.SetActive(false);  // ã‚²ãƒ¼ãƒ é–‹å§‹æ™‚ã¯çµ‚äº†ç”»é¢ã‚’éè¡¨ç¤º
+        newText.gameObject.SetActive(false);   // åˆæœŸçŠ¶æ…‹ã§ã¯ã€Œnew Record!ã€ã‚’éè¡¨ç¤º
+        LoadHighScore();                       // ä¿å­˜ã•ã‚ŒãŸãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’èª­ã¿è¾¼ã‚€
     }
 
-    // ƒQ[ƒ€‚ªI—¹‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éƒƒ\ƒbƒh
+    // ã‚²ãƒ¼ãƒ ãŒçµ‚äº†ã—ãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     public void ShowFinishUI(int finalCount)
     {
-        finishUI.gameObject.SetActive(true);  // I—¹‰æ–Ê‚ğ•\¦
+        _audioManager.PlayCountFinishSound();
+        finishUI.gameObject.SetActive(true);  // çµ‚äº†ç”»é¢ã‚’è¡¨ç¤º
         count = finalCount;
         finishText.text = "FINISH!";
         countText.text = "Score: " + count.ToString();
 
-        gorstCharaController = FindObjectOfType<GorstCharaController>();
-        gorstCharaController.ViewStanding();
+        _gorstCharaController.ViewStanding();
 
 
 
-        // ƒnƒCƒXƒRƒA‚ÌXVˆ—
+        // ãƒã‚¤ã‚¹ã‚³ã‚¢ã®æ›´æ–°å‡¦ç†
         if (count > highScore)
         {
             highScore = count;
             newText.text = "new Record!";
-            newText.gameObject.SetActive(true);  // unew Record!v‚ğ•\¦
-            StartCoroutine(BlinkNewRecordText()); // “_–ÅƒRƒ‹[ƒ`ƒ“‚ğŠJn
+            newText.gameObject.SetActive(true);  // ã€Œnew Record!ã€ã‚’è¡¨ç¤º
+            StartCoroutine(BlinkNewRecordText()); // ç‚¹æ»…ã‚³ãƒ«ãƒ¼ãƒãƒ³ã‚’é–‹å§‹
 
-            SaveHighScore();  // V‚µ‚¢ƒnƒCƒXƒRƒA‚ğ•Û‘¶
+            SaveHighScore();  // æ–°ã—ã„ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’ä¿å­˜
         }
 
-        highScoreText.text = "High Score: " + highScore.ToString(); // ƒnƒCƒXƒRƒA‚ğ•\¦
+        highScoreText.text = "High Score: " + highScore.ToString(); // ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’è¡¨ç¤º
     }
 
-    // ƒnƒCƒXƒRƒA‚ğJSONƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éˆ—
+    // ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’JSONãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹å‡¦ç†
     void SaveHighScore()
     {
         ScoreData scoreData = new ScoreData();
         scoreData.highScore = highScore;
 
-        string json = JsonUtility.ToJson(scoreData);  // JSON‚É•ÏŠ·
-        File.WriteAllText(filePath, json);  // ƒtƒ@ƒCƒ‹‚É‘‚«‚İ
+        string json = JsonUtility.ToJson(scoreData);  // JSONã«å¤‰æ›
+        File.WriteAllText(filePath, json);  // ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã¿
     }
 
-    // JSONƒtƒ@ƒCƒ‹‚©‚çƒnƒCƒXƒRƒA‚ğ“Ç‚İ‚Şˆ—
+    // JSONãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’èª­ã¿è¾¼ã‚€å‡¦ç†
     void LoadHighScore()
     {
-        if (File.Exists(filePath))  // ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éê‡
+        if (File.Exists(filePath))  // ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹å ´åˆ
         {
-            string json = File.ReadAllText(filePath);  // ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
-            ScoreData scoreData = JsonUtility.FromJson<ScoreData>(json);  // JSON‚©‚çƒIƒuƒWƒFƒNƒg‚É•ÏŠ·
+            string json = File.ReadAllText(filePath);  // ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
+            ScoreData scoreData = JsonUtility.FromJson<ScoreData>(json);  // JSONã‹ã‚‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¤‰æ›
             highScore = scoreData.highScore;
         }
         else
         {
-            highScore = 0;  // ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍƒnƒCƒXƒRƒA‚ğ0‚É‰Šú‰»
+            highScore = 0;  // ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯ãƒã‚¤ã‚¹ã‚³ã‚¢ã‚’0ã«åˆæœŸåŒ–
         }
     }
 
-    // unew Record!v‚ğ“_–Å‚³‚¹‚éƒRƒ‹[ƒ`ƒ“
+    // ã€Œnew Record!ã€ã‚’ç‚¹æ»…ã•ã›ã‚‹ã‚³ãƒ«ãƒ¼ãƒãƒ³
     IEnumerator BlinkNewRecordText()
     {
         while (true)
         {
-            newText.enabled = !newText.enabled;  // •\¦‚Æ”ñ•\¦‚ğØ‚è‘Ö‚¦‚é
-            yield return new WaitForSeconds(0.5f);  // 0.5•b‚²‚Æ‚ÉØ‚è‘Ö‚¦
+            newText.enabled = !newText.enabled;  // è¡¨ç¤ºã¨éè¡¨ç¤ºã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+            yield return new WaitForSeconds(0.5f);  // 0.5ç§’ã”ã¨ã«åˆ‡ã‚Šæ›¿ãˆ
         }
     }
 }
