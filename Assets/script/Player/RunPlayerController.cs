@@ -40,13 +40,13 @@ public class RunPlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
             lastButtonPressed = "L";
-            _visualsController.UpdateFootSprite("L");
+            //_visualsController.UpdateFootSprite("L");
             RunRight();
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
             lastButtonPressed = "R";
-            _visualsController.UpdateFootSprite("R");
+            //_visualsController.UpdateFootSprite("R");
             RunRight();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -60,6 +60,12 @@ public class RunPlayerController : MonoBehaviour
     {
         CalculateRunForce();
         rigid2D.AddForce(new Vector2(currentRunForce, 0), ForceMode2D.Impulse);
+        animator.SetBool("isRunning", true);
+
+        if (!isGrounded)
+            animator.SetBool("isRunning", false);
+
+
 
     }
 
@@ -81,6 +87,8 @@ public class RunPlayerController : MonoBehaviour
     {
         if (isGrounded && Time.time - lastInputTime > 0.5f)
         {
+            animator.SetBool("isRunning", false);
+
             rigid2D.velocity = new Vector2(0, rigid2D.velocity.y); // Y方向の速度はそのまま
         }
     }
@@ -117,6 +125,9 @@ public class RunPlayerController : MonoBehaviour
             Debug.Log(rigid2D.velocity);
 
             StartCoroutine(_visualsController.BlinkSprite());//点滅処理を開始
+            Debug.Log("点滅処理を呼び出しました");
+
+            animator.SetTrigger("Damage");
         }
     }
 
