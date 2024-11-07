@@ -60,6 +60,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         CalculateRunForce();
         rigid2D.AddForce(new Vector2(currentRunForce, 0), ForceMode2D.Impulse);
+
     }
 
     void Jump()
