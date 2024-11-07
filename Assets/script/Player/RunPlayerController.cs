@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviour
+public class RunPlayerController : MonoBehaviour
 {
     Rigidbody2D rigid2D;
 
@@ -65,20 +65,23 @@ public class PlayerMovementController : MonoBehaviour
 
     void Jump()
     {
-        if (Mathf.Abs(rigid2D.velocity.y) < 0.01f&&isGrounded)
+        if (Mathf.Abs(rigid2D.velocity.y) < 0.01f && isGrounded)
+        {
             rigid2D.AddForce(transform.up * JumpForce);
 
-        // 空中にいるのでisGroundedをfalseにする
-        isGrounded = false;
-        animator.SetBool("isJumping", true);
+            // 空中にいるのでisGroundedをfalseにする
+            isGrounded = false;
+            animator.SetBool("isJumping", true);
+
+        }
 
     }
 
     void DecelerateOverTime()
     {
-        if (Time.time - lastInputTime > 0.5f)
+        if (isGrounded && Time.time - lastInputTime > 0.5f)
         {
-            rigid2D.velocity = Vector2.zero;
+            rigid2D.velocity = new Vector2(0, rigid2D.velocity.y); // Y方向の速度はそのまま
         }
     }
 
@@ -116,4 +119,5 @@ public class PlayerMovementController : MonoBehaviour
             StartCoroutine(_visualsController.BlinkSprite());//点滅処理を開始
         }
     }
+
 }
