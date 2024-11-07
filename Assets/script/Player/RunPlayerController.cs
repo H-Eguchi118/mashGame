@@ -1,188 +1,134 @@
-using Boomerang2DFramework.Framework.AudioManagement;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RunPlayerController : MonoBehaviour
 {
     Rigidbody2D rigid2D;
 
     [Header("Movement Settings")]
-    public float JumpForce;        // 最小の走る力
-    public float baseRunForce;        // 最小の走る力
-    public float maxRunForce;        // 最大の走る力
-    public float decayRate;           // 減速率
-    public float accelerationFactor;  // 加速の影響を調整する係数（小さいほどゆっくり加速）
+    public float JumpForce;
+    public float baseRunForce;
+    public float maxRunForce;
+    public float decayRate;
+    public float accelerationFactor;
 
-    private float currentRunForce;      // 現在の加速力
-                                        // private string lastButtonPressed = ""; // 前回押されたボタンを記録
-    private float lastInputTime = 0f;      // 最後にボタンが押された時間
-    private float lastInterval = 0f;       // 連打の速さを記録
+    private float currentRunForce;
+    private float lastInputTime = 0f;
+    private bool isGrounded = true;  // 地面にいるかどうかの判定
 
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
+    [SerializeField] private PlayerVisualsController _visualsController; // スプライト制御スクリプトの参照
 
-    // 追加: スプライトの参照を保持するための変数
-    public Sprite standingSprite; // 立ち絵のスプライト
-    public Sprite rightFootSprite; // 右足上げのスプライト
-    public Sprite leftFootSprite; // 左足上げのスプライト
-
-    private SpriteRenderer spriteRenderer; // スプライトレンダラーの参照
-
-    [SerializeField] private RunGameDirector _runGameDirector;
-    [SerializeField] private AudioManager _audioManager;
+    private Animator animator;
 
     void Start()
     {
         Application.targetFrameRate = 60;
         this.rigid2D = GetComponent<Rigidbody2D>();
-        currentRunForce = baseRunForce;  // 初期値を基本の走る力に設定
-        
-
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = standingSprite;//初期スプライトを設定
-
+        animator = GetComponent<Animator>();
+        currentRunForce = baseRunForce;
     }
 
     void Update()
     {
-        PlayerMoving();
+        HandleMovementInput();
         DecelerateOverTime();
     }
 
-    //動作
-    public void PlayerMoving()
+    private void HandleMovementInput()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
             lastButtonPressed = "L";
-            _audioManager.PlayLeftFootSound();
+            //_visualsController.UpdateFootSprite("L");
             RunRight();
-            spriteRenderer.sprite = leftFootSprite;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
             lastButtonPressed = "R";
-            _audioManager.PlayRightFootSound();
+            //_visualsController.UpdateFootSprite("R");
             RunRight();
-
-            spriteRenderer.sprite = rightFootSprite;
-
         }
-        else if ((Input.GetKeyDown(KeyCode.Space)))
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
-            _audioManager.PlayJumpSound();
+            _visualsController.PlayJumpSound();
             Jump();
-
         }
     }
 
-    // 右方向に走るための力を加えるメソッド
     void RunRight()
     {
-        //連打速度
-        RunForce();
-
-        Debug.Log("Current Run Force: " + currentRunForce); // デバッグ用
-
-        // 力を加える
+        CalculateRunForce();
         rigid2D.AddForce(new Vector2(currentRunForce, 0), ForceMode2D.Impulse);
+        animator.SetBool("isRunning", true);
+
+        if (!isGrounded)
+            animator.SetBool("isRunning", false);
+
+
 
     }
-
-    // 右方向に走るための力を加えるメソッド
-    //void RunLeft()
-    //{
-    //    //連打速度
-    //    RunForce();
-
-    // 現在のX軸の速度に加速を加える
-    //    rigid2D.AddForce(new Vector2(-currentRunForce, 0), ForceMode2D.Force);
-
-    //}
 
     void Jump()
     {
-        if (Mathf.Abs(rigid2D.velocity.y) < 0.01f)//地面にいるときのみジャンプ
-            rigid2D.AddForce(transform.up * this.JumpForce);
+        if (Mathf.Abs(rigid2D.velocity.y) < 0.01f && isGrounded)
+        {
+            rigid2D.AddForce(transform.up * JumpForce);
+
+            // 空中にいるのでisGroundedをfalseにする
+            isGrounded = false;
+            animator.SetBool("isJumping", true);
+
+        }
+
     }
 
-
-    //一定時間連打がなければ速度を0にする
     void DecelerateOverTime()
     {
-        if (Time.time - lastInputTime > 0.5f)  // 0.5秒間入力がない場合減速開始
+        if (isGrounded && Time.time - lastInputTime > 0.5f)
         {
-            rigid2D.velocity = Vector2.zero;
+            animator.SetBool("isRunning", false);
 
-            // 一定時間連打がないときに徐々に減速する
-            //currentRunForce = Mathf.Max(currentRunForce - decayRate * Time.deltaTime, baseRunForce);  // 最小値を超えないように
-
+            rigid2D.velocity = new Vector2(0, rigid2D.velocity.y); // Y方向の速度はそのまま
         }
     }
 
-    //連打すると加速する
-    void RunForce()
+    void CalculateRunForce()
     {
-        // 連打速度の計算
         float currentTime = Time.time;
         float interval = currentTime - lastInputTime;
 
-        // 連打が速いほど currentRunForce をゆっくり大きくする
         if (interval > 0)
         {
-            // accelerationFactor を使って加速の影響を抑える
             float scaledInterval = interval * accelerationFactor;
             currentRunForce = Mathf.Lerp(currentRunForce, maxRunForce, scaledInterval);
-
-            // 最後に入力があった時間を更新
             lastInputTime = currentTime;
-
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.gameObject.tag == "Enemy")
+        // プレイヤーが地面に接触した場合、isGroundedをtrueにする
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            animator.SetBool("isJumping", false);
+
+
+        }
+
+        if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("hit enemy");
-            _audioManager.PlayEnemyHitSound();
+            _visualsController.PlayDamageSound();
             rigid2D.velocity = Vector2.zero;
             Debug.Log(rigid2D.velocity);
 
-            StartCoroutine(BlinkSprite());//点滅処理を開始
-        }
+            StartCoroutine(_visualsController.BlinkSprite());//点滅処理を開始
+            Debug.Log("点滅処理を呼び出しました");
 
-    }
-
-    IEnumerator BlinkSprite()
-    {
-        
-            float blinkDuration = 2.0f;//点滅の合計時間
-            float blinkIntarval = 0.2f;//点滅間隔
-            float blinkTime = 0f;//点滅時間のカウント
-
-            while (blinkTime < blinkDuration)
-            {
-                spriteRenderer.enabled = !spriteRenderer.enabled;//表示・非表示を切り替える
-                yield return new WaitForSeconds(blinkIntarval);  // blinkIntarvalごとに切り替え
-                blinkTime += blinkIntarval;
-            }
-
-            spriteRenderer.enabled = true;//終了したら表示に戻す
-
-        
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-
-        if (other.gameObject.tag == "Goal")
-        {
-            Debug.Log("Goal");
-            _audioManager.PlayRunningGoalSound();
-            _runGameDirector.StopTimer();
+            animator.SetTrigger("Damage");
         }
     }
+
 }
