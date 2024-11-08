@@ -56,6 +56,7 @@ public class RunPlayerController : MonoBehaviour
         }
     }
 
+    //走る動作
     void RunRight()
     {
         CalculateRunForce();
@@ -68,7 +69,7 @@ public class RunPlayerController : MonoBehaviour
 
 
     }
-
+    //ジャンプ動作
     void Jump()
     {
         if (Mathf.Abs(rigid2D.velocity.y) < 0.01f && isGrounded)
@@ -83,6 +84,7 @@ public class RunPlayerController : MonoBehaviour
 
     }
 
+    //一定時間入力がなかった場合の減速処理
     void DecelerateOverTime()
     {
         if (isGrounded && Time.time - lastInputTime > 0.5f)
@@ -93,6 +95,7 @@ public class RunPlayerController : MonoBehaviour
         }
     }
 
+    //加速処理
     void CalculateRunForce()
     {
         float currentTime = Time.time;
@@ -106,6 +109,7 @@ public class RunPlayerController : MonoBehaviour
         }
     }
 
+    //コライダー接触処理
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // プレイヤーが地面に接触した場合、isGroundedをtrueにする

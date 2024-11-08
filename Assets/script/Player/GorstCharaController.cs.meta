@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e139187d37f904e4fbe493c478b20a48
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - characterImage: {instanceID: 0}
+  - standingSprite: {fileID: 21300000, guid: d237dfca4f5822f4c9db3e1d59395a45, type: 3}
+  - rightFootSprite: {fileID: 21300000, guid: 4e27ff658c15b11499cb6295f3448039, type: 3}
+  - leftFootSprite: {fileID: 21300000, guid: d2cb1d74ba6a9484f9aae70f6cad1ab7, type: 3}
+  - movingSprite: {fileID: 21300000, guid: 57d99a7e5e218c64a95f0d88e93867f2, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

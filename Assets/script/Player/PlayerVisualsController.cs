@@ -9,6 +9,7 @@ public class PlayerVisualsController : MonoBehaviour
     public Sprite leftFootSprite;
 
     private SpriteRenderer spriteRenderer;
+    private Item _item;
     [SerializeField] private AudioManager _audioManager;
 
     void Start()
@@ -52,7 +53,7 @@ public class PlayerVisualsController : MonoBehaviour
 
     }
 
-    //�G�l�~�[�ƂԂ������Ƃ��̓_�ŏ���
+    //エネミーとぶつかったときの点滅処理
     public IEnumerator BlinkSprite()
     {
         float blinkDuration = 2.0f;
@@ -73,7 +74,22 @@ public class PlayerVisualsController : MonoBehaviour
         if (other.gameObject.tag == "Goal")
         {
             PlayGoalSound();
-            // _runGameDirector.StopTimer(); // �K�v�ɉ����ă^�C�}�[���Ǘ�
+            // _runGameDirector.StopTimer(); // 必要に応じてタイマーを管理
+
+            //音楽が鳴り終わったらシーン切り替え
         }
+
+
+        //それぞれのアイテムのトリガー
+        if (other.gameObject.tag == "Flower")
+        {
+            _item.GetFlower();
+        }
+
+        if (other.gameObject.tag == "FlightItem")
+        {
+            _item.GetFightItem();
+        }
+
     }
 }

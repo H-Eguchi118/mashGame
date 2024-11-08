@@ -8,6 +8,8 @@ TagManager:
   - Door
   - Enemy
   - Ground
+  - Flower
+  - FlightItem
   layers:
   - Default
   - TransparentFX
