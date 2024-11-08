@@ -86,17 +86,29 @@ public class PlayerVisualsController : MonoBehaviour
         // if (other.gameObject.CompareTag("Flower"))
         if (other.gameObject.tag == "Flower")
         {
-            Debug.Log($"衝突: {other.gameObject.name}"); // 衝突しているオブジェクトの名前を表示
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
 
             _item.GetFlower();
             Destroy(other.gameObject);
-            Debug.Log("花を取りました");
         }
 
-        //if (other.gameObject.tag == "FlightItem")
-        //{
-        //    _item.GetFightItem();
-        //}
+        if (other.gameObject.tag == "ReaFlower")
+        {
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetReaFlower();
+            Destroy(other.gameObject);
+        }
+
+
+        if (other.gameObject.tag == "FlightItem")
+        {
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetFightItem();
+            Destroy(other.gameObject);
+
+        }
 
 
 

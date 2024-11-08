@@ -15,7 +15,7 @@ public class RunPlayerController : MonoBehaviour
 
     private float currentRunForce;
     private float lastInputTime = 0f;
-    private bool isGrounded = true;  // 地面にいるかどうかの判定
+    public bool isGrounded = true;  // 地面にいるかどうかの判定
 
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
