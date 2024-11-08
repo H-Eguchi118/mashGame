@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement; // シーン管理用のライブラリを追加
+using UnityEngine.SceneManagement;
+using TreeEditor; // シーン管理用のライブラリを追加
 
 public class RunGameDirector : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class RunGameDirector : MonoBehaviour
     //[SerializeField] private Item _item;
 
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField]private TextMeshProUGUI goalText;
+    [SerializeField] private TextMeshProUGUI goalText;
+
+    [SerializeField] private Canvas GoalCanvas;
 
     //public TextMeshProUGUI flowersScoreText;//花の所持数のテキスト
     //public TextMeshProUGUI rimitTimeText;//フライト制限時間のテキスト
@@ -25,6 +28,7 @@ public class RunGameDirector : MonoBehaviour
     {
         time = 0;
         goalText.gameObject.SetActive(false);
+        GoalCanvas.gameObject.SetActive(false);
         _audioManager.PlayRunningBgm();
         //flowersScoreText.gameObject.SetActive(true);
         //flowersScoreText.text = _item.flowersScore.ToString();
@@ -51,5 +55,14 @@ public class RunGameDirector : MonoBehaviour
 
     }
 
+    public IEnumerator SetGoalCanvas()
+    {
+        Debug.Log("ゴールキャンバスを呼び出しています");
+        yield return new WaitForSeconds(4.0f);//4秒待機
+
+        GoalCanvas.gameObject.SetActive(true);
+        Debug.Log("ゴールキャンバスを表示しました");
+
+    }
 
 }

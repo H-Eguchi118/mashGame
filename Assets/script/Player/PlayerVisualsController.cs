@@ -12,6 +12,8 @@ public class PlayerVisualsController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private Item _item;
+    [SerializeField] private RunGameDirector _runGameDirector;
+
 
 
     void Start()
@@ -77,13 +79,13 @@ public class PlayerVisualsController : MonoBehaviour
         {
             Debug.Log("ゴールしました");
             PlayGoalSound();
-            // _runGameDirector.StopTimer(); // 必要に応じてタイマーを管理
+            _runGameDirector.SetGoalCanvas();
+            _runGameDirector.StopTimer(); // 必要に応じてタイマーを管理
 
             //音楽が鳴り終わったらシーン切り替え
         }
 
         //それぞれのアイテムのトリガー
-        // if (other.gameObject.CompareTag("Flower"))
         if (other.gameObject.tag == "Flower")
         {
             Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
@@ -92,11 +94,11 @@ public class PlayerVisualsController : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.tag == "ReaFlower")
+        if (other.gameObject.tag == "RareFlower")
         {
             Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
 
-            _item.GetReaFlower();
+            _item.GetRareFlower();
             Destroy(other.gameObject);
         }
 
