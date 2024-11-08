@@ -63,7 +63,6 @@ public class Item : MonoBehaviour
 
     }
 
-
     public void Changebouquet()
     {
         //flowersScoreが10ごとに花束１つに交換
@@ -81,10 +80,7 @@ public class Item : MonoBehaviour
     {
         Debug.Log("GetFightItemメソッドが呼び出されました。");
         // ジャンプ制御の無効化と時間制限の減少をコルーチンで処理
-        StartCoroutine(EnableTemporaryGrounded());
-
-        // flightItemCanvas.gameObject.SetActive(true);
-        // _runGameDirector.rimitTimeText.text = flightRimitTime.ToString("F1");
+        StartCoroutine(EnableFlightMode());
 
         // 無限ジャンプを10秒間有効にする
         flightRimitTime += 10.0f;
@@ -93,35 +89,25 @@ public class Item : MonoBehaviour
         {
             flightRimitTime = 0;
 
-            // flightItemCanvas.gameObject.SetActive(false);
 
         }
 
-
-
     }
 
-    private IEnumerator EnableTemporaryGrounded()
+    private IEnumerator EnableFlightMode()
     {
         if (_runPlayerController != null)
         {
-            Debug.Log("EnableTemporaryGroundedメソッドが呼び出されました。");
+            Debug.Log("フライトモード開始");
 
-            //flightRimitTimeの減少処理
-            while (flightRimitTime > 0)
-            {
-                flightRimitTime -= Time.deltaTime;
-                Debug.Log("残り時間："+flightRimitTime.ToString("F1"));
+            //一時的にisGroundedをtrueに設定
+            _runPlayerController.isFlightMode = true;//フライトモードを有効化
+                yield return new WaitForSeconds(10.0f);//10秒待機
+            _runPlayerController.isFlightMode = false;//フライトモードを無効化
 
-                //残り時間がある間は待機
-                yield return null;
+            Debug.Log("フライトモード終了");
 
-            }
-
-
-            // 10秒経過後にジャンプ制御を再度有効に
-            _runPlayerController.isGrounded = false;
-            Debug.Log("ジャンプ制御が再度有効になりました。");
+        
         }
     }
 

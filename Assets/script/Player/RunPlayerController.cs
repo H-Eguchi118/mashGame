@@ -16,6 +16,7 @@ public class RunPlayerController : MonoBehaviour
     private float currentRunForce;
     private float lastInputTime = 0f;
     public bool isGrounded = true;  // 地面にいるかどうかの判定
+    public bool isFlightMode = false;  // フライトモードのフラグ
 
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
@@ -51,11 +52,30 @@ public class RunPlayerController : MonoBehaviour
             //_visualsController.UpdateFootSprite("R");
             RunRight();
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+
+        if (isFlightMode)
         {
-            _visualsController.PlayJumpSound();
-            Jump();
+            //フライトモード時はflightメソッドを呼ぶ
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                flight();
+            }
         }
+        else
+        {
+            //そうでないときはjumpメソッドを呼ぶ
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+
+            }
+        }
+
+        //else if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    _visualsController.PlayJumpSound();
+        //    Jump();
+        //}
     }
 
     //走る動作
@@ -74,14 +94,30 @@ public class RunPlayerController : MonoBehaviour
     //ジャンプ動作
     void Jump()
     {
-        if (Mathf.Abs(rigid2D.velocity.y) < 0.01f && isGrounded)
+        //if (Mathf.Abs(rigid2D.velocity.y) < 0.01f && isGrounded)
+        //{
+        //    rigid2D.AddForce(transform.up * JumpForce);
+
+        //    // 空中にいるのでisGroundedをfalseにする
+        //    isGrounded = false;
+        //    animator.SetBool("isJumping", true);
+
+        //}
+        if (isGrounded && !isFlightMode) // フライトモード中はジャンプしない
         {
             rigid2D.AddForce(transform.up * JumpForce);
-
-            // 空中にいるのでisGroundedをfalseにする
             isGrounded = false;
             animator.SetBool("isJumping", true);
+        }
 
+    }
+
+    void flight()
+    {
+        if (isFlightMode) // フライトモードが有効な場合のみ
+        {
+            rigid2D.AddForce(transform.up * JumpForce*0.5f);
+            animator.SetBool("isJumping", true);
         }
 
     }
