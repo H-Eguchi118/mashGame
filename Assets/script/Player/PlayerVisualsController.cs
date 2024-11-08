@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Boomerang2DFramework.Framework.AudioManagement;
+using UnityEngine.Tilemaps;
 
 public class PlayerVisualsController : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class PlayerVisualsController : MonoBehaviour
     public Sprite leftFootSprite;
 
     private SpriteRenderer spriteRenderer;
-    private Item _item;
     [SerializeField] private AudioManager _audioManager;
+    [SerializeField] private Item _item;
+
 
     void Start()
     {
@@ -73,23 +75,35 @@ public class PlayerVisualsController : MonoBehaviour
     {
         if (other.gameObject.tag == "Goal")
         {
+            Debug.Log("ゴールしました");
             PlayGoalSound();
             // _runGameDirector.StopTimer(); // 必要に応じてタイマーを管理
 
             //音楽が鳴り終わったらシーン切り替え
         }
 
-
         //それぞれのアイテムのトリガー
+        // if (other.gameObject.CompareTag("Flower"))
         if (other.gameObject.tag == "Flower")
         {
+            Debug.Log($"衝突: {other.gameObject.name}"); // 衝突しているオブジェクトの名前を表示
+
             _item.GetFlower();
+            Destroy(other.gameObject);
+            Debug.Log("花を取りました");
         }
 
-        if (other.gameObject.tag == "FlightItem")
-        {
-            _item.GetFightItem();
-        }
+        //if (other.gameObject.tag == "FlightItem")
+        //{
+        //    _item.GetFightItem();
+        //}
+
+
 
     }
+
+
+
+
+
 }

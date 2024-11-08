@@ -5,47 +5,50 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class Item : MonoBehaviour
 {
-    private TilemapCollider2D tmCollider;
-    private int flowersScore = 0;//花。換金アイテム
+    private RunGameDirector _runGameDirector;
+    public int flowersScore = 0;//花。換金アイテム
     private int bouquet = 0;//花束。花の倍の換金率
     private float flightRimitTime = 0;//取得すると一定時間飛べるアイテム
     private int money = 0;//所持金
 
-    [SerializeField] private TextMeshProUGUI flowersScoreText;//花の所持数のテキスト
-    [SerializeField] private TextMeshProUGUI rimitTimeText;//フライト制限時間のテキスト
+    //[SerializeField] private Tilemap flowers;//シーン上に配置するアイテム
+    //[SerializeField] private Tilemap flightItems;//シーン上に配置するアイテム
 
-    [SerializeField] private Tilemap flowers;//シーン上に配置するアイテム
-    [SerializeField] private Tilemap flightItems;//シーン上に配置するアイテム
+    //[SerializeField] private Image flower;//UIで表示するイメージ
+    //[SerializeField] private Canvas flightItemCanvas;//UIで表示するイメージ
 
-    [SerializeField] private Image flower;//UIで表示するイメージ
-    [SerializeField] private Image flightItem;//UIで表示するイメージ
 
 
     void Start()
     {
-        
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //花の所持数更新
     public void GetFlower()
     {
         flowersScore++;
-
+        Debug.Log("Flower："+ flowersScore);
 
     }
 
     public void Changebouquet()
     {
         //flowersScoreが10ごとに花束１つに交換
+        if (flowersScore == 10)
+        {
+            bouquet++;
+            flowersScore -= 10;
+
+        }
 
     }
 
@@ -53,18 +56,18 @@ public class Item : MonoBehaviour
     public void GetFightItem()
     {
         flightRimitTime += 10.0f;
-        rimitTimeText.gameObject.SetActive(true);
+       // flightItemCanvas.gameObject.SetActive(true);
 
-        rimitTimeText.text= flightRimitTime.ToString("F1");
-        flightRimitTime-=Time.deltaTime;
+       // _runGameDirector.rimitTimeText.text = flightRimitTime.ToString("F1");
+        flightRimitTime -= Time.deltaTime;
 
-        if(flightRimitTime < 0)
+        if (flightRimitTime < 0)
         {
-            rimitTimeText.gameObject.SetActive(false);
-
+           // flightItemCanvas.gameObject.SetActive(false);
         }
 
     }
+
 
 
 }

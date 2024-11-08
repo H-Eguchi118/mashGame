@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class RunPlayerController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class RunPlayerController : MonoBehaviour
     private bool isGrounded = true;  // 地面にいるかどうかの判定
 
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
+
     [SerializeField] private PlayerVisualsController _visualsController; // スプライト制御スクリプトの参照
 
     private Animator animator;
@@ -109,7 +111,7 @@ public class RunPlayerController : MonoBehaviour
         }
     }
 
-    //コライダー接触処理
+    //Collision2D接触処理
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // プレイヤーが地面に接触した場合、isGroundedをtrueにする
@@ -133,6 +135,10 @@ public class RunPlayerController : MonoBehaviour
 
             animator.SetTrigger("Damage");
         }
+
+
     }
+
+
 
 }

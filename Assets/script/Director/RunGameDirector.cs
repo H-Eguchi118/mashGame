@@ -8,9 +8,16 @@ using UnityEngine.SceneManagement; // シーン管理用のライブラリを追
 public class RunGameDirector : MonoBehaviour
 {
     [SerializeField] private AudioManager _audioManager;
+    //[SerializeField] private Item _item;
 
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField]private TextMeshProUGUI goalText;
+
+    //public TextMeshProUGUI flowersScoreText;//花の所持数のテキスト
+    //public TextMeshProUGUI rimitTimeText;//フライト制限時間のテキスト
+
+
+
     private float time;
     private bool isTimerRunning = true;//タイマーが動作しているか
 
@@ -19,6 +26,9 @@ public class RunGameDirector : MonoBehaviour
         time = 0;
         goalText.gameObject.SetActive(false);
         _audioManager.PlayRunningBgm();
+        //flowersScoreText.gameObject.SetActive(true);
+        //flowersScoreText.text = _item.flowersScore.ToString();
+
 
     }
 
