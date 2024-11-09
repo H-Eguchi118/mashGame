@@ -79,10 +79,17 @@ public class PlayerVisualsController : MonoBehaviour
         {
             Debug.Log("ゴールしました");
             PlayGoalSound();
-            _runGameDirector.SetGoalCanvas();
+
+            //ゴールキャンバスを表示する
+            StartCoroutine(_runGameDirector.SetGoalCanvas());
+
+            //動作を無効化
+            GetComponent<RunPlayerController>().isGoalIn = true;
+
             _runGameDirector.StopTimer(); // 必要に応じてタイマーを管理
 
-            //音楽が鳴り終わったらシーン切り替え
+            // Item スクリプトの flightRimitTime を停止させる
+            _item.StopFlightTimer();
         }
 
         //それぞれのアイテムのトリガー

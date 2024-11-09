@@ -17,6 +17,7 @@ public class RunPlayerController : MonoBehaviour
     private float lastInputTime = 0f;
     public bool isGrounded = true;  // 地面にいるかどうかの判定
     public bool isFlightMode = false;  // フライトモードのフラグ
+    public bool isGoalIn=false;//ゴールに到達したかどうかを管理するフラグ
 
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
 
@@ -40,6 +41,8 @@ public class RunPlayerController : MonoBehaviour
 
     private void HandleMovementInput()
     {
+        if(isGoalIn)return;//ゴール時は操作を受けない
+
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
             lastButtonPressed = "L";
@@ -94,15 +97,6 @@ public class RunPlayerController : MonoBehaviour
     //ジャンプ動作
     void Jump()
     {
-        //if (Mathf.Abs(rigid2D.velocity.y) < 0.01f && isGrounded)
-        //{
-        //    rigid2D.AddForce(transform.up * JumpForce);
-
-        //    // 空中にいるのでisGroundedをfalseにする
-        //    isGrounded = false;
-        //    animator.SetBool("isJumping", true);
-
-        //}
         if (isGrounded && !isFlightMode) // フライトモード中はジャンプしない
         {
             rigid2D.AddForce(transform.up * JumpForce);
