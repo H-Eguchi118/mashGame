@@ -743,10 +743,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\u30FB\u30FB\u30FB"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e5ba79b9cd93e5342a0956cef9233171, type: 2}
+  m_sharedMaterial: {fileID: 2296674353683126383, guid: e5ba79b9cd93e5342a0956cef9233171,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -961,10 +962,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\u30FB\u30FB\u30FB"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e5ba79b9cd93e5342a0956cef9233171, type: 2}
+  m_sharedMaterial: {fileID: 2296674353683126383, guid: e5ba79b9cd93e5342a0956cef9233171,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4158,9 +4160,49 @@ MonoBehaviour:
   nextButton: {fileID: 863233065}
   conversations:
   - isPlayer: 0
-    text: ohayo
+    text: "\u30CF\u30ED\u30FC"
   - isPlayer: 1
-    text: ohayo
+    text: "\u306F\u308D\u30FC"
+  - isPlayer: 0
+    text: "\u541B\u3063\u3066\u3088\u304F\u8DB3\u8E0F\u307F\u3057\u3066\u308B\u3088\u306D\n\u904B\u52D5\u306F\u5F97\u610F\u306A\u306E\uFF1F"
+  - isPlayer: 1
+    text: "\u3046\u30FC\u3093\u3001\u3069\u3046\u3060\u308D\u3046\n\u3088\u304F\u308F\u304B\u3089\u306A\u3044\u3084"
+  - isPlayer: 0
+    text: "\u3082\u3057\u826F\u3051\u308C\u3070\u306A\u3093\u3060\u3051\u3069\n\u307C\u304F\u306E\u624B\u4F1D\u3044\u3092\u3057\u306A\u3044\uFF1F"
+  - isPlayer: 1
+    text: "\u306A\u306B\u3092\u3059\u308C\u3070\u3044\u3044\u306E\uFF1F"
+  - isPlayer: 0
+    text: "\u3053\u306E\u5148\u306E\u5C71\u306E\u3075\u3082\u3068\u306B\n\u82B1\u304C\u305F\u304F\u3055\u3093\u751F\u3048\u3066\u3044\u308B\u306E\u3060\u3051\u3069"
+  - isPlayer: 0
+    text: "\u305D\u308C\u3092\u96C6\u3081\u3066\u304D\u3066\u307B\u3057\u3044\u3093\u3060"
+  - isPlayer: 1
+    text: "\u306A\u3093\u3067\uFF1F"
+  - isPlayer: 0
+    text: "\u305D\u306E\u82B1\u3067\u30D6\u30FC\u30B1\u3092\u4F5C\u3063\u3066\u58F2\u308B\u306E\u3055"
+  - isPlayer: 0
+    text: "\u3042\u305D\u3053\u306B\u751F\u3048\u3066\u308B\u82B1\u306F\u4ECA\u3001\u753A\u3067\u4EBA\u6C17\u3089\u3057\u3044\u305E\uFF5E"
+  - isPlayer: 1
+    text: "\u3046\u3063\u3066\u3069\u3046\u3059\u308B\u306E\uFF1F"
+  - isPlayer: 0
+    text: "\u304A\u91D1\u3092\u7A3C\u3050\u306E\u3055\uFF01"
+  - isPlayer: 1
+    text: "\u304A\u304B\u306D\u30FB\u30FB\u30FB\uFF1F"
+  - isPlayer: 0
+    text: "\u96C6\u3081\u305F\u82B1\u306F\u5168\u90E8\u8CB7\u3046\u304B\u3089\n\u541B\u3082\u307B\u3057\u3044\u3082\u306E\u3092\u8CB7\u3048\u3070\u3044\u3044"
+  - isPlayer: 1
+    text: "\u3088\u304F\u308F\u304B\u3089\u306A\u3044\u3051\u3069\u3001\u3044\u3044\u3088\n\u3068\u3063\u3066\u304D\u3066\u3042\u3052\u308B"
+  - isPlayer: 0
+    text: "\u304A\u304A\uFF01\u3042\u308A\u304C\u3068\u3046\uFF01"
+  - isPlayer: 0
+    text: "\u9AD8\u3044\u5834\u6240\u306B\u306F\u73CD\u3057\u3044\u82B1\u3082\n\u751F\u3048\u3066\u3044\u308B\u3089\u3057\u3044"
+  - isPlayer: 0
+    text: "\u305D\u308C\u306F\u9AD8\u5024\u3067\u8CB7\u3046\u304B\u3089\n\u898B\u3064\u3051\u305F\u3089\u3068\u3063\u3066\u304D\u3066\u304F\u308C"
+  - isPlayer: 1
+    text: "\u308F\u304B\u3063\u305F\u3088"
+  - isPlayer: 1
+    text: "\u3058\u3083\u3042\u307E\u305F\u3042\u3068\u3067\u306D"
+  - isPlayer: 0
+    text: "\u304A\u3046\uFF01\u6C17\u3092\u4ED8\u3051\u3066\u306A\uFF01"
 --- !u!4 &1946314771
 Transform:
   m_ObjectHideFlags: 0
@@ -4747,10 +4789,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Next
+  m_text: "\u3064\u304E\u3078"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e5ba79b9cd93e5342a0956cef9233171, type: 2}
+  m_sharedMaterial: {fileID: 2296674353683126383, guid: e5ba79b9cd93e5342a0956cef9233171,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

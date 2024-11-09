@@ -10,7 +10,7 @@ public class PrologueTalk : MonoBehaviour
     public class Conversation
     {
         public bool isPlayer;  // trueならプレイヤーの発言、falseなら相手の発言
-        public string text;    // 各発言内容
+        [TextArea] public string text;    // 各発言内容
     }
 
     [SerializeField] private Image playerFrame;
