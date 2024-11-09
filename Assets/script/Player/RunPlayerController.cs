@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class RunPlayerController : MonoBehaviour
 {
@@ -14,9 +15,12 @@ public class RunPlayerController : MonoBehaviour
 
     private float currentRunForce;
     private float lastInputTime = 0f;
-    private bool isGrounded = true;  // 地面にいるかどうかの判定
+    public bool isGrounded = true;  // 地面にいるかどうかの判定
+    public bool isFlightMode = false;  // フライトモードのフラグ
+    public bool isGoalIn=false;//ゴールに到達したかどうかを管理するフラグ
 
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
+
     [SerializeField] private PlayerVisualsController _visualsController; // スプライト制御スクリプトの参照
 
     private Animator animator;
@@ -37,6 +41,8 @@ public class RunPlayerController : MonoBehaviour
 
     private void HandleMovementInput()
     {
+        if(isGoalIn)return;//ゴール時は操作を受けない
+
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
             lastButtonPressed = "L";
@@ -49,13 +55,33 @@ public class RunPlayerController : MonoBehaviour
             //_visualsController.UpdateFootSprite("R");
             RunRight();
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+
+        if (isFlightMode)
         {
-            _visualsController.PlayJumpSound();
-            Jump();
+            //フライトモード時はflightメソッドを呼ぶ
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                flight();
+            }
         }
+        else
+        {
+            //そうでないときはjumpメソッドを呼ぶ
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+
+            }
+        }
+
+        //else if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    _visualsController.PlayJumpSound();
+        //    Jump();
+        //}
     }
 
+    //走る動作
     void RunRight()
     {
         CalculateRunForce();
@@ -68,21 +94,29 @@ public class RunPlayerController : MonoBehaviour
 
 
     }
-
+    //ジャンプ動作
     void Jump()
     {
-        if (Mathf.Abs(rigid2D.velocity.y) < 0.01f && isGrounded)
+        if (isGrounded && !isFlightMode) // フライトモード中はジャンプしない
         {
             rigid2D.AddForce(transform.up * JumpForce);
-
-            // 空中にいるのでisGroundedをfalseにする
             isGrounded = false;
             animator.SetBool("isJumping", true);
-
         }
 
     }
 
+    void flight()
+    {
+        if (isFlightMode) // フライトモードが有効な場合のみ
+        {
+            rigid2D.AddForce(transform.up * JumpForce*0.5f);
+            animator.SetBool("isJumping", true);
+        }
+
+    }
+
+    //一定時間入力がなかった場合の減速処理
     void DecelerateOverTime()
     {
         if (isGrounded && Time.time - lastInputTime > 0.5f)
@@ -93,6 +127,7 @@ public class RunPlayerController : MonoBehaviour
         }
     }
 
+    //加速処理
     void CalculateRunForce()
     {
         float currentTime = Time.time;
@@ -106,6 +141,7 @@ public class RunPlayerController : MonoBehaviour
         }
     }
 
+    //Collision2D接触処理
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // プレイヤーが地面に接触した場合、isGroundedをtrueにする
@@ -129,6 +165,10 @@ public class RunPlayerController : MonoBehaviour
 
             animator.SetTrigger("Damage");
         }
+
+
     }
+
+
 
 }

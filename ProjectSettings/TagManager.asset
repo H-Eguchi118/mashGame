@@ -8,6 +8,10 @@ TagManager:
   - Door
   - Enemy
   - Ground
+  - Flower
+  - FlightItem
+  - RareFlower
+  - ReaFlower
   layers:
   - Default
   - TransparentFX
@@ -25,7 +29,7 @@ TagManager:
   - NonSolidTile
   - Weapon
   - Actor
-  - 
+  - Item
   - 
   - 
   - 

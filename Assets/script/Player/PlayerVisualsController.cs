@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Boomerang2DFramework.Framework.AudioManagement;
+using UnityEngine.Tilemaps;
 
 public class PlayerVisualsController : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class PlayerVisualsController : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     [SerializeField] private AudioManager _audioManager;
+    [SerializeField] private Item _item;
+    [SerializeField] private RunGameDirector _runGameDirector;
+
+
 
     void Start()
     {
@@ -52,7 +57,7 @@ public class PlayerVisualsController : MonoBehaviour
 
     }
 
-    //�G�l�~�[�ƂԂ������Ƃ��̓_�ŏ���
+    //エネミーとぶつかったときの点滅処理
     public IEnumerator BlinkSprite()
     {
         float blinkDuration = 2.0f;
@@ -72,8 +77,54 @@ public class PlayerVisualsController : MonoBehaviour
     {
         if (other.gameObject.tag == "Goal")
         {
+            Debug.Log("ゴールしました");
             PlayGoalSound();
-            // _runGameDirector.StopTimer(); // �K�v�ɉ����ă^�C�}�[���Ǘ�
+
+            //ゴールキャンバスを表示する
+            StartCoroutine(_runGameDirector.SetGoalCanvas());
+
+            //動作を無効化
+            GetComponent<RunPlayerController>().isGoalIn = true;
+
+            _runGameDirector.StopTimer(); // 必要に応じてタイマーを管理
+
+            // Item スクリプトの flightRimitTime を停止させる
+            _item.StopFlightTimer();
         }
+
+        //それぞれのアイテムのトリガー
+        if (other.gameObject.tag == "Flower")
+        {
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetFlower();
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "RareFlower")
+        {
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetRareFlower();
+            Destroy(other.gameObject);
+        }
+
+
+        if (other.gameObject.tag == "FlightItem")
+        {
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetFightItem();
+            Destroy(other.gameObject);
+
+        }
+
+
+
     }
+
+
+
+
+
 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: demoTownTileset_85
+  m_Name: demoUi_16
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -120551703967277771, guid: 1e76f00a420ec5d4780da1a7e2f04428,
+  m_Sprite: {fileID: 6039395732554671137, guid: beb98d81ab47897489d5821f4203e2ef,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
