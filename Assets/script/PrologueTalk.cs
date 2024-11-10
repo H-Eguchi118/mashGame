@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PrologueTalk : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PrologueTalk : MonoBehaviour
     public class Conversation
     {
         public bool isPlayer;  // trueならプレイヤーの発言、falseなら相手の発言
-        [TextArea] public string text;    // 各発言内容
+        [TextArea] public string text;    // 各発言内容(TextAreaを入れることで通常の改行でも入力できるように)
     }
 
     [SerializeField] private Image playerFrame;
@@ -36,6 +37,8 @@ public class PrologueTalk : MonoBehaviour
         if (currentIndex >= conversations.Count)
         {
             Debug.Log("会話が終了しました");
+            nextButton.gameObject.SetActive(false);  // ボタンを非表示
+            StartCoroutine(GoToRunningScene());      // シーン遷移のコルーチンを開始
             return;
         }
 
@@ -62,5 +65,12 @@ public class PrologueTalk : MonoBehaviour
     {
         currentIndex++;
         UpdateTalk();
+    }
+
+    // シーン遷移用のコルーチン
+    private IEnumerator GoToRunningScene()
+    {
+        yield return new WaitForSeconds(3);  // 3秒待機
+        SceneManager.LoadScene("RunningScene");  // "RunningScene"に遷移
     }
 }
