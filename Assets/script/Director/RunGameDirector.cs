@@ -14,12 +14,6 @@ public class RunGameDirector : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private GoalUI goalUI;  // GoalCanvasのUI要素をまとめたもの
-    //[SerializeField] private Canvas GoalCanvas;
-    //public TextMeshProUGUI goalFlowersText;//花の所持数のテキスト
-    //public TextMeshProUGUI goalbouquetText;//花の所持数のテキスト
-    //public TextMeshProUGUI goalTimerText;//花の所持数のテキスト
-
-
 
     private float time;
     private bool isTimerRunning = true;//タイマーが動作しているか
@@ -61,7 +55,7 @@ public class RunGameDirector : MonoBehaviour
         Debug.Log("ゴールキャンバスを表示しました");
 
         goalUI.flowersText.text = "Flower：" + _item.flowersScore;  //花の最終所持数
-        goalUI.bouquetText.text = "Bouquet：" + _item.bouquet;  //ブーケの最終所持数
+        goalUI.bouquetText.text = "Bouquet：" + _item.bouquetScore;  //ブーケの最終所持数
         goalUI.timerText.text = "Time：" + time;  // 最終タイム
 
     }
