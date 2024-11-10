@@ -11,32 +11,45 @@ public class Item : MonoBehaviour
 {
     private RunPlayerController _runPlayerController;
     private RunGameDirector _runGameDirector;
-    public int flowerPoint = 1;
-    public int rareFlowerPoint = 3;
+    public int rareFlowersScore = 0;
     public int flowersScore = 0;//花。換金アイテム
-    public int bouquet = 0;//花束。花の倍の換金率
+    public int bouquetScore = 0;//花束。花の倍の換金率
     private float flightRimitTime = 0;//取得すると一定時間飛べるアイテム
     private int money = 0;//所持金
 
     private bool isFlightTimeRunning = false; // フライトタイマーが動作中かどうか
 
-    [SerializeField] private Image flowerImage;
-    [SerializeField] private Image bouquetImage;
-    [SerializeField] private Image flightItemImage;
+    public MainUI mainUI;  // GoalCanvasのUI要素をまとめたもの
 
-    [SerializeField] private TextMeshProUGUI flowerText;
-    [SerializeField] private TextMeshProUGUI bouquetText;
-    [SerializeField] private TextMeshProUGUI flightRimitTimeText;
+
+    //[SerializeField] private Image flowerImage;
+    //[SerializeField] private Image bouquetImage;
+    //[SerializeField] private Image flightItemImage;
+
+    //[SerializeField] private TextMeshProUGUI flowerText;
+    //[SerializeField] private TextMeshProUGUI rareFlowerText;
+    //[SerializeField] private TextMeshProUGUI bouquetText;
+    //[SerializeField] private TextMeshProUGUI flightRimitTimeText;
+
+    // データの確認用
+    public int GetFlowerScore() => flowersScore;
+    public int GetRareFlowerScore() => rareFlowersScore;
+    public int GetBouquetScore() => bouquetScore;
+
 
     void Start()
     {
-        flowerImage.gameObject.SetActive(true);
-        flowerText.gameObject.SetActive(true);
+        mainUI.mainCanvas.enabled = true;
 
-        bouquetImage.gameObject.SetActive(false);
-        flightItemImage.gameObject.SetActive(false);
+        //flowerImage.gameObject.SetActive(true);
+        //flowerText.gameObject.SetActive(true);
+        //flowerText.text = flowersScore.ToString();
+        //rareFlowerText.text = rareFlowersScore.ToString();
 
-        flowerText.text = flowersScore.ToString();
+        mainUI.bouquetImage.gameObject.SetActive(false);
+        mainUI.flightItemImage.gameObject.SetActive(false);
+
+
 
         if (_runPlayerController == null)
         {
@@ -58,31 +71,49 @@ public class Item : MonoBehaviour
         StartFlightTimer();
     }
 
+    // 取得データを保存するメソッド
+    private void SaveItemData()
+    {
+        PlayerPrefs.SetInt("flowersScore", flowersScore);
+        PlayerPrefs.SetInt("rareFlowersScore", rareFlowersScore);
+        PlayerPrefs.SetInt("bouquetScore", bouquetScore);
+        PlayerPrefs.Save(); // データを保存
+        Debug.Log("データを保存しました");
+    }
+
 
     //花の所持数更新
     public void GetFlower()
     {
-        flowersScore += flowerPoint;
+        flowersScore++;
+        mainUI.flowersText.text = flowersScore.ToString();
+
         Debug.Log("Flower：" + flowersScore);
+        SaveItemData();
     }
 
     public void GetRareFlower()
     {
-        flowersScore += rareFlowerPoint;
+        rareFlowersScore++;
+        mainUI.rareFlowersText.text = rareFlowersScore.ToString();
+
         Debug.Log("Flower：" + flowersScore);
+        SaveItemData();
     }
 
     public void Changebouquet()
     {
         //flowersScoreが10ごとに花束１つに交換
-        if (flowersScore == 10)
+        if (flowersScore >= 10)
         {
-            bouquet++;
+            bouquetScore++;
             flowersScore -= 10;
 
-            bouquetImage.gameObject.SetActive(true);
-            bouquetText.text = bouquet.ToString();
+            mainUI.bouquetImage.gameObject.SetActive(true);
+            mainUI.bouquetText.text = bouquetScore.ToString();
         }
+        SaveItemData();
+
     }
 
     //フライトアイテムの効果
@@ -94,8 +125,8 @@ public class Item : MonoBehaviour
         // ジャンプ制御の無効化と時間制限の減少をコルーチンで処理
         StartCoroutine(EnableFlightMode());
 
-        flightItemImage.gameObject.SetActive(true);
-        flightRimitTimeText.gameObject.SetActive(true);
+        mainUI.flightItemImage.gameObject.SetActive(true);
+        mainUI.flightRimitTimeText.gameObject.SetActive(true);
 
         // 無限ジャンプを10秒間有効にする
         flightRimitTime += 10.0f;
@@ -105,17 +136,17 @@ public class Item : MonoBehaviour
     {
         if (isFlightTimeRunning)
         {
-            flowerText.text = flowersScore.ToString();
+            // mainUI.flowersText.text = flowersScore.ToString();
 
             if (_runPlayerController.isFlightMode)
             {
                 flightRimitTime -= Time.deltaTime;
-                flightRimitTimeText.text = flightRimitTime.ToString("F1");
+                mainUI.flightRimitTimeText.text = flightRimitTime.ToString("F1");
 
                 if (flightRimitTime < 0)
                 {
                     flightRimitTime = 0;
-                    flightItemImage.gameObject.SetActive(false);
+                    mainUI.flightItemImage.gameObject.SetActive(false);
                 }
             }
         }
@@ -140,4 +171,22 @@ public class Item : MonoBehaviour
             Debug.Log("フライトモード終了");
         }
     }
+
+}
+
+
+[System.Serializable]
+public class MainUI
+{
+    public Canvas mainCanvas;
+    public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
+    public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
+    public TextMeshProUGUI bouquetText;    // 花束の所持数のテキスト
+    public TextMeshProUGUI flightRimitTimeText;
+    public TextMeshProUGUI timerText;      // タイマーのテキスト
+
+    public Image bouquetImage;
+    public Image flightItemImage;
+
+
 }
