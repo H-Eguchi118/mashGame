@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CountGamescene.unity
     guid: 5c4a2ea457aa91c4eb9632af2864537d
   - enabled: 1
+    path: Assets/Scenes/StoryScene.unity
+    guid: 5232ade6230a6b64c90f5593b2fd1a8d
+  - enabled: 1
     path: Assets/Scenes/RunningScene.unity
     guid: 8736be0edb888ba418c047c77e7a15b0
   m_configObjects: {}
