@@ -11,6 +11,7 @@ public class ScoreCheck : MonoBehaviour
 
     public ScoreUI scoreUI;
     public int timeBonus = 0;//タイムに伴うボーナス
+    public int 
 
     void Start()
     {
