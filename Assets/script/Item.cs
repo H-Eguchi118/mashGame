@@ -67,6 +67,8 @@ public class Item : MonoBehaviour
 
     public void LoadItemData()
     {
+        Debug.Log("アイテムデータを読み込みました");
+
         flowersScore = PlayerPrefs.GetInt("flowersScore", 0);
         rareFlowersScore = PlayerPrefs.GetInt("rareFlowersScore", 0);
         bouquetScore = PlayerPrefs.GetInt("bouquetScore", 0);

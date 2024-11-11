@@ -11,7 +11,10 @@ public class ScoreCheck : MonoBehaviour
 
     public ScoreUI scoreUI;
     public int timeBonus = 0;//タイムに伴うボーナス
-    public int 
+    public int SspeedBonus = 30;
+    public int normalBonus = 10;
+    public int totalMoney = 0;
+
 
     void Start()
     {
@@ -64,16 +67,30 @@ public class ScoreCheck : MonoBehaviour
 
     public void SetScoreData()
     {
-        scoreUI.flowersText.text = "" + _item.GetFlowersScore() * 1;
+        //アイテムの所持数表示
+        scoreUI.flowersText.text = "" + _item.GetFlowersScore();
         scoreUI.rareFlowersText.text = "" + _item.GetRareFlowersScore();
         scoreUI.bouquetText.text = "" + _item.GetBouquetsScore();
         scoreUI.timeText.text = "" + _runGameDirector.GetTimeBonus();
 
-        scoreUI.flowerPriceText.text = _item.GetFlowersScore() * 1 + "yen";
-        scoreUI.rareFlowersText.text = _item.GetRareFlowersScore() * 5 + "yen";
-        scoreUI.bouquetText.text = _item.GetBouquetsScore() * 20 + "yen";
-
+        //所持アイテムごとの換金計算
+        int flowersScore = _item.GetFlowersScore() * 1;
+        int rareFlowersScore = _item.GetRareFlowersScore() * 5;
+        int bouquetScore = _item.GetBouquetsScore() * 20;
         TimeBonusList();
+        int timeBonusScore = timeBonus;
+
+        //合計金額
+        totalMoney = flowersScore + rareFlowersScore + bouquetScore + timeBonusScore;
+
+        //各金額の表示
+        scoreUI.flowerPriceText.text = _item.GetFlowersScore() + "yen";
+        scoreUI.rareFlowersText.text = _item.GetRareFlowersScore() + "yen";
+        scoreUI.bouquetText.text = _item.GetBouquetsScore() + "yen";
+        TimeBonusList();
+        scoreUI.timeBonusText.text = timeBonusScore.ToString();
+        scoreUI.totalMoneyText.text = totalMoney.ToString();
+
 
     }
 
@@ -83,39 +100,39 @@ public class ScoreCheck : MonoBehaviour
 
         if (lastTimeScore <= 30.0)
         {
-            timeBonus += 30;
+            timeBonus += SspeedBonus;
 
         }
         else if (lastTimeScore <= 60.0)
         {
-            timeBonus += 10;
+            timeBonus += normalBonus;
         }
         else
         {
             return;
         }
 
-        scoreUI.timeBonusText.text=timeBonus.ToString();
     }
 }
-    [System.Serializable]
-    public class ScoreUI
-    {
-        public Canvas scoreCanvas;
+[System.Serializable]
+public class ScoreUI
+{
+    public Canvas scoreCanvas;
 
-        public Image flowerImage;
-        public Image rareFlowerImage;
-        public Image bouquetImage;
-        public Image timeImage;
+    public Image flowerImage;
+    public Image rareFlowerImage;
+    public Image bouquetImage;
+    public Image timeImage;
 
-        public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
-        public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
-        public TextMeshProUGUI bouquetText;    // 花束の所持数のテキスト
-        public TextMeshProUGUI timeText;      // タイマーのテキスト
+    public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
+    public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
+    public TextMeshProUGUI bouquetText;    // 花束の所持数のテキスト
+    public TextMeshProUGUI timeText;      // タイマーのテキスト
 
-        public TextMeshProUGUI flowerPriceText;    // 花の所持数のテキスト
-        public TextMeshProUGUI rareFlowerPriceText;    // 花の所持数のテキスト
-        public TextMeshProUGUI bouquetPriceText;    // 花の所持数のテキスト
-        public TextMeshProUGUI timeBonusText;    // 花の所持数のテキスト
+    public TextMeshProUGUI flowerPriceText;    // 花の所持数のテキスト
+    public TextMeshProUGUI rareFlowerPriceText;    // 花の所持数のテキスト
+    public TextMeshProUGUI bouquetPriceText;    // 花の所持数のテキスト
+    public TextMeshProUGUI timeBonusText;    // 花の所持数のテキスト
+    public TextMeshProUGUI totalMoneyText;    // 合計金のテキスト
 
-    }
+}

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Boomerang2DFramework.Framework.AudioManagement;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class PlayerVisualsController : MonoBehaviour
 {
@@ -79,9 +80,10 @@ public class PlayerVisualsController : MonoBehaviour
         {
             Debug.Log("ゴールしました");
             PlayGoalSound();
+            StartCoroutine(GoToShopScene());
 
             //ゴールキャンバスを表示する
-            StartCoroutine(_runGameDirector.SetGoalCanvas());
+            // StartCoroutine(_runGameDirector.SetGoalCanvas());
 
             //動作を無効化
             GetComponent<RunPlayerController>().isGoalIn = true;
@@ -119,12 +121,10 @@ public class PlayerVisualsController : MonoBehaviour
 
         }
 
-
-
     }
-
-
-
-
-
+    private IEnumerator GoToShopScene()
+    {
+        yield return new WaitForSeconds(4.0f);//4秒待機
+        SceneManager.LoadScene("ShopScene");  // ShopSceneに遷移
+    }
 }
