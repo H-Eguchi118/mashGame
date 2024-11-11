@@ -15,41 +15,25 @@ public class Item : MonoBehaviour
     public int flowersScore = 0;//花。換金アイテム
     public int bouquetScore = 0;//花束。花の倍の換金率
     private float flightRimitTime = 0;//取得すると一定時間飛べるアイテム
-    private int money = 0;//所持金
+    public int money = 0;//所持金
+
 
     private bool isFlightTimeRunning = false; // フライトタイマーが動作中かどうか
 
     public MainUI mainUI;  // GoalCanvasのUI要素をまとめたもの
 
-
-    //[SerializeField] private Image flowerImage;
-    //[SerializeField] private Image bouquetImage;
-    //[SerializeField] private Image flightItemImage;
-
-    //[SerializeField] private TextMeshProUGUI flowerText;
-    //[SerializeField] private TextMeshProUGUI rareFlowerText;
-    //[SerializeField] private TextMeshProUGUI bouquetText;
-    //[SerializeField] private TextMeshProUGUI flightRimitTimeText;
-
     // データの確認用
-    public int GetFlowerScore() => flowersScore;
-    public int GetRareFlowerScore() => rareFlowersScore;
-    public int GetBouquetScore() => bouquetScore;
+    public int GetFlowersScore() => flowersScore;
+    public int GetRareFlowersScore() => rareFlowersScore;
+    public int GetBouquetsScore() => bouquetScore;
 
 
     void Start()
     {
         mainUI.mainCanvas.enabled = true;
 
-        //flowerImage.gameObject.SetActive(true);
-        //flowerText.gameObject.SetActive(true);
-        //flowerText.text = flowersScore.ToString();
-        //rareFlowerText.text = rareFlowersScore.ToString();
-
         mainUI.bouquetImage.gameObject.SetActive(false);
         mainUI.flightItemImage.gameObject.SetActive(false);
-
-
 
         if (_runPlayerController == null)
         {
@@ -78,7 +62,14 @@ public class Item : MonoBehaviour
         PlayerPrefs.SetInt("rareFlowersScore", rareFlowersScore);
         PlayerPrefs.SetInt("bouquetScore", bouquetScore);
         PlayerPrefs.Save(); // データを保存
-        Debug.Log("データを保存しました");
+        Debug.Log("アイテムデータを保存しました");
+    }
+
+    public void LoadItemData()
+    {
+        flowersScore = PlayerPrefs.GetInt("flowersScore", 0);
+        rareFlowersScore = PlayerPrefs.GetInt("rareFlowersScore", 0);
+        bouquetScore = PlayerPrefs.GetInt("bouquetScore", 0);
     }
 
 
@@ -132,11 +123,11 @@ public class Item : MonoBehaviour
         flightRimitTime += 10.0f;
     }
 
+    //フライトアイテムを入手した時の表示
     public void StartFlightTimer()
     {
         if (isFlightTimeRunning)
         {
-            // mainUI.flowersText.text = flowersScore.ToString();
 
             if (_runPlayerController.isFlightMode)
             {

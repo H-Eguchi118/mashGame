@@ -18,6 +18,9 @@ public class RunGameDirector : MonoBehaviour
     private float time;
     private bool isTimerRunning = true;//タイマーが動作しているか
 
+    public float GetTimeBonus() => time;
+
+
     void Start()
     {
         time = 0;
@@ -38,11 +41,24 @@ public class RunGameDirector : MonoBehaviour
 
     }
 
+    private void SaveTimeData()
+    {
+        PlayerPrefs.SetFloat("time", time);
+        PlayerPrefs.Save(); // データを保存
+        Debug.Log("タイムデータを保存しました");
+    }
+
+    public void LoadTimeData()
+    {
+        time=PlayerPrefs.GetFloat("time",0.0f);
+    }
+
     public void StopTimer()
     {
         isTimerRunning = false;
         goalText.gameObject.SetActive(true);
         _audioManager.StopRunningBgm();
+        SaveTimeData();
 
     }
 
