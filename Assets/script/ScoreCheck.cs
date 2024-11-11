@@ -6,38 +6,43 @@ using UnityEngine.UI;
 
 public class ScoreCheck : MonoBehaviour
 {
-    private Item _item;
-    private RunGameDirector _runGameDirector;
-
+    [SerializeField]private SaveLoadManager _saveLoadManager;
     public ScoreUI scoreUI;
-    public int timeBonus = 0;//タイムに伴うボーナス
+    int flowersScore = 0;
+    int rareFlowersScore = 0;
+    int bouquetScore = 0;
+    float lastTimeScore = 0;
+
+    int flowerHung = 1;
+    int rareFlowerHung = 5;
+    int bouquetHung = 20;
+
+    public int timeBonusScore = 0;//タイムに伴うボーナス
     public int SspeedBonus = 30;
     public int normalBonus = 10;
+    public int money = 0;
     public int totalMoney = 0;
 
 
     void Start()
     {
-        //各スクリプトの参照を取得
-        _item = FindObjectOfType<Item>();
-        _runGameDirector = FindObjectOfType<RunGameDirector>();
-
-        //データをロード
-        _item.LoadItemData();
-        _runGameDirector.LoadTimeData();
-
         //キャンバス内順次表示
         StartCoroutine(DisplayScoreCanvas());
-    }
-    void Update()
-    {
 
+        //保存した合計金額を読み込む
+        LoadMoneyData();
     }
 
     //順番にアイテムのスコアを表示させるメソッド
     public IEnumerator DisplayScoreCanvas()
     {
+        //スコアデータ取得
+        SetScoreData();
+
+        //スコアキャンバスの設定
         SetScoreCanvas();
+
+
 
         yield return new WaitForSeconds(1.0f);//1秒待機
         scoreUI.flowerImage.gameObject.SetActive(true);
@@ -51,6 +56,8 @@ public class ScoreCheck : MonoBehaviour
         yield return new WaitForSeconds(1.0f);//1秒待機
         scoreUI.timeImage.gameObject.SetActive(true);
 
+        yield return new WaitForSeconds(1.0f);//1秒待機
+        scoreUI.totalMoneyText.gameObject.SetActive(true);
 
     }
 
@@ -62,58 +69,107 @@ public class ScoreCheck : MonoBehaviour
         scoreUI.rareFlowerImage.gameObject.SetActive(false);
         scoreUI.bouquetImage.gameObject.SetActive(false);
         scoreUI.timeImage.gameObject.SetActive(false);
+        scoreUI.totalMoneyText.gameObject.SetActive(false);
 
     }
 
     public void SetScoreData()
     {
+        //各アイテムの換金処理
+        ChangedMoney();
+
         //アイテムの所持数表示
-        scoreUI.flowersText.text = "" + _item.GetFlowersScore();
-        scoreUI.rareFlowersText.text = "" + _item.GetRareFlowersScore();
-        scoreUI.bouquetText.text = "" + _item.GetBouquetsScore();
-        scoreUI.timeText.text = "" + _runGameDirector.GetTimeBonus();
+        scoreUI.flowersText.text = "×" + Item.Instance.GetFlowersScore();
+        scoreUI.rareFlowersText.text = "×" + Item.Instance.GetRareFlowersScore();
+        scoreUI.bouquetText.text = "×" + Item.Instance.GetBouquetsScore();
+        scoreUI.timeText.text = "" + RunGameDirector.Instance.GetTimeBonus();
 
-        //所持アイテムごとの換金計算
-        int flowersScore = _item.GetFlowersScore() * 1;
-        int rareFlowersScore = _item.GetRareFlowersScore() * 5;
-        int bouquetScore = _item.GetBouquetsScore() * 20;
-        TimeBonusList();
-        int timeBonusScore = timeBonus;
+        // 各金額の表示（Nullチェックを追加）
+        if (scoreUI.flowerPriceText != null)
+            scoreUI.flowerPriceText.text = flowersScore + "yen";
 
-        //合計金額
-        totalMoney = flowersScore + rareFlowersScore + bouquetScore + timeBonusScore;
+        if (scoreUI.rareFlowerPriceText != null)
+            scoreUI.rareFlowerPriceText.text = rareFlowersScore + "yen";
 
-        //各金額の表示
-        scoreUI.flowerPriceText.text = _item.GetFlowersScore() + "yen";
-        scoreUI.rareFlowersText.text = _item.GetRareFlowersScore() + "yen";
-        scoreUI.bouquetText.text = _item.GetBouquetsScore() + "yen";
-        TimeBonusList();
-        scoreUI.timeBonusText.text = timeBonusScore.ToString();
-        scoreUI.totalMoneyText.text = totalMoney.ToString();
+        if (scoreUI.bouquetPriceText != null)
+            scoreUI.bouquetPriceText.text = bouquetScore + "yen";
 
+        if (scoreUI.timeBonusText != null)
+            scoreUI.timeBonusText.text = timeBonusScore + "yen";
 
+        if (scoreUI.totalMoneyText != null)
+            scoreUI.totalMoneyText.text = "Total Money " + totalMoney + " yen";
     }
 
     public void TimeBonusList()
     {
-        float lastTimeScore = _runGameDirector.GetTimeBonus();
+        lastTimeScore = RunGameDirector.Instance.GetTimeBonus();
 
         if (lastTimeScore <= 30.0)
         {
-            timeBonus += SspeedBonus;
+            timeBonusScore += SspeedBonus;
 
         }
         else if (lastTimeScore <= 60.0)
         {
-            timeBonus += normalBonus;
+            timeBonusScore += normalBonus;
         }
         else
         {
+            timeBonusScore=0;
+        }
+    }
+
+    //各アイテムの換金処理
+    private void ChangedMoney()
+    {
+        Debug.Log("flowersScore calculation started");
+        if (Item.Instance == null)
+        {
+            Debug.LogError("Item.Instance is null");
             return;
         }
 
+        //所持アイテムごとの換金計算
+        flowersScore = Item.Instance.GetFlowersScore() * flowerHung;
+        rareFlowersScore = Item.Instance.GetRareFlowersScore() * rareFlowerHung;
+        bouquetScore = Item.Instance.GetBouquetsScore() * bouquetHung;
+
+        Debug.Log("RunGameDirector.Instance check");
+        if (RunGameDirector.Instance == null)
+        {
+            Debug.LogError("RunGameDirector.Instance is null");
+            return;
+        }
+
+        lastTimeScore = RunGameDirector.Instance.GetTimeBonus();
+        TimeBonusList();
+        Debug.Log("Money calculation completed");
+
+        //合計金額
+        money = flowersScore + rareFlowersScore + bouquetScore + timeBonusScore;
+        totalMoney += money;
+    }
+
+    // 金額データを保存
+    public void SaveMoneyData()
+    {
+        if (_saveLoadManager != null)
+        {
+            _saveLoadManager.SaveTotalMoneyData(totalMoney);
+        }
+    }
+
+    // 金額データを読み込む
+    public void LoadMoneyData()
+    {
+        if (_saveLoadManager != null)
+        {
+            totalMoney = _saveLoadManager.LoadTotalMoneyData();
+        }
     }
 }
+
 [System.Serializable]
 public class ScoreUI
 {

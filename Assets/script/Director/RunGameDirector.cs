@@ -8,8 +8,12 @@ using TreeEditor; // シーン管理用のライブラリを追加
 
 public class RunGameDirector : MonoBehaviour
 {
+    public static RunGameDirector Instance { get; private set; }
+
+
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private Item _item;
+    [SerializeField] private SaveLoadManager _saveLoadManager;
 
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI goalText;
@@ -20,6 +24,18 @@ public class RunGameDirector : MonoBehaviour
 
     public float GetTimeBonus() => time;
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -50,7 +66,7 @@ public class RunGameDirector : MonoBehaviour
 
     public void LoadTimeData()
     {
-        time=PlayerPrefs.GetFloat("time",0.0f);
+        _saveLoadManager.LoadTimeData(out time);
     }
 
     public void StopTimer()

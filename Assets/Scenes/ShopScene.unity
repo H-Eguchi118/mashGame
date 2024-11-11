@@ -250,7 +250,7 @@ PrefabInstance:
     - target: {fileID: 6441681324769681768, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
       propertyPath: m_text
-      value: +00yen
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9141067265162522069, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
@@ -341,7 +341,7 @@ PrefabInstance:
     - target: {fileID: 3521874951065633562, guid: 367df98924943ec459ed5184018ffdcd,
         type: 3}
       propertyPath: m_text
-      value: "\uFF58\uFF10"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3521874951065633562, guid: 367df98924943ec459ed5184018ffdcd,
         type: 3}
@@ -363,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 4553174680534897605, guid: 367df98924943ec459ed5184018ffdcd,
         type: 3}
       propertyPath: m_text
-      value: "\uFF58\uFF10"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4553174680534897605, guid: 367df98924943ec459ed5184018ffdcd,
         type: 3}
@@ -497,6 +497,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -160
       objectReference: {fileID: 0}
+    - target: {fileID: 6891855189696674843, guid: 367df98924943ec459ed5184018ffdcd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7487610103812969350, guid: 367df98924943ec459ed5184018ffdcd,
         type: 3}
       propertyPath: m_Name
@@ -525,7 +530,7 @@ PrefabInstance:
     - target: {fileID: 9052777290924289970, guid: 367df98924943ec459ed5184018ffdcd,
         type: 3}
       propertyPath: m_text
-      value: "\uFF580.0"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9052777290924289970, guid: 367df98924943ec459ed5184018ffdcd,
         type: 3}
@@ -593,6 +598,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 131145642}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &131145647 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3521874951065633562, guid: 367df98924943ec459ed5184018ffdcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 131145642}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &230455270 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4510020010654321116, guid: 367df98924943ec459ed5184018ffdcd,
@@ -869,7 +886,7 @@ PrefabInstance:
     - target: {fileID: 6441681324769681768, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
       propertyPath: m_text
-      value: 100yen
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9141067265162522069, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
@@ -1090,7 +1107,7 @@ PrefabInstance:
     - target: {fileID: 6441681324769681768, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
       propertyPath: m_text
-      value: 30yen
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9141067265162522069, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
@@ -1152,13 +1169,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db107b38c76b22c4a97858206e174216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _saveLoadManager: {fileID: 1701062747}
   scoreUI:
     scoreCanvas: {fileID: 1269825598}
     flowerImage: {fileID: 230455270}
     rareFlowerImage: {fileID: 1085239873}
     bouquetImage: {fileID: 1633245597}
     timeImage: {fileID: 763600305}
-    flowersText: {fileID: 943526345}
+    flowersText: {fileID: 131145647}
     rareFlowersText: {fileID: 1281968944}
     bouquetText: {fileID: 1342578739}
     timeText: {fileID: 1974843967}
@@ -1167,9 +1185,10 @@ MonoBehaviour:
     bouquetPriceText: {fileID: 1221926371}
     timeBonusText: {fileID: 1832980057}
     totalMoneyText: {fileID: 1968547710}
-  timeBonus: 0
+  timeBonusScore: 0
   SspeedBonus: 30
   normalBonus: 10
+  money: 0
   totalMoney: 0
 --- !u!1 &1085239871
 GameObject:
@@ -1323,7 +1342,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF58\uFF10"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e4629357a9a3e4945a614feb4fcbdfeb, type: 2}
   m_sharedMaterial: {fileID: 3736659730294612201, guid: e4629357a9a3e4945a614feb4fcbdfeb,
@@ -1426,7 +1445,7 @@ GameObject:
   - component: {fileID: 1347516583}
   - component: {fileID: 1347516582}
   m_Layer: 5
-  m_Name: BuyUI
+  m_Name: SelectUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1705,7 +1724,7 @@ GameObject:
   - component: {fileID: 1598480235}
   - component: {fileID: 1598480234}
   m_Layer: 5
-  m_Name: ShopUI
+  m_Name: ShoppingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1836,8 +1855,53 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1012764555}
+  - {fileID: 1701062746}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1701062745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1701062746}
+  - component: {fileID: 1701062747}
+  m_Layer: 0
+  m_Name: SaveLoadManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1701062746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701062745}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1635031851}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1701062747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701062745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cc71d1a046ae04198faabf7e8b0b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1742545727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1954,7 +2018,7 @@ PrefabInstance:
     - target: {fileID: 6441681324769681768, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
       propertyPath: m_text
-      value: 10yen
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9141067265162522069, guid: 750633c4212c3514099e5cac9263d7b3,
         type: 3}
@@ -2116,7 +2180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "TotalMoney\uFF1A000yen"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e4629357a9a3e4945a614feb4fcbdfeb, type: 2}
   m_sharedMaterial: {fileID: 3736659730294612201, guid: e4629357a9a3e4945a614feb4fcbdfeb,

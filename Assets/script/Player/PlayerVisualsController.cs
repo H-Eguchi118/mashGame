@@ -80,6 +80,7 @@ public class PlayerVisualsController : MonoBehaviour
         {
             Debug.Log("ゴールしました");
             PlayGoalSound();
+            
             StartCoroutine(GoToShopScene());
 
             //ゴールキャンバスを表示する

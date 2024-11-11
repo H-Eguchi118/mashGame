@@ -9,6 +9,9 @@ using static UnityEditor.Progress;
 
 public class Item : MonoBehaviour
 {
+    public static Item Instance { get; private set; }
+
+    [SerializeField]private SaveLoadManager _saveLoadManager;
     private RunPlayerController _runPlayerController;
     private RunGameDirector _runGameDirector;
     public int rareFlowersScore = 0;
@@ -27,7 +30,24 @@ public class Item : MonoBehaviour
     public int GetRareFlowersScore() => rareFlowersScore;
     public int GetBouquetsScore() => bouquetScore;
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
+        _saveLoadManager = FindObjectOfType<SaveLoadManager>();
+        if (_saveLoadManager == null)
+        {
+            Debug.LogError("SaveLoadManagerが見つかりません。シーンに追加してください。");
+        }
+    }
     void Start()
     {
         mainUI.mainCanvas.enabled = true;
@@ -56,24 +76,20 @@ public class Item : MonoBehaviour
     }
 
     // 取得データを保存するメソッド
+    // アイテムデータを保存
     private void SaveItemData()
     {
-        PlayerPrefs.SetInt("flowersScore", flowersScore);
-        PlayerPrefs.SetInt("rareFlowersScore", rareFlowersScore);
-        PlayerPrefs.SetInt("bouquetScore", bouquetScore);
-        PlayerPrefs.Save(); // データを保存
-        Debug.Log("アイテムデータを保存しました");
+        _saveLoadManager.SaveItemData(flowersScore, rareFlowersScore, bouquetScore);
     }
 
+    // アイテムデータをロード
     public void LoadItemData()
     {
-        Debug.Log("アイテムデータを読み込みました");
-
-        flowersScore = PlayerPrefs.GetInt("flowersScore", 0);
-        rareFlowersScore = PlayerPrefs.GetInt("rareFlowersScore", 0);
-        bouquetScore = PlayerPrefs.GetInt("bouquetScore", 0);
+        _saveLoadManager.LoadItemData(out flowersScore, out rareFlowersScore, out bouquetScore);
+        mainUI.flowersText.text = flowersScore.ToString();
+        mainUI.rareFlowersText.text = rareFlowersScore.ToString();
+        mainUI.bouquetText.text = bouquetScore.ToString();
     }
-
 
     //花の所持数更新
     public void GetFlower()
