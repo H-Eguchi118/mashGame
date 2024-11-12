@@ -9,13 +9,12 @@ using static UnityEditor.Progress;
 
 public class Item : MonoBehaviour
 {
-    public static Item Instance { get; private set; }
 
     [SerializeField]private SaveLoadManager _saveLoadManager;
     private RunPlayerController _runPlayerController;
     private RunGameDirector _runGameDirector;
-    public int rareFlowersScore = 0;
     public int flowersScore = 0;//花。換金アイテム
+    public int rareFlowersScore = 0;
     public int bouquetScore = 0;//花束。花の倍の換金率
     private float flightRimitTime = 0;//取得すると一定時間飛べるアイテム
     public int money = 0;//所持金
@@ -25,29 +24,7 @@ public class Item : MonoBehaviour
 
     public MainUI mainUI;  // GoalCanvasのUI要素をまとめたもの
 
-    // データの確認用
-    public int GetFlowersScore() => flowersScore;
-    public int GetRareFlowersScore() => rareFlowersScore;
-    public int GetBouquetsScore() => bouquetScore;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        _saveLoadManager = FindObjectOfType<SaveLoadManager>();
-        if (_saveLoadManager == null)
-        {
-            Debug.LogError("SaveLoadManagerが見つかりません。シーンに追加してください。");
-        }
-    }
     void Start()
     {
         mainUI.mainCanvas.enabled = true;

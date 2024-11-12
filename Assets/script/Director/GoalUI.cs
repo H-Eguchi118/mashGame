@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -9,6 +9,6 @@ public class GoalUI
     public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
     public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
     public TextMeshProUGUI bouquetText;    // 花束の所持数のテキスト
-    public TextMeshProUGUI timerText;      // タイマーのテキスト
+    public TextMeshProUGUI timeText;      // タイマーのテキスト
 }
 

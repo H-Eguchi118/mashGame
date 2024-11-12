@@ -1,17 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ScoreCheck : MonoBehaviour
 {
-    [SerializeField]private SaveLoadManager _saveLoadManager;
+    [SerializeField] private SaveLoadManager _saveLoadManager;
     public ScoreUI scoreUI;
     int flowersScore = 0;
     int rareFlowersScore = 0;
     int bouquetScore = 0;
-    float lastTimeScore = 0;
+    float time = 0;
 
     int flowerHung = 1;
     int rareFlowerHung = 5;
@@ -75,14 +73,18 @@ public class ScoreCheck : MonoBehaviour
 
     public void SetScoreData()
     {
-        //各アイテムの換金処理
-        ChangedMoney();
+        //saveLoadManagerの各データを取得する
+        _saveLoadManager.LoadItemData(out flowersScore, out rareFlowersScore, out bouquetScore);
+        _saveLoadManager.LoadTimeData(out time);
 
         //アイテムの所持数表示
-        scoreUI.flowersText.text = "×" + Item.Instance.GetFlowersScore();
-        scoreUI.rareFlowersText.text = "×" + Item.Instance.GetRareFlowersScore();
-        scoreUI.bouquetText.text = "×" + Item.Instance.GetBouquetsScore();
-        scoreUI.timeText.text = "" + RunGameDirector.Instance.GetTimeBonus();
+        scoreUI.flowersText.text = "×" + flowersScore;
+        scoreUI.rareFlowersText.text = "×" + rareFlowersScore;
+        scoreUI.bouquetText.text = "×" + bouquetScore;
+        scoreUI.timeText.text = "" + time.ToString("F1");
+
+        //各アイテムの換金処理
+        ChangedMoney();
 
         // 各金額の表示（Nullチェックを追加）
         if (scoreUI.flowerPriceText != null)
@@ -103,46 +105,29 @@ public class ScoreCheck : MonoBehaviour
 
     public void TimeBonusList()
     {
-        lastTimeScore = RunGameDirector.Instance.GetTimeBonus();
 
-        if (lastTimeScore <= 30.0)
+        if (time <= 30.0)
         {
             timeBonusScore += SspeedBonus;
 
         }
-        else if (lastTimeScore <= 60.0)
+        else if (time <= 60.0)
         {
             timeBonusScore += normalBonus;
         }
         else
         {
-            timeBonusScore=0;
+            timeBonusScore = 0;
         }
     }
 
     //各アイテムの換金処理
     private void ChangedMoney()
     {
-        Debug.Log("flowersScore calculation started");
-        if (Item.Instance == null)
-        {
-            Debug.LogError("Item.Instance is null");
-            return;
-        }
+        flowersScore = flowersScore * flowerHung;
+        rareFlowersScore = rareFlowersScore * rareFlowerHung;
+        bouquetScore = bouquetScore * bouquetHung;
 
-        //所持アイテムごとの換金計算
-        flowersScore = Item.Instance.GetFlowersScore() * flowerHung;
-        rareFlowersScore = Item.Instance.GetRareFlowersScore() * rareFlowerHung;
-        bouquetScore = Item.Instance.GetBouquetsScore() * bouquetHung;
-
-        Debug.Log("RunGameDirector.Instance check");
-        if (RunGameDirector.Instance == null)
-        {
-            Debug.LogError("RunGameDirector.Instance is null");
-            return;
-        }
-
-        lastTimeScore = RunGameDirector.Instance.GetTimeBonus();
         TimeBonusList();
         Debug.Log("Money calculation completed");
 
@@ -165,30 +150,7 @@ public class ScoreCheck : MonoBehaviour
     {
         if (_saveLoadManager != null)
         {
-            totalMoney = _saveLoadManager.LoadTotalMoneyData();
+            totalMoney = _saveLoadManager.LoadTotalMoneyData(out totalMoney);
         }
     }
-}
-
-[System.Serializable]
-public class ScoreUI
-{
-    public Canvas scoreCanvas;
-
-    public Image flowerImage;
-    public Image rareFlowerImage;
-    public Image bouquetImage;
-    public Image timeImage;
-
-    public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
-    public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
-    public TextMeshProUGUI bouquetText;    // 花束の所持数のテキスト
-    public TextMeshProUGUI timeText;      // タイマーのテキスト
-
-    public TextMeshProUGUI flowerPriceText;    // 花の所持数のテキスト
-    public TextMeshProUGUI rareFlowerPriceText;    // 花の所持数のテキスト
-    public TextMeshProUGUI bouquetPriceText;    // 花の所持数のテキスト
-    public TextMeshProUGUI timeBonusText;    // 花の所持数のテキスト
-    public TextMeshProUGUI totalMoneyText;    // 合計金のテキスト
-
 }

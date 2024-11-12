@@ -8,34 +8,18 @@ using TreeEditor; // シーン管理用のライブラリを追加
 
 public class RunGameDirector : MonoBehaviour
 {
-    public static RunGameDirector Instance { get; private set; }
-
 
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private Item _item;
     [SerializeField] private SaveLoadManager _saveLoadManager;
 
-    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI goalText;
     [SerializeField] private GoalUI goalUI;  // GoalCanvasのUI要素をまとめたもの
 
     private float time;
     private bool isTimerRunning = true;//タイマーが動作しているか
 
-    public float GetTimeBonus() => time;
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     void Start()
     {
@@ -52,7 +36,7 @@ public class RunGameDirector : MonoBehaviour
         if (isTimerRunning)
         {
             time += Time.deltaTime;
-            timerText.text = time.ToString("F1");
+            timeText.text = time.ToString("F1");
         }
 
     }
@@ -88,7 +72,7 @@ public class RunGameDirector : MonoBehaviour
 
         goalUI.flowersText.text = "Flower：" + _item.flowersScore;  //花の最終所持数
         goalUI.bouquetText.text = "Bouquet：" + _item.bouquetScore;  //ブーケの最終所持数
-        goalUI.timerText.text = "Time：" + time;  // 最終タイム
+        goalUI.timeText.text = "Time：" + time;  // 最終タイム
 
     }
 

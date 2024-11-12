@@ -2,51 +2,52 @@ using UnityEngine;
 
 public class SaveLoadManager : MonoBehaviour
 {
-    // ƒf[ƒ^•Û‘¶
+    // ãƒ‡ãƒ¼ã‚¿ä¿å­˜
     public void SaveItemData(int flowersScore, int rareFlowersScore, int bouquetScore)
     {
         PlayerPrefs.SetInt("flowersScore", flowersScore);
         PlayerPrefs.SetInt("rareFlowersScore", rareFlowersScore);
         PlayerPrefs.SetInt("bouquetScore", bouquetScore);
-        PlayerPrefs.Save(); // ƒf[ƒ^‚ğ•Û‘¶
-        Debug.Log("ƒAƒCƒeƒ€ƒf[ƒ^‚ğ•Û‘¶‚µ‚Ü‚µ‚½");
+        PlayerPrefs.Save(); // ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜
+        Debug.Log("ã‚¢ã‚¤ãƒ†ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã—ã¾ã—ãŸ");
     }
 
-    // ƒf[ƒ^ƒ[ƒh
+    // ãƒ‡ãƒ¼ã‚¿ãƒ­ãƒ¼ãƒ‰
     public void LoadItemData(out int flowersScore, out int rareFlowersScore, out int bouquetScore)
     {
         flowersScore = PlayerPrefs.GetInt("flowersScore", 0);
         rareFlowersScore = PlayerPrefs.GetInt("rareFlowersScore", 0);
         bouquetScore = PlayerPrefs.GetInt("bouquetScore", 0);
 
-        Debug.Log("ƒAƒCƒeƒ€ƒf[ƒ^‚ğ“Ç‚İ‚İ‚Ü‚µ‚½");
+        Debug.Log("ã‚¢ã‚¤ãƒ†ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã¾ã—ãŸ");
     }
 
     public void SaveTimeData(float time)
     {
         PlayerPrefs.SetFloat("time", time);
-        Debug.Log("ƒ^ƒCƒ€ƒf[ƒ^‚ğ•Û‘¶‚µ‚Ü‚µ‚½");
+        PlayerPrefs.Save(); // ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜
+        Debug.Log("ã‚¿ã‚¤ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã—ã¾ã—ãŸ");
     }
 
     public void LoadTimeData(out float time)
     {
         time = PlayerPrefs.GetFloat("time", 0.0f);
-        Debug.Log("ƒ^ƒCƒ€ƒf[ƒ^‚ğ“Ç‚İ‚İ‚µ‚Ü‚µ‚½");
+        Debug.Log("ã‚¿ã‚¤ãƒ ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã—ã¾ã—ãŸ");
     }
 
-    // ƒXƒRƒAƒf[ƒ^‚ğ•Û‘¶‚·‚éƒƒ\ƒbƒh
+    // ã‚¹ã‚³ã‚¢ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     public void SaveTotalMoneyData(int totalMoney)
     {
         PlayerPrefs.SetInt("totalMoney", totalMoney);
         PlayerPrefs.Save();
-        Debug.Log("‡Œv‹àŠzƒf[ƒ^‚ğ•Û‘¶‚µ‚Ü‚µ‚½");
+        Debug.Log("åˆè¨ˆé‡‘é¡ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã—ã¾ã—ãŸ");
     }
 
-    // ƒXƒRƒAƒf[ƒ^‚ğ“Ç‚İ‚Şƒƒ\ƒbƒh
-    public int LoadTotalMoneyData()
+    // ã‚¹ã‚³ã‚¢ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ãƒ¡ã‚½ãƒƒãƒ‰
+    public int LoadTotalMoneyData(out int totalMoney)
     {
-        int totalMoney = PlayerPrefs.GetInt("totalMoney", 0);
-        Debug.Log("‡Œv‹àŠzƒf[ƒ^‚ğ“Ç‚İ‚İ‚Ü‚µ‚½");
+        totalMoney = PlayerPrefs.GetInt("totalMoney", 0);
+        Debug.Log("åˆè¨ˆé‡‘é¡ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã¾ã—ãŸ");
         return totalMoney;
     }
 }
