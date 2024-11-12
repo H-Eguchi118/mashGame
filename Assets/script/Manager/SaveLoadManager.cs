@@ -48,6 +48,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         totalMoney = PlayerPrefs.GetInt("totalMoney", 0);
         Debug.Log("合計金額データを読み込みました");
+        Debug.Log("合計金額：" + totalMoney);
         return totalMoney;
     }
 }
