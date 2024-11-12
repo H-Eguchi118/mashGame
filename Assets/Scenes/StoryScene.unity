@@ -745,8 +745,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30FB\u30FB\u30FB"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e4629357a9a3e4945a614feb4fcbdfeb, type: 2}
+  m_sharedMaterial: {fileID: 3736659730294612201, guid: e4629357a9a3e4945a614feb4fcbdfeb,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -963,8 +964,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30FB\u30FB\u30FB"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e4629357a9a3e4945a614feb4fcbdfeb, type: 2}
+  m_sharedMaterial: {fileID: 3736659730294612201, guid: e4629357a9a3e4945a614feb4fcbdfeb,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9374,6 +9376,23 @@ PrefabInstance:
     - target: {fileID: 1605869143784612198, guid: 84dc61da7502be54ea0eb0f8841d340c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872252198596563060, guid: 84dc61da7502be54ea0eb0f8841d340c,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e4629357a9a3e4945a614feb4fcbdfeb,
+        type: 2}
+    - target: {fileID: 1872252198596563060, guid: 84dc61da7502be54ea0eb0f8841d340c,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3736659730294612201, guid: e4629357a9a3e4945a614feb4fcbdfeb,
+        type: 2}
+    - target: {fileID: 1872252198596563060, guid: 84dc61da7502be54ea0eb0f8841d340c,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5425144933145571071, guid: 84dc61da7502be54ea0eb0f8841d340c,
