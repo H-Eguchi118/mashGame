@@ -19,27 +19,10 @@ public class ShopManager : MonoBehaviour
 
     public ConfirmationUI ConfirmationUI;
     public UnabelUI unabelUI;
-
-
-
     private int totalMoney = 0;//所持金(SaveLoadManagerから取得)
 
     private List<ItemData> items = new List<ItemData>();//アイテムデータ一覧のリスト
 
-    void Start()
-    {
-        //各パネルの初期セット
-        //SetPanel();
-
-        //所持金を取得
-        _saveLoadManager.LoadTotalMoneyData(out totalMoney);
-
-        //アイテムデータを初期化
-        InitializeitemData();
-
-        //アイテムリストを生成
-        GeneateItemList();
-    }
 
     public void SetPanel()
     {
@@ -47,6 +30,21 @@ public class ShopManager : MonoBehaviour
         selectCanvas.gameObject.SetActive(false);
         ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
         unabelUI.unableCanvas.gameObject.SetActive(false);
+
+        //所持金を取得
+        _saveLoadManager.LoadTotalMoneyData(out totalMoney);
+
+        //アイテムデータを初期化
+        InitializeitemData();
+
+        // 既存のアイテムプレハブを削除
+        foreach (Transform child in gridLayoutGroup)
+        {
+            Destroy(child.gameObject);
+        }
+
+        //アイテムリストを生成
+        GeneateItemList();
 
     }
 
@@ -61,7 +59,6 @@ public class ShopManager : MonoBehaviour
     //アイテムリストを生成するメソッド
     private void GeneateItemList()
     {
-
         foreach (var item in items)
         {
             //アイテムプレハブを生成
@@ -103,7 +100,6 @@ public class ShopManager : MonoBehaviour
             closedButton.onClick.AddListener(() => ClosedPanel());
             unabelUI.returnButton.onClick.AddListener(()=> ClosedPanel());
             ConfirmationUI.noButton.onClick.AddListener(() => ClosedPanel());
-
         }
 
 
@@ -116,7 +112,6 @@ public class ShopManager : MonoBehaviour
         {
             totalMoney -= item.Price;
             Debug.Log(item.Name + "を購入");
-
         }
     }
 
@@ -153,7 +148,7 @@ public class ShopManager : MonoBehaviour
 
         }
     }
-    
+
 }
 
 //アイテムのデータクラス

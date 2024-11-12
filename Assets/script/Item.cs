@@ -55,15 +55,6 @@ public class Item : MonoBehaviour
         _saveLoadManager.SaveItemData(flowersScore, rareFlowersScore, bouquetScore);
     }
 
-    // アイテムデータをロード
-    //public void LoadItemData()
-    //{
-    //    _saveLoadManager.LoadItemData(out flowersScore, out rareFlowersScore, out bouquetScore);
-    //    mainUI.flowersText.text = flowersScore.ToString();
-    //    mainUI.rareFlowersText.text = rareFlowersScore.ToString();
-    //    mainUI.bouquetText.text = bouquetScore.ToString();
-    //}
-
     //花の所持数更新
     public void GetFlower()
     {

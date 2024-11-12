@@ -9,6 +9,14 @@ public class SelectManager : MonoBehaviour
     [SerializeField]private ShopManager _shopManager;
     public SelectUI selectUI;
 
+    void Start()
+    {
+        OnButtonClick();
+    }
+    public void SetCanvas()
+    {
+        selectUI.selectCanvas.gameObject.SetActive(true);
+    }
     private void OnButtonClick()
     {
         selectUI.shoppingButton.onClick.AddListener(() => Shopping());
@@ -18,7 +26,7 @@ public class SelectManager : MonoBehaviour
 
     private void Shopping()
     {
-        _shopManager.SetPanel();
+        _shopManager.SetPanel();   //各パネルの初期セット
     }
 
     private void GoRunningScene()

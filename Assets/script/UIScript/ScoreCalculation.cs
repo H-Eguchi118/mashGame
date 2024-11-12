@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreCalculation : MonoBehaviour
 {
     [SerializeField] private SaveLoadManager _saveLoadManager;
+    [SerializeField] private SelectManager _selectManager;
+    [SerializeField] private Button CloseButtonl;
+
     public ScoreUI scoreUI;
     int flowersScore = 0;
     int rareFlowersScore = 0;
@@ -56,6 +60,9 @@ public class ScoreCalculation : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);//1秒待機
         scoreUI.totalMoneyText.gameObject.SetActive(true);
+
+        CloseButtonl.onClick.AddListener(() => closedCanvas());
+
 
     }
 
@@ -152,5 +159,11 @@ public class ScoreCalculation : MonoBehaviour
         {
             totalMoney = _saveLoadManager.LoadTotalMoneyData(out totalMoney);
         }
+    }
+
+    private void closedCanvas()
+    {
+        scoreUI.scoreCanvas.gameObject.SetActive(false);
+        _selectManager.SetCanvas();
     }
 }
