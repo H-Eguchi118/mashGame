@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreCheck : MonoBehaviour
+public class ScoreCalculation : MonoBehaviour
 {
     [SerializeField] private SaveLoadManager _saveLoadManager;
     public ScoreUI scoreUI;

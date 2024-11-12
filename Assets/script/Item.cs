@@ -1,11 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class Item : MonoBehaviour
 {
@@ -60,13 +56,13 @@ public class Item : MonoBehaviour
     }
 
     // アイテムデータをロード
-    public void LoadItemData()
-    {
-        _saveLoadManager.LoadItemData(out flowersScore, out rareFlowersScore, out bouquetScore);
-        mainUI.flowersText.text = flowersScore.ToString();
-        mainUI.rareFlowersText.text = rareFlowersScore.ToString();
-        mainUI.bouquetText.text = bouquetScore.ToString();
-    }
+    //public void LoadItemData()
+    //{
+    //    _saveLoadManager.LoadItemData(out flowersScore, out rareFlowersScore, out bouquetScore);
+    //    mainUI.flowersText.text = flowersScore.ToString();
+    //    mainUI.rareFlowersText.text = rareFlowersScore.ToString();
+    //    mainUI.bouquetText.text = bouquetScore.ToString();
+    //}
 
     //花の所持数更新
     public void GetFlower()

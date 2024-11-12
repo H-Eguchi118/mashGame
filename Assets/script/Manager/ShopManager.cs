@@ -13,10 +13,14 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Sprite itemImage1;
     [SerializeField] private Sprite itemImage2;
     [SerializeField] private Sprite itemImage3;
+    [SerializeField] private Canvas shoppingCanvas;
+    [SerializeField] private Canvas selectCanvas;
+    [SerializeField] private Button closedButton;
 
-   // [SerializeField] private Button buyButton;
+    public ConfirmationUI ConfirmationUI;
+    public UnabelUI unabelUI;
 
-    // public ShoppingUI shoppingUI;
+
 
     private int totalMoney = 0;//所持金(SaveLoadManagerから取得)
 
@@ -24,6 +28,9 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
+        //各パネルの初期セット
+        //SetPanel();
+
         //所持金を取得
         _saveLoadManager.LoadTotalMoneyData(out totalMoney);
 
@@ -32,6 +39,15 @@ public class ShopManager : MonoBehaviour
 
         //アイテムリストを生成
         GeneateItemList();
+    }
+
+    public void SetPanel()
+    {
+        shoppingCanvas.gameObject.SetActive(true);
+        selectCanvas.gameObject.SetActive(false);
+        ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+        unabelUI.unableCanvas.gameObject.SetActive(false);
+
     }
 
     //アイテムデータを初期化するメソッド
@@ -81,14 +97,19 @@ public class ShopManager : MonoBehaviour
             itemButton.interactable = totalMoney >= item.Price;
 
             //ボタンのクリック処理
-            itemButton.onClick.AddListener(() => OnBuyItem(item));
+            itemButton.onClick.AddListener(() => OnSelectItem(item));
+            ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem(item));
+
+            closedButton.onClick.AddListener(() => ClosedPanel());
+            unabelUI.returnButton.onClick.AddListener(()=> ClosedPanel());
+            ConfirmationUI.noButton.onClick.AddListener(() => ClosedPanel());
 
         }
 
 
     }
 
-    //ボタンのクリック処理
+    //アイテムボタンのクリック処理
     private void OnBuyItem(ItemData item)
     {
         if (totalMoney >= item.Price)
@@ -96,11 +117,43 @@ public class ShopManager : MonoBehaviour
             totalMoney -= item.Price;
             Debug.Log(item.Name + "を購入");
 
-            //ボタンの再更新
-            GeneateItemList();
+        }
+    }
+
+    private void OnSelectItem(ItemData item)
+    {
+        if (totalMoney >= item.Price)
+        {
+            //購入確認のポップアップ表示
+            ConfirmationUI.confirmationCanvas.gameObject.SetActive(true);
+        }
+        else 
+        {
+            //買えないよのポップアップ表示
+            unabelUI.unableCanvas.gameObject.SetActive(true);
+        }
+    }
+
+    private void ClosedPanel()
+    {
+        if (shoppingCanvas)
+        {
+            shoppingCanvas.gameObject.SetActive(false);
+            selectCanvas.gameObject.SetActive(true);
+        }
+        if (unabelUI.unableCanvas)
+        {
+            unabelUI.unableCanvas.gameObject.SetActive(false);
+
+        }
+
+        if (ConfirmationUI.confirmationCanvas)
+        {
+            ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
 
         }
     }
+    
 }
 
 //アイテムのデータクラス
@@ -121,14 +174,18 @@ public class ItemData
     }
 }
 
-//[System.Serializable]
-//public class ShoppingUI
-//{
-//    public Canvas shoppingCanvas;
-//    public Button itemSelectButton;
-//    public Image ItemImage;
-//    public TextMeshProUGUI itemName;
-//    public TextMeshProUGUI itemPrice;
-//    public TextMeshProUGUI itemTask
-//        ;
-//}
+[System.Serializable]
+public class ConfirmationUI
+{
+    public Canvas confirmationCanvas;
+    public TextMeshProUGUI checkText;
+    public Button YesButton;
+    public Button noButton;
+}
+
+[System.Serializable]
+public class UnabelUI
+{
+    public Canvas unableCanvas;
+    public Button returnButton;
+}
