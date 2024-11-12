@@ -56,12 +56,12 @@ public class ShopManager : MonoBehaviour
                 continue;
 
             }
-
+            
             // アイテムデータを設定
-            var itemName = itemObj.transform.Find("ItemName")?.GetComponent<TextMeshProUGUI>();
-            var priceText = itemObj.transform.Find("Price")?.GetComponent<TextMeshProUGUI>();
+            var itemName = itemObj.transform.Find("ItemName")?.GetComponentInChildren<Text>();
+            var priceText = itemObj.transform.Find("Price")?.GetComponent<Text>();
             var itemImage = itemObj.transform.Find("ItemImage")?.GetComponent<Image>();
-            var taskText = itemObj.transform.Find("Task")?.GetComponent<TextMeshProUGUI>();
+            var taskText = itemObj.transform.Find("Task")?.GetComponent<Text>();
 
             if (itemName == null || priceText == null || itemImage == null || taskText == null)
             {
