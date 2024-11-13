@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Transform gridLayoutGroup;//Grid Layout Groupのトランスフォーム
     [SerializeField] private SaveLoadManager _saveLoadManager;//SaveLoadManagerのスクリプト
 
-    [SerializeField] private Sprite itemImage1;
-    [SerializeField] private Sprite itemImage2;
-    [SerializeField] private Sprite itemImage3;
+    [SerializeField] private Sprite itemKnit;
+    [SerializeField] private Sprite itemCreamSoda;
+    [SerializeField] private Sprite itemBusket;
     [SerializeField] private Canvas shoppingCanvas;
     [SerializeField] private Canvas selectCanvas;
     [SerializeField] private Button closedButton;
@@ -23,9 +24,16 @@ public class ShopManager : MonoBehaviour
 
     private List<ItemData> items = new List<ItemData>();//アイテムデータ一覧のリスト
 
+    private void Start()
+    {
+        shoppingCanvas.gameObject.SetActive(false);
+        ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+
+    }
 
     public void SetPanel()
     {
+
         shoppingCanvas.gameObject.SetActive(true);
         selectCanvas.gameObject.SetActive(false);
         ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
@@ -37,11 +45,6 @@ public class ShopManager : MonoBehaviour
         //アイテムデータを初期化
         InitializeitemData();
 
-        // 既存のアイテムプレハブを削除
-        foreach (Transform child in gridLayoutGroup)
-        {
-            Destroy(child.gameObject);
-        }
 
         //アイテムリストを生成
         GeneateItemList();
@@ -51,14 +54,20 @@ public class ShopManager : MonoBehaviour
     //アイテムデータを初期化するメソッド
     private void InitializeitemData()
     {
-        items.Add(new ItemData("アイテム1", 0, null, ""));
-        items.Add(new ItemData("アイテム2", 0, null, "青い花を5本取ってくる"));
-        items.Add(new ItemData("アイテム3", 0, null, "ブーケを持ってくる"));
+        items.Add(new ItemData("クリームソーダ", 0, itemCreamSoda, "ハウス装飾アイテム。家に置けるが飲めない。"));
+        items.Add(new ItemData("かご", 50, itemBusket, "ハウス装飾アイテム。家における。"));
+        items.Add(new ItemData("ニット帽", 100, itemKnit, "プレイヤー装飾アイテム。被れる。(条件：白い花×5)"));
     }
 
     //アイテムリストを生成するメソッド
     private void GeneateItemList()
     {
+        // 既存のアイテムプレハブを削除
+        foreach (Transform child in gridLayoutGroup)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach (var item in items)
         {
             //アイテムプレハブを生成
@@ -69,7 +78,7 @@ public class ShopManager : MonoBehaviour
                 continue;
 
             }
-            
+
             // アイテムデータを設定
             var itemName = itemObj.transform.Find("ItemName")?.GetComponentInChildren<Text>();
             var priceText = itemObj.transform.Find("Price")?.GetComponent<Text>();
@@ -83,9 +92,9 @@ public class ShopManager : MonoBehaviour
             }
 
             itemName.text = item.Name;
-            priceText.text = item.Price + "yen";
+            priceText.text = item.Price + "マネ";
             itemImage.sprite = item.Image;
-            taskText.text = item.Task;
+            taskText.text = item.Info;
 
             // 各itemObj内のButtonを取得
             Button itemButton = itemObj.GetComponent<Button>();
@@ -97,9 +106,9 @@ public class ShopManager : MonoBehaviour
             itemButton.onClick.AddListener(() => OnSelectItem(item));
             ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem(item));
 
-            closedButton.onClick.AddListener(() => ClosedPanel());
-            unabelUI.returnButton.onClick.AddListener(()=> ClosedPanel());
-            ConfirmationUI.noButton.onClick.AddListener(() => ClosedPanel());
+            closedButton.onClick.AddListener(() => ClosedShoppingPanel());
+            ConfirmationUI.noButton.onClick.AddListener(() => ClosedConfirmationPanel());
+            unabelUI.returnButton.onClick.AddListener(() => ClosedUnablePanel());
         }
 
 
@@ -122,32 +131,46 @@ public class ShopManager : MonoBehaviour
             //購入確認のポップアップ表示
             ConfirmationUI.confirmationCanvas.gameObject.SetActive(true);
         }
-        else 
+        else
         {
             //買えないよのポップアップ表示
             unabelUI.unableCanvas.gameObject.SetActive(true);
         }
     }
 
-    private void ClosedPanel()
+    //各パネルを閉じる処理
+    private void ClosedShoppingPanel()
     {
         if (shoppingCanvas)
         {
             shoppingCanvas.gameObject.SetActive(false);
             selectCanvas.gameObject.SetActive(true);
-        }
-        if (unabelUI.unableCanvas)
-        {
-            unabelUI.unableCanvas.gameObject.SetActive(false);
 
         }
 
+
+    }
+
+    //購入確認パネルの閉じる処理
+    private void ClosedConfirmationPanel()
+    {
         if (ConfirmationUI.confirmationCanvas)
         {
             ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
 
         }
     }
+
+    //買えないよパネルの閉じる処理
+    private void ClosedUnablePanel()
+    {
+        if (unabelUI.unableCanvas)
+        {
+            unabelUI.unableCanvas.gameObject.SetActive(false);
+
+        }
+    }
+
 
 }
 
@@ -158,14 +181,14 @@ public class ItemData
     public string Name;//名前
     public int Price;//金額
     public Sprite Image; //イメージ
-    public string Task;//条件(仮)
+    public string Info;//条件(仮)
 
-    public ItemData(string name, int price, Sprite image, string task)
+    public ItemData(string name, int price, Sprite image, string info)
     {
         Name = name;
         Price = price;
         Image = image;
-        Task = task;
+        Info = info;
     }
 }
 

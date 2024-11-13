@@ -1,4 +1,4 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +11,7 @@ public class ScoreUI
     public Image rareFlowerImage;
     public Image bouquetImage;
     public Image timeImage;
+    public Image totalMoneyImage;
 
     public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
     public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト

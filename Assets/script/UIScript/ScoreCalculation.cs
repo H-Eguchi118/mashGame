@@ -59,7 +59,7 @@ public class ScoreCalculation : MonoBehaviour
         scoreUI.timeImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);//1秒待機
-        scoreUI.totalMoneyText.gameObject.SetActive(true);
+        scoreUI.totalMoneyImage.gameObject.SetActive(true);
 
         CloseButtonl.onClick.AddListener(() => closedCanvas());
 
@@ -74,7 +74,7 @@ public class ScoreCalculation : MonoBehaviour
         scoreUI.rareFlowerImage.gameObject.SetActive(false);
         scoreUI.bouquetImage.gameObject.SetActive(false);
         scoreUI.timeImage.gameObject.SetActive(false);
-        scoreUI.totalMoneyText.gameObject.SetActive(false);
+        scoreUI.totalMoneyImage.gameObject.SetActive(false);
 
     }
 
@@ -95,19 +95,19 @@ public class ScoreCalculation : MonoBehaviour
 
         // 各金額の表示（Nullチェックを追加）
         if (scoreUI.flowerPriceText != null)
-            scoreUI.flowerPriceText.text = flowersScore + "yen";
+            scoreUI.flowerPriceText.text = flowersScore + "マネ";
 
         if (scoreUI.rareFlowerPriceText != null)
-            scoreUI.rareFlowerPriceText.text = rareFlowersScore + "yen";
+            scoreUI.rareFlowerPriceText.text = rareFlowersScore + "マネ";
 
         if (scoreUI.bouquetPriceText != null)
-            scoreUI.bouquetPriceText.text = bouquetScore + "yen";
+            scoreUI.bouquetPriceText.text = bouquetScore + "マネ";
 
         if (scoreUI.timeBonusText != null)
-            scoreUI.timeBonusText.text = timeBonusScore + "yen";
+            scoreUI.timeBonusText.text = timeBonusScore + "マネ";
 
         if (scoreUI.totalMoneyText != null)
-            scoreUI.totalMoneyText.text = "Total Money " + totalMoney + " yen";
+            scoreUI.totalMoneyText.text = "トータル" + totalMoney + " マネ";
     }
 
     public void TimeBonusList()
