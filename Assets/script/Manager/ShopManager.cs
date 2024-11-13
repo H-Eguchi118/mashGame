@@ -23,6 +23,7 @@ public class ShopManager : MonoBehaviour
     private int totalMoney = 0;//所持金(SaveLoadManagerから取得)
 
     private List<ItemData> items = new List<ItemData>();//アイテムデータ一覧のリスト
+    private GameObject itemObj = null;
 
     private void Start()
     {
@@ -42,12 +43,14 @@ public class ShopManager : MonoBehaviour
         //所持金を取得
         _saveLoadManager.LoadTotalMoneyData(out totalMoney);
 
-        //アイテムデータを初期化
-        InitializeitemData();
+        if (itemObj == null)
+        {
+            //アイテムデータを初期化
+            InitializeitemData();
 
-
-        //アイテムリストを生成
-        GeneateItemList();
+            //itemObjがnllだったらアイテムリストを生成
+            GeneateItemList();
+        }
 
     }
 
@@ -65,17 +68,10 @@ public class ShopManager : MonoBehaviour
         //レングスが0なら生成しないでreturnする　ealdreturn nullというやり方もある
         //DestroyImmediateで全削除
 
-
-        // 既存のアイテムプレハブを削除
-        foreach (Transform child in gridLayoutGroup)
-        {
-            Destroy(child.gameObject);
-        }
-
         foreach (var item in items)
         {
             //アイテムプレハブを生成
-            GameObject itemObj = Instantiate(itemPrefab, gridLayoutGroup);
+            itemObj = Instantiate(itemPrefab, gridLayoutGroup);
             if (itemObj == null)
             {
                 Debug.Log("itemPrefabの生成に失敗しました");
