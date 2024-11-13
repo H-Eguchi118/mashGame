@@ -62,6 +62,10 @@ public class ShopManager : MonoBehaviour
     //アイテムリストを生成するメソッド
     private void GeneateItemList()
     {
+        //レングスが0なら生成しないでreturnする　ealdreturn nullというやり方もある
+        //DestroyImmediateで全削除
+
+
         // 既存のアイテムプレハブを削除
         foreach (Transform child in gridLayoutGroup)
         {
