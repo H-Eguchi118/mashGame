@@ -71,6 +71,6 @@ public class PrologueTalk : MonoBehaviour
     private IEnumerator GoToRunningScene()
     {
         yield return new WaitForSeconds(3);  // 3•b‘Ò‹@
-        SceneManager.LoadScene("RunningScene");  // "RunningScene"‚É‘JˆÚ
+        SceneManager.LoadScene("RunGameScene");  // "RunningScene"‚É‘JˆÚ
     }
 }

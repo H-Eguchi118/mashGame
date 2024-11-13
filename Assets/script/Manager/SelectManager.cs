@@ -31,12 +31,12 @@ public class SelectManager : MonoBehaviour
 
     private void GoRunningScene()
     {
-        SceneManager.LoadScene("RunningScene");
+        SceneManager.LoadScene("RunGameScene");
     }
 
     private void GoSelectScene()
     {
-        SceneManager.LoadScene("SelectScene");
+        SceneManager.LoadScene("StartScene");
     }
 }
 
