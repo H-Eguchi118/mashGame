@@ -83,9 +83,6 @@ public class PlayerVisualsController : MonoBehaviour
             
             StartCoroutine(GoToShopScene());
 
-            //ゴールキャンバスを表示する
-            // StartCoroutine(_runGameDirector.SetGoalCanvas());
-
             //動作を無効化
             GetComponent<RunPlayerController>().isGoalIn = true;
 
