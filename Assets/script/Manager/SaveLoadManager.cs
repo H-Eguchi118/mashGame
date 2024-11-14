@@ -51,4 +51,27 @@ public class SaveLoadManager : MonoBehaviour
         Debug.Log("合計金額：" + totalMoney);
         return totalMoney;
     }
+
+    public void SaveBreadData(int curry,int croissant,int richBread,int bread)
+    {
+        PlayerPrefs.SetInt("curry", curry);
+        PlayerPrefs.SetInt("croissant", croissant);
+        PlayerPrefs.SetInt("richBread", richBread);
+        PlayerPrefs.SetInt("bread", bread);
+        PlayerPrefs.Save(); // データを保存
+        Debug.Log("パンのデータを保存しました");
+
+    }
+
+    public void LoadBreadData(int curry, int croissant, int richBread, int bread)
+    {
+        curry = PlayerPrefs.GetInt("curry", 0);
+        croissant = PlayerPrefs.GetInt("croissant",0);
+        richBread = PlayerPrefs.GetInt("richBread", 0);
+        bread = PlayerPrefs.GetInt("bread", 0);
+
+        Debug.Log("パンのデータを読み込みました");
+
+    }
+
 }
