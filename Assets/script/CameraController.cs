@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     GameObject player;
+    private float addHigh = 2.1f;
 
     void Start()
     {
@@ -14,7 +15,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        Vector3 playerPos=this.player.transform.position;
-        transform.position= new Vector3(playerPos.x, playerPos.y, transform.position.z);
+        Vector3 playerPos = this.player.transform.position;
+        transform.position = new Vector3(playerPos.x, playerPos.y + addHigh, transform.position.z);
     }
 }
