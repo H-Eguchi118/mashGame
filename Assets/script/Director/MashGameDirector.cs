@@ -9,7 +9,6 @@ public class MashGameDirector : MonoBehaviour
 {
     public float time;
     public int mashCount = 0;  // スタート時にリセットされる
-    //public int score = 0;
 
     public TextMeshProUGUI timeUI;  // TextMeshPro用のUIテキスト    
     public TextMeshProUGUI countUI;
@@ -25,6 +24,7 @@ public class MashGameDirector : MonoBehaviour
     [SerializeField] private CountdownController _countdownController;  // CountdownControllerの参照
     [SerializeField] private AudioManager _audioManager;  // CountdownControllerの参照
     [SerializeField] private FinishController _finishController;  // CountdownControllerの参照
+    [SerializeField]private BreadImageManager _breadImageManager;
 
     private void Start()
     {
@@ -61,12 +61,15 @@ public class MashGameDirector : MonoBehaviour
     // キーボード入力があった場合の処理
     void CheckKeyInput()
     {
+
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
             mashCount++;
             lastButtonPressed = "L";
             UpdateCountUI();
             _gorstCharaController.ViewGorstL();
+            _breadImageManager.CheckBreadScore();
+
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
@@ -74,6 +77,8 @@ public class MashGameDirector : MonoBehaviour
             lastButtonPressed = "R";
             UpdateCountUI();
             _gorstCharaController.ViewGorstR();
+            _breadImageManager.CheckBreadScore();
+
         }
     }
 
@@ -105,6 +110,5 @@ public class MashGameDirector : MonoBehaviour
         _finishController.ShowFinishUI(mashCount);  // ゲーム終了時にスコアを表示
 
         finishUI.SetActive(true); // FinishUI を表示
-        //startUI.SetActive(false); // StartUI を非表示
     }
 }
