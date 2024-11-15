@@ -49,7 +49,7 @@ public class BreadImageManager : MonoBehaviour
             {
                 richBreadScore++;
                 AddRichBreadImage();
-                Debug.Log($"ちょっとリッチな食パン：{richBreadScore}こ");
+                Debug.Log($"リッチな食パン：{richBreadScore}こ");
 
             }
         }
