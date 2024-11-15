@@ -11,11 +11,6 @@ public class FinishController : MonoBehaviour
     private int highScore;               // ハイスコア
     private string filePath;             // JSONファイルのパス
 
-    //各パンのスコア
-    private int carryScore = 0;
-    private int croissantScore = 0;
-    private int richBreadScore = 0;
-    private int breadScore = 0;
 
     [SerializeField] private GorstCharaController _gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
     [SerializeField] private AudioManager _audioManager;  // ゲームの開始を管理するスクリプトの参照
@@ -108,11 +103,13 @@ public class FinishController : MonoBehaviour
             finishUI.rankImage.sprite = finishUI.croissant2;
             finishUI.rankText.text = "ゆうがなクロワッサン";
 
+
         }
         else if (mashCount >= 100)
         {
             finishUI.rankImage.sprite = finishUI.richBread3;
             finishUI.rankText.text = "ちょっとリッチな食パン";
+
 
         }
         else
@@ -120,13 +117,10 @@ public class FinishController : MonoBehaviour
             finishUI.rankImage.sprite = finishUI.dread4;
             finishUI.rankText.text = "ふつうの食パン";
 
-            if (mashCount <= 9)
-            {
-                carryScore++;
-            }
 
         }
     }
+
 
     private void onClickButton()
     {
@@ -144,16 +138,6 @@ public class FinishController : MonoBehaviour
     {
         SceneManager.LoadScene("StartScene");
     }
-
-    public void SaveBreadData()
-    {
-
-    }
-    public void LoadeBreadData()
-    {
-
-    }
-
 }
 
 [System.Serializable]

@@ -52,23 +52,23 @@ public class SaveLoadManager : MonoBehaviour
         return totalMoney;
     }
 
-    public void SaveBreadData(int curry,int croissant,int richBread,int bread)
+    public void SaveBreadData(int curryScore,int croissantScore,int richBreadScore,int breadScore)
     {
-        PlayerPrefs.SetInt("curry", curry);
-        PlayerPrefs.SetInt("croissant", croissant);
-        PlayerPrefs.SetInt("richBread", richBread);
-        PlayerPrefs.SetInt("bread", bread);
+        PlayerPrefs.SetInt("curryScore", curryScore);
+        PlayerPrefs.SetInt("croissantScore", croissantScore);
+        PlayerPrefs.SetInt("richBreadScore", richBreadScore);
+        PlayerPrefs.SetInt("breadScore", breadScore);
         PlayerPrefs.Save(); // データを保存
         Debug.Log("パンのデータを保存しました");
 
     }
 
-    public void LoadBreadData(int curry, int croissant, int richBread, int bread)
+    public void LoadBreadData(int curryScore, int croissantScore, int richBreadScore, int breadScore)
     {
-        curry = PlayerPrefs.GetInt("curry", 0);
-        croissant = PlayerPrefs.GetInt("croissant",0);
-        richBread = PlayerPrefs.GetInt("richBread", 0);
-        bread = PlayerPrefs.GetInt("bread", 0);
+        curryScore = PlayerPrefs.GetInt("curryScore", 0);
+        croissantScore = PlayerPrefs.GetInt("croissantScore", 0);
+        richBreadScore = PlayerPrefs.GetInt("richBreadScore", 0);
+        breadScore = PlayerPrefs.GetInt("breadScore", 0);
 
         Debug.Log("パンのデータを読み込みました");
 
