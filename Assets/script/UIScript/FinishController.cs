@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Net.NetworkInformation;
 public class FinishController : MonoBehaviour
 {
 
-    private int mashCount;                   // ゲームの最終カウント
-    private int highScore;               // ハイスコア
-    private string filePath;             // JSONファイルのパス
+    private int mashCount;   // ゲームの最終カウント
+    private int highScore;   // ハイスコア
+    private string filePath; // JSONファイルのパス
 
-
-    [SerializeField] private GorstCharaController _gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
     [SerializeField] private AudioManager _audioManager;  // ゲームの開始を管理するスクリプトの参照
+    [SerializeField] private MashGameDirector _mashGameDirector;  // ゲームの開始を管理するスクリプトの参照
+    [SerializeField] private BreadImageManager _breadManager;  // ゲームの開始を管理するスクリプトの参照
 
     public FinishUI finishUI;
 
@@ -35,12 +36,12 @@ public class FinishController : MonoBehaviour
         mashCount = finalCount;
         //finishUI.finishText.text = "FINISH!";
         finishUI.countText.text = "踏んだ回数: " + mashCount.ToString();
-        finishUI.rankImage.gameObject.SetActive(true);
-        RankImageView();
 
+        //パンのスコア結果表示
+        _breadManager.BreadScoreSet();
+        StartCoroutine(_breadManager.DisplayBreadData());
 
-        _gorstCharaController.ViewStanding();
-
+        _breadManager.AddTotalMoneyScore(out int totalMoney);
 
 
         // ハイスコアの更新処理
@@ -90,42 +91,11 @@ public class FinishController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);  // 0.5秒ごとに切り替え
         }
     }
-
-    private void RankImageView()
-    {
-        if (mashCount >= 300)
-        {
-            finishUI.rankImage.sprite = finishUI.carry1;
-            finishUI.rankText.text = "みんな大好きカレーパン";
-        }
-        else if (mashCount >= 200)
-        {
-            finishUI.rankImage.sprite = finishUI.croissant2;
-            finishUI.rankText.text = "ゆうがなクロワッサン";
-
-
-        }
-        else if (mashCount >= 100)
-        {
-            finishUI.rankImage.sprite = finishUI.richBread3;
-            finishUI.rankText.text = "ちょっとリッチな食パン";
-
-
-        }
-        else
-        {
-            finishUI.rankImage.sprite = finishUI.dread4;
-            finishUI.rankText.text = "ふつうの食パン";
-
-
-        }
-    }
-
-
     private void onClickButton()
     {
         finishUI.reTryGameButton.onClick.AddListener(() => ReTryGame());
         finishUI.returnBuutton.onClick.AddListener(() => GotoStartScene());
+        finishUI.goShopBuutton.onClick.AddListener(() => GotoShopScene());
     }
 
 
@@ -138,6 +108,10 @@ public class FinishController : MonoBehaviour
     {
         SceneManager.LoadScene("StartScene");
     }
+    private void GotoShopScene()
+    {
+        SceneManager.LoadScene("ShopScene");
+    }
 }
 
 [System.Serializable]
@@ -148,18 +122,11 @@ public class FinishUI
     public TextMeshProUGUI countText;     // 最終カウントを表示するText
     public TextMeshProUGUI highScoreText; // ハイスコアを表示するText
     public TextMeshProUGUI newText; // ハイスコアを表示するText
+
     public Button reTryGameButton;
     public Button returnBuutton;
-
-    public Image rankImage;//ランクごとのイメージを表示する枠
-    public TextMeshProUGUI rankText; // ランクの名前を表示するText
-
-    //各ランクイメージ
-    public Sprite carry1;
-    public Sprite croissant2;
-    public Sprite richBread3;
-    public Sprite dread4;
-
-
+    public Button goShopBuutton;
 }
+
+
 
