@@ -11,6 +11,8 @@ TagManager:
   - Flower
   - FlightItem
   - RareFlower
+  - GrayFlower
+  - WhiteFlower
   - ReaFlower
   layers:
   - Default
