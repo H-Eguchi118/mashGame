@@ -3,57 +3,58 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Boomerang2DFramework.Framework.AudioManagement;
-
+using UnityEngine.SceneManagement;
+using System.Net.NetworkInformation;
 public class FinishController : MonoBehaviour
 {
-    public Canvas finishUI;               // 終了画面のCanvas
-    public TextMeshProUGUI finishText;    // 終了メッセージ用のText
-    public TextMeshProUGUI countText;     // 最終カウントを表示するText
-    public TextMeshProUGUI highScoreText; // ハイスコアを表示するText
-    public TextMeshProUGUI newText; // ハイスコアを表示するText
 
-    private int count;                   // ゲームの最終カウント
-    private int highScore;               // ハイスコア
-    private string filePath;             // JSONファイルのパス
+    private int mashCount;   // ゲームの最終カウント
+    private int highScore;   // ハイスコア
+    private string filePath; // JSONファイルのパス
 
-    [SerializeField] private GorstCharaController _gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
     [SerializeField] private AudioManager _audioManager;  // ゲームの開始を管理するスクリプトの参照
+    [SerializeField] private MashGameDirector _mashGameDirector;  // ゲームの開始を管理するスクリプトの参照
+    [SerializeField] private BreadImageManager _breadManager;  // ゲームの開始を管理するスクリプトの参照
+
+    public FinishUI finishUI;
 
 
     void Start()
     {
         filePath = Application.persistentDataPath + "/scoreData.json";  // 保存先ファイルパスを設定
-        finishUI.gameObject.SetActive(false);  // ゲーム開始時は終了画面を非表示
-        newText.gameObject.SetActive(false);   // 初期状態では「new Record!」を非表示
+        finishUI.finishCanvas.gameObject.SetActive(false);  // ゲーム開始時は終了画面を非表示
+        finishUI.newText.gameObject.SetActive(false);   // 初期状態では「new Record!」を非表示
         LoadHighScore();                       // 保存されたハイスコアを読み込む
+        onClickButton();
     }
 
     // ゲームが終了したときに呼ばれるメソッド
     public void ShowFinishUI(int finalCount)
     {
         _audioManager.PlayCountFinishSound();
-        finishUI.gameObject.SetActive(true);  // 終了画面を表示
-        count = finalCount;
-        finishText.text = "FINISH!";
-        countText.text = "Score: " + count.ToString();
+        finishUI.finishCanvas.gameObject.SetActive(true);  // 終了画面を表示
+        mashCount = finalCount;
+        //finishUI.finishText.text = "FINISH!";
+        finishUI.countText.text = "踏んだ回数: " + mashCount.ToString();
 
-        _gorstCharaController.ViewStanding();
+        //パンのスコア結果表示
+        _breadManager.BreadScoreSet();
+        StartCoroutine(_breadManager.DisplayBreadData());
 
+        _breadManager.AddTotalMoneyScore(out int totalMoney);
 
 
         // ハイスコアの更新処理
-        if (count > highScore)
+        if (mashCount > highScore)
         {
-            highScore = count;
-            newText.text = "new Record!";
-            newText.gameObject.SetActive(true);  // 「new Record!」を表示
+            highScore = mashCount;
+            finishUI.newText.gameObject.SetActive(true);  // 「new Record!」を表示
             StartCoroutine(BlinkNewRecordText()); // 点滅コルーチンを開始
 
             SaveHighScore();  // 新しいハイスコアを保存
         }
 
-        highScoreText.text = "High Score: " + highScore.ToString(); // ハイスコアを表示
+        finishUI.highScoreText.text = "最高記録: " + highScore.ToString(); // ハイスコアを表示
     }
 
     // ハイスコアをJSONファイルに保存する処理
@@ -86,8 +87,46 @@ public class FinishController : MonoBehaviour
     {
         while (true)
         {
-            newText.enabled = !newText.enabled;  // 表示と非表示を切り替える
+            finishUI.newText.enabled = !finishUI.newText.enabled;  // 表示と非表示を切り替える
             yield return new WaitForSeconds(0.5f);  // 0.5秒ごとに切り替え
         }
     }
+    private void onClickButton()
+    {
+        finishUI.reTryGameButton.onClick.AddListener(() => ReTryGame());
+        finishUI.returnBuutton.onClick.AddListener(() => GotoStartScene());
+        finishUI.goShopBuutton.onClick.AddListener(() => GotoShopScene());
+    }
+
+
+    private void ReTryGame()
+    {
+        SceneManager.LoadScene("StompGamescene");
+    }
+
+    private void GotoStartScene()
+    {
+        SceneManager.LoadScene("StartScene");
+    }
+    private void GotoShopScene()
+    {
+        SceneManager.LoadScene("ShopScene");
+    }
 }
+
+[System.Serializable]
+public class FinishUI
+{
+    public Canvas finishCanvas;               // 終了画面のCanvas
+    public TextMeshProUGUI finishText;    // 終了メッセージ用のText
+    public TextMeshProUGUI countText;     // 最終カウントを表示するText
+    public TextMeshProUGUI highScoreText; // ハイスコアを表示するText
+    public TextMeshProUGUI newText; // ハイスコアを表示するText
+
+    public Button reTryGameButton;
+    public Button returnBuutton;
+    public Button goShopBuutton;
+}
+
+
+

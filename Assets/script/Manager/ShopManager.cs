@@ -30,6 +30,9 @@ public class ShopManager : MonoBehaviour
         shoppingCanvas.gameObject.SetActive(false);
         ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
 
+        //所持金を読み込む
+        _saveLoadManager.LoadTotalMoneyData(out int totalMoney);
+
     }
 
     public void SetPanel()

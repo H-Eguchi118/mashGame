@@ -11,7 +11,7 @@ public class ScoreUI
     public Image rareFlowerImage;
     public Image bouquetImage;
     public Image timeImage;
-    public Image totalMoneyImage;
+    public Image moneyImage;
 
     public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
     public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
@@ -22,6 +22,6 @@ public class ScoreUI
     public TextMeshProUGUI rareFlowerPriceText;    // 花の所持数のテキスト
     public TextMeshProUGUI bouquetPriceText;    // 花の所持数のテキスト
     public TextMeshProUGUI timeBonusText;    // 花の所持数のテキスト
-    public TextMeshProUGUI totalMoneyText;    // 合計金のテキスト
+    public TextMeshProUGUI runMoneyText;    // 合計金のテキスト
 
 }

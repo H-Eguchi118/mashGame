@@ -22,6 +22,7 @@ public class SelectManager : MonoBehaviour
         selectUI.shoppingButton.onClick.AddListener(() => Shopping());
         selectUI.goRunButton.onClick.AddListener(() => GoRunningScene());
         selectUI.goBackButton.onClick.AddListener(() => GoSelectScene());
+        selectUI.goStompButton.onClick.AddListener(() => GoStompScene());
     }
 
     private void Shopping()
@@ -33,6 +34,11 @@ public class SelectManager : MonoBehaviour
     {
         SceneManager.LoadScene("RunGameScene");
     }
+    private void GoStompScene()
+    {
+        SceneManager.LoadScene("StompGameScene");
+    }
+
 
     private void GoSelectScene()
     {
@@ -48,5 +54,6 @@ public class SelectUI
     public Canvas selectCanvas;
     public Button shoppingButton;
     public Button goRunButton;
+    public Button goStompButton;
     public Button goBackButton;
 }

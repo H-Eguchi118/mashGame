@@ -5,62 +5,90 @@ using UnityEngine.UI;
 
 public class GorstCharaController : MonoBehaviour
 {
-    public Image characterImage; // ƒLƒƒƒ‰ƒNƒ^[‚ÌƒXƒvƒ‰ƒCƒg‚ğ•\¦‚·‚éUI Image
-    public Sprite standingSprite; // —§‚¿ŠG‚ÌƒXƒvƒ‰ƒCƒg
-    public Sprite rightFootSprite; // ‰E‘«ã‚°‚ÌƒXƒvƒ‰ƒCƒg
-    public Sprite leftFootSprite; // ¶‘«ã‚°‚ÌƒXƒvƒ‰ƒCƒg
-    public Sprite movingSprite; // “®‚­ƒXƒvƒ‰ƒCƒg
+    [SerializeField] private MashGameDirector _mashGameDirector;
 
-    private enum CharacterState { Standing, RightFoot, LeftFoot,Moving }
-    private CharacterState currentState = CharacterState.Standing; // Œ»İ‚ÌƒXƒvƒ‰ƒCƒg‚Ìó‘Ô
+    public Image characterImage; // ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’è¡¨ç¤ºã™ã‚‹UI Image
+    public Sprite standingSprite; // ç«‹ã¡çµµã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
+    public Sprite rightFootSprite; // å³è¶³ä¸Šã’ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
+    public Sprite leftFootSprite; // å·¦è¶³ä¸Šã’ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
+
+    public Image pankiziImage; //ãƒ‘ãƒ³ç”Ÿåœ°ã‚’è¡¨ç¤ºã™ã‚‹UIã€€Image
+    public Sprite pankiziSprite; // ãƒ‘ãƒ³ç”Ÿåœ°ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
+    public Sprite pankiziLeftSprite; // å·¦è¸ã¿æ™‚ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
+    public Sprite pankiziRightSprite; // å³è¸ã¿æ™‚ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
+
+    public Image lastImage;
+    public Sprite lastSprite1;
+    public Sprite lastSprite2;
+
+    private enum CharacterState { Standing, RightFoot, LeftFoot }
+    private CharacterState currentState = CharacterState.Standing; // ç¾åœ¨ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®çŠ¶æ…‹
+    private enum PankiziState { Normal, RightPan, LeftPan }
+    private PankiziState currentPanState = PankiziState.Normal; // ç¾åœ¨ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®çŠ¶æ…‹
+
+    private enum LastState { Last1, Last2 }
+    private LastState currentLastState = LastState.Last1;
 
     void Start()
     {
-        // ‰ŠúƒXƒvƒ‰ƒCƒg‚ğİ’è
+        // åˆæœŸã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’è¨­å®š
         currentState = CharacterState.Standing;
+        currentPanState = PankiziState.Normal;
+        lastImage.gameObject.SetActive(false);
 
-        // characterImage‚ÌRectTransform‚ğæ“¾
+        // characterImageã®RectTransformã‚’å–å¾—
         RectTransform rectTransform = characterImage.GetComponent<RectTransform>();
 
-        // ƒTƒCƒY‚ğİ’è (width, height)
-        rectTransform.sizeDelta = new Vector2(500, 500); // ‰æ‘œ‚ÌƒTƒCƒY‚ğ500x500‚Éİ’è
-
-        // ƒ|ƒWƒVƒ‡ƒ“‚ğİ’è
-        rectTransform.anchoredPosition = new Vector2(0, 0); // À•W (0, 0) ‚Éİ’è
     }
 
     public void ViewGorstR()
     {
-        // ‰E‘«ã‚°‚ÌƒXƒvƒ‰ƒCƒg‚ÉØ‚è‘Ö‚¦
+        // å³è¶³ä¸Šã’ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã«åˆ‡ã‚Šæ›¿ãˆ
         if (currentState != CharacterState.RightFoot)
         {
-            characterImage.sprite = rightFootSprite; // ‰E‘«ã‚°
-            currentState = CharacterState.RightFoot; // ó‘Ô‚ğXV
+            characterImage.sprite = rightFootSprite; // å³è¶³ä¸Šã’
+            currentState = CharacterState.RightFoot; // çŠ¶æ…‹ã‚’æ›´æ–°
+
+            pankiziImage.sprite = pankiziRightSprite;
+            currentPanState = PankiziState.RightPan;
+
+            if (_mashGameDirector.time < 10)
+            {
+                lastImage.gameObject.SetActive(true);
+
+                lastImage.sprite = lastSprite1;
+                currentLastState = LastState.Last1;
+            }
         }
     }
 
     public void ViewGorstL()
     {
-        // ¶‘«ã‚°‚ÌƒXƒvƒ‰ƒCƒg‚ÉØ‚è‘Ö‚¦
+        // å·¦è¶³ä¸Šã’ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã«åˆ‡ã‚Šæ›¿ãˆ
         if (currentState != CharacterState.LeftFoot)
         {
-            characterImage.sprite = leftFootSprite; // ¶‘«ã‚°
-            currentState = CharacterState.LeftFoot; // ó‘Ô‚ğXV
+            characterImage.sprite = leftFootSprite; // å·¦è¶³ä¸Šã’
+            currentState = CharacterState.LeftFoot; // çŠ¶æ…‹ã‚’æ›´æ–°
+
+            pankiziImage.sprite = pankiziLeftSprite;
+            currentPanState = PankiziState.LeftPan;
+
+            if (_mashGameDirector.time < 10)
+            {
+                lastImage.gameObject.SetActive(true);
+
+                lastImage.sprite = lastSprite2;
+                currentLastState = LastState.Last2;
+            }
+
         }
     }
 
-    // —§‚¿ŠG‚É–ß‚·ƒƒ\ƒbƒh‚ğ’Ç‰Á
+    // ç«‹ã¡çµµã«æˆ»ã™ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ 
     public void ViewStanding()
     {
-        characterImage.sprite = standingSprite; // —§‚¿ŠG‚É–ß‚·
-        currentState = CharacterState.Standing; // ó‘Ô‚ğXV
+        characterImage.sprite = standingSprite; // ç«‹ã¡çµµã«æˆ»ã™
+        currentState = CharacterState.Standing; // çŠ¶æ…‹ã‚’æ›´æ–°
     }
 
-    public void ViewMoving()
-    {
-        characterImage.sprite = movingSprite; // —§‚¿ŠG‚É–ß‚·
-
-        currentState = CharacterState.Moving; // ó‘Ô‚ğXV
-
-    }
 }

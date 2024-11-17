@@ -35,20 +35,52 @@ public class SaveLoadManager : MonoBehaviour
         Debug.Log("タイムデータを読み込みしました");
     }
 
-    // スコアデータを保存するメソッド
+    // トータルの持ちマネを保存するメソッド
     public void SaveTotalMoneyData(int totalMoney)
     {
         PlayerPrefs.SetInt("totalMoney", totalMoney);
         PlayerPrefs.Save();
-        Debug.Log("合計金額データを保存しました");
+        Debug.Log("合計金額データを保存しました。totalMoney："+totalMoney);
     }
 
-    // スコアデータを読み込むメソッド
+    // トータルの持ちマネを読み込むメソッド
     public int LoadTotalMoneyData(out int totalMoney)
     {
         totalMoney = PlayerPrefs.GetInt("totalMoney", 0);
         Debug.Log("合計金額データを読み込みました");
-        Debug.Log("合計金額：" + totalMoney);
+        Debug.Log("totalMoney：" + totalMoney);
         return totalMoney;
     }
+
+    //run gameの金額を保存する
+    //public void SaveRunMoneyData(int runMoney)
+    //{
+    //    PlayerPrefs.SetInt("mashMoney", runMoney);
+    //    PlayerPrefs.Save();
+    //    Debug.Log("mashgameの金額データを保存しました。mashMoney：" + runMoney);
+
+    //}
+
+    //public int LoadRunMoneyData(out int runMoney)
+    //{
+    //    runMoney = PlayerPrefs.GetInt("runMoney", 0);
+    //    Debug.Log("mashgameの金額データを読み込みました");
+    //    Debug.Log("mashgameの金額：" + runMoney);
+    //    return runMoney;
+    //}
+    //public void SaveMashMoneyData(int mashMoney)
+    //{
+    //    PlayerPrefs.SetInt("mashMoney", mashMoney);
+    //    PlayerPrefs.Save();
+    //    Debug.Log("mashgameの金額データを保存しました。mashMoney：" + mashMoney);
+
+    //}
+
+    //public int LoadMashMoneyData(out int mashMoney)
+    //{
+    //    mashMoney = PlayerPrefs.GetInt("mashMoney", 0);
+    //    Debug.Log("mashgameの金額データを読み込みました");
+    //    Debug.Log("mashgameの金額：" + mashMoney);
+    //    return mashMoney;
+    //}
 }

@@ -22,17 +22,15 @@ public class ScoreCalculation : MonoBehaviour
     public int timeBonusScore = 0;//タイムに伴うボーナス
     public int SspeedBonus = 30;
     public int normalBonus = 10;
-    public int money = 0;
+    public int runMoney = 0;
     public int totalMoney = 0;
+
 
 
     void Start()
     {
         //キャンバス内順次表示
         StartCoroutine(DisplayScoreCanvas());
-
-        //保存した合計金額を読み込む
-        LoadMoneyData();
     }
 
     //順番にアイテムのスコアを表示させるメソッド
@@ -59,7 +57,7 @@ public class ScoreCalculation : MonoBehaviour
         scoreUI.timeImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);//1秒待機
-        scoreUI.totalMoneyImage.gameObject.SetActive(true);
+        scoreUI.moneyImage.gameObject.SetActive(true);
 
         CloseButtonl.onClick.AddListener(() => closedCanvas());
 
@@ -74,7 +72,7 @@ public class ScoreCalculation : MonoBehaviour
         scoreUI.rareFlowerImage.gameObject.SetActive(false);
         scoreUI.bouquetImage.gameObject.SetActive(false);
         scoreUI.timeImage.gameObject.SetActive(false);
-        scoreUI.totalMoneyImage.gameObject.SetActive(false);
+        scoreUI.moneyImage.gameObject.SetActive(false);
 
     }
 
@@ -106,8 +104,10 @@ public class ScoreCalculation : MonoBehaviour
         if (scoreUI.timeBonusText != null)
             scoreUI.timeBonusText.text = timeBonusScore + "マネ";
 
-        if (scoreUI.totalMoneyText != null)
-            scoreUI.totalMoneyText.text = "トータル" + totalMoney + " マネ";
+        if (scoreUI.runMoneyText != null)
+            scoreUI.runMoneyText.text = "トータル" + runMoney + " マネ";
+
+        AddTotalMoneyScore();
     }
 
     public void TimeBonusList()
@@ -139,27 +139,41 @@ public class ScoreCalculation : MonoBehaviour
         Debug.Log("Money calculation completed");
 
         //合計金額
-        money = flowersScore + rareFlowersScore + bouquetScore + timeBonusScore;
-        totalMoney += money;
+        runMoney = flowersScore + rareFlowersScore + bouquetScore + timeBonusScore;
     }
 
     // 金額データを保存
-    public void SaveMoneyData()
-    {
-        if (_saveLoadManager != null)
-        {
-            _saveLoadManager.SaveTotalMoneyData(totalMoney);
-        }
-    }
+    //public void SaveRunMoneyData()
+    //{
+    //    if (_saveLoadManager != null)
+    //    {
+    //        _saveLoadManager.SaveRunMoneyData(runMoney);
+    //    }
+    //}
 
-    // 金額データを読み込む
-    public void LoadMoneyData()
+    //// 金額データを読み込む
+    //public void LoadRunMoneyData()
+    //{
+    //    if (_saveLoadManager != null)
+    //    {
+    //        runMoney = _saveLoadManager.LoadRunMoneyData(out runMoney);
+    //    }
+    //}
+
+
+    public void AddTotalMoneyScore()
     {
         if (_saveLoadManager != null)
         {
             totalMoney = _saveLoadManager.LoadTotalMoneyData(out totalMoney);
+            Debug.Log("totalMoneyにrunMoneyを加算します。" + totalMoney + "+" + runMoney);
+
+            totalMoney += runMoney;
+            _saveLoadManager.SaveTotalMoneyData(totalMoney);
         }
     }
+
+
 
     private void closedCanvas()
     {
