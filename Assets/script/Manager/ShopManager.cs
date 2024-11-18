@@ -17,6 +17,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Canvas shoppingCanvas;
     [SerializeField] private Canvas selectCanvas;
     [SerializeField] private Button closedButton;
+    [SerializeField] private TextMeshProUGUI totalMoneyText;
 
     public ConfirmationUI ConfirmationUI;
     private int totalMoney = 0;//所持金(SaveLoadManagerから取得)
@@ -28,10 +29,7 @@ public class ShopManager : MonoBehaviour
     {
         shoppingCanvas.gameObject.SetActive(false);
         ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
-
-        //所持金を読み込む
-        _saveLoadManager.LoadTotalMoneyData(out int totalMoney);
-
+        ConfirmationUI.boughtCanvas.gameObject.SetActive(false);
     }
 
     public void SetPanel()
@@ -40,9 +38,12 @@ public class ShopManager : MonoBehaviour
         shoppingCanvas.gameObject.SetActive(true);
         selectCanvas.gameObject.SetActive(false);
         ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+        ConfirmationUI.boughtCanvas.gameObject.SetActive(false);
 
         //所持金を取得
         _saveLoadManager.LoadTotalMoneyData(out totalMoney);
+        totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
+
 
         if (itemObj == null)
         {
@@ -105,12 +106,11 @@ public class ShopManager : MonoBehaviour
 
             //ボタンのクリック処理
             itemButton.onClick.AddListener(() => OnSelectItem(item));
-            ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem(item));
 
             closedButton.onClick.AddListener(() => ClosedShoppingPanel());
             ConfirmationUI.noButton.onClick.AddListener(() => ClosedConfirmationPanel());
+            ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem(item));
         }
-
 
     }
 
@@ -120,8 +120,25 @@ public class ShopManager : MonoBehaviour
         if (totalMoney >= item.Price)
         {
             totalMoney -= item.Price;
-            Debug.Log(item.Name + "を購入");
+            Debug.Log(item.Name + "を"+ item.Price + "マネで購入");
+
+            ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+            ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
+            ConfirmationUI.boughtText.text = item.Name + "を買いました";
+            totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
+
+
+
+            SaveTotalMoney();
+            ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
+
         }
+    }
+
+    private void ConfirmationClosed(ItemData item)
+    {
+        ConfirmationUI.boughtCanvas.gameObject.SetActive(false);
+
     }
 
     private void OnSelectItem(ItemData item)
@@ -130,6 +147,7 @@ public class ShopManager : MonoBehaviour
         {
             //購入確認のポップアップ表示
             ConfirmationUI.confirmationCanvas.gameObject.SetActive(true);
+            ConfirmationUI.boughtCanvas.gameObject.SetActive(false);
         }
     }
 
@@ -140,10 +158,13 @@ public class ShopManager : MonoBehaviour
         {
             shoppingCanvas.gameObject.SetActive(false);
             selectCanvas.gameObject.SetActive(true);
-
         }
+    }
 
-
+    //total Moneyのセーブ
+    public void SaveTotalMoney()
+    {
+        _saveLoadManager.SaveTotalMoneyData(totalMoney);
     }
 
     //購入確認パネルの閉じる処理
@@ -183,5 +204,8 @@ public class ConfirmationUI
     public TextMeshProUGUI checkText;
     public Button YesButton;
     public Button noButton;
+    public Canvas boughtCanvas;
+    public TextMeshProUGUI boughtText;
+    public Button closeButton;
 }
 

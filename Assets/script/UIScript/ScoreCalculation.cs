@@ -116,7 +116,7 @@ public class ScoreCalculation : MonoBehaviour
             scoreUI.timeBonusText.text = timeBonusScore + "マネ";
 
         if (scoreUI.runMoneyText != null)
-            scoreUI.runMoneyText.text = "トータル" + runMoney + " マネ";
+            scoreUI.runMoneyText.text = "合計マネ：" + runMoney + " マネ";
 
         AddTotalMoneyScore();
     }
