@@ -108,7 +108,7 @@ public class ScoreCalculation : MonoBehaviour
         if (scoreUI.orangeFlowerPriceText != null)
             scoreUI.orangeFlowerPriceText.text = orangeFlowersScore + "マネ";
 
-        if (scoreUI.orangeFlowerPriceText != null)
+        if (scoreUI.whiteFlowerPriceText != null)
             scoreUI.whiteFlowerPriceText.text = whiteFlowersScore + "マネ";
 
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement; // シーン管理用のライブラリを追加
 
-public class MashGameDirector : MonoBehaviour
+public class MashGameDirector : MonoBehaviour, IGameDirector
 {
     public float time;
     public int mashCount = 0;  // スタート時にリセットされる
@@ -24,7 +24,7 @@ public class MashGameDirector : MonoBehaviour
     [SerializeField] private CountdownController _countdownController;  // CountdownControllerの参照
     [SerializeField] private AudioManager _audioManager;  // CountdownControllerの参照
     [SerializeField] private FinishController _finishController;  // CountdownControllerの参照
-    [SerializeField]private BreadImageManager _breadImageManager;
+    [SerializeField] private BreadImageManager _breadImageManager;
 
     private void Start()
     {
@@ -47,6 +47,8 @@ public class MashGameDirector : MonoBehaviour
     // ゲーム開始時に呼び出される
     public void StartGame()
     {
+        Debug.Log("mashh game Started");
+
         isGameStarted = true;
         _audioManager.PlayCountBgm();
     }
