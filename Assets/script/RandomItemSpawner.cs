@@ -4,51 +4,107 @@ using UnityEngine;
 
 public class RandomItemSpawner : MonoBehaviour
 {
-    [SerializeField]private Camera mainCamera; // ƒƒCƒ“ƒJƒƒ‰iƒCƒ“ƒXƒyƒNƒ^‚Åİ’èj
+    [SerializeField] private Camera mainCamera; // ãƒ¡ã‚¤ãƒ³ã‚«ãƒ¡ãƒ©ï¼ˆã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ã§è¨­å®šï¼‰
 
-    public List<GameObject> bluePrefabs; // Â‰Ô‚ÌPrefabƒŠƒXƒg
-    public List<GameObject> glayPrefabs; // ŠD‰Ô‚ÌPrefabƒŠƒXƒg
-    public List<GameObject> orangePrefabs; // é‰Ô‚ÌPrefabƒŠƒXƒg
-    public List<GameObject> whitePrefabs; // ”’‰Ô‚ÌPrefabƒŠƒXƒg
+    public List<GameObject> bluePrefabs; // é’èŠ±ã®Prefabãƒªã‚¹ãƒˆ
+    public List<GameObject> glayPrefabs; // ç°èŠ±ã®Prefabãƒªã‚¹ãƒˆ
+    public List<GameObject> orangePrefabs; // æœ±èŠ±ã®Prefabãƒªã‚¹ãƒˆ
+    public List<GameObject> whitePrefabs; // ç™½èŠ±ã®Prefabãƒªã‚¹ãƒˆ
 
-    public float spawnOffset = 2.0f; // ƒJƒƒ‰’[‚©‚ç­‚µŠO‘¤‚É¶¬‚·‚éƒIƒtƒZƒbƒg
+    public float spawnOffset = 2.0f; // ã‚«ãƒ¡ãƒ©ç«¯ã‹ã‚‰å°‘ã—å¤–å´ã«ç”Ÿæˆã™ã‚‹ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 
-    public float blueFixedY = 0.0f; // Â‚¢‰Ô‚ÌYÀ•W
-    public float glayFixedY = 0.0f; // ŠD‰Ô‚ÌYÀ•W
-    public float orangeFixedY = 0.0f; // éF‰Ô‚ÌYÀ•W
-    public float whiteFixedY = 0.0f; // ”’‚¢‰Ô‚ÌYÀ•W
+    public float blueFixedY = -0.5f; // é’ã„èŠ±ã®Yåº§æ¨™
+    public float glayFixedY = 3.5f; // ç°èŠ±ã®Yåº§æ¨™
+    public float orangeFixedY = 17.4f; // æœ±è‰²èŠ±ã®Yåº§æ¨™
+    public float whiteFixedY = 28f; // ç™½ã„èŠ±ã®Yåº§æ¨™
 
-    public Vector2 spawnIntervalRange = new Vector2(0.5f, 1.5f); // ƒ‰ƒ“ƒ_ƒ€‚È¶¬ŠÔŠu‚Ì”ÍˆÍi•bj
+    public float cameraX = 0.0f;
+    public float triggerGlayXPosission = 52f;
+    public float triggerOrangeXPosission = 152f;
+    public float triggerWhiteXPosission = 212f;
+
+    public Vector2 spawnIntervalRange = new Vector2(0.5f, 1.5f); // ãƒ©ãƒ³ãƒ€ãƒ ãªç”Ÿæˆé–“éš”ã®ç¯„å›²ï¼ˆç§’ï¼‰
 
     void Start()
     {
-        // ƒ‰ƒ“ƒ_ƒ€¶¬‚ğŠJn
+        // ãƒ©ãƒ³ãƒ€ãƒ ç”Ÿæˆã‚’é–‹å§‹
         StartCoroutine(SpawnItemsRandomly());
+    }
+
+    private void Update()
+    {
+        cameraX = mainCamera.transform.position.x;
     }
 
     IEnumerator SpawnItemsRandomly()
     {
         while (true)
         {
-            // ƒ‰ƒ“ƒ_ƒ€‚ÈŠÔ‚ğ‘Ò‹@
+            // ãƒ©ãƒ³ãƒ€ãƒ ãªæ™‚é–“ã‚’å¾…æ©Ÿ
             float waitTime = Random.Range(spawnIntervalRange.x, spawnIntervalRange.y);
             yield return new WaitForSeconds(waitTime);
 
-            // ƒAƒCƒeƒ€‚ğ¶¬
+            // ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç”Ÿæˆ
             SpawnBlueFlower();
+            SpawnGlayFlower();
+            SpawnOrangeFlower();
+            SpawnWhiteFlower();
         }
     }
 
     private void SpawnBlueFlower()
     {
-        // ƒJƒƒ‰‚Ì‰E’[‚ÌÀ•W‚ğŒvZ‚µA¶¬ˆÊ’u‚ğŒˆ’è
+        // ã‚«ãƒ¡ãƒ©ã®å³ç«¯ã®åº§æ¨™ã‚’è¨ˆç®—ã—ã€ç”Ÿæˆä½ç½®ã‚’æ±ºå®š
         float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
         Vector3 spawnPosition = new Vector3(spawnX, blueFixedY, 0);
 
-        // ƒ‰ƒ“ƒ_ƒ€‚ÈƒAƒCƒeƒ€‚ğ‘I‘ğ
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªã‚¢ã‚¤ãƒ†ãƒ ã‚’é¸æŠ
         GameObject selectedPrefab = bluePrefabs[Random.Range(0, bluePrefabs.Count)];
 
-        // ƒAƒCƒeƒ€‚ğ¶¬
+        // ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç”Ÿæˆ
         Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
     }
+
+    private void SpawnGlayFlower()
+    {
+        // ã‚«ãƒ¡ãƒ©ã®å³ç«¯ã®åº§æ¨™ã‚’è¨ˆç®—ã—ã€ç”Ÿæˆä½ç½®ã‚’æ±ºå®š
+        float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
+        Vector3 spawnPosition = new Vector3(spawnX, glayFixedY, 0);
+
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªã‚¢ã‚¤ãƒ†ãƒ ã‚’é¸æŠ
+        GameObject selectedPrefab = glayPrefabs[Random.Range(0, glayPrefabs.Count)];
+
+        if (cameraX >= triggerGlayXPosission)
+            // ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç”Ÿæˆ
+            Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    private void SpawnOrangeFlower()
+    {
+        // ã‚«ãƒ¡ãƒ©ã®å³ç«¯ã®åº§æ¨™ã‚’è¨ˆç®—ã—ã€ç”Ÿæˆä½ç½®ã‚’æ±ºå®š
+        float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
+        Vector3 spawnPosition = new Vector3(spawnX, orangeFixedY, 0);
+
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªã‚¢ã‚¤ãƒ†ãƒ ã‚’é¸æŠ
+        GameObject selectedPrefab = orangePrefabs[Random.Range(0, orangePrefabs.Count)];
+
+        if (cameraX >= cameraX + triggerOrangeXPosission)
+            // ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç”Ÿæˆ
+            Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    private void SpawnWhiteFlower()
+    {
+        // ã‚«ãƒ¡ãƒ©ã®å³ç«¯ã®åº§æ¨™ã‚’è¨ˆç®—ã—ã€ç”Ÿæˆä½ç½®ã‚’æ±ºå®š
+        float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
+        Vector3 spawnPosition = new Vector3(spawnX, whiteFixedY, 0);
+
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªã‚¢ã‚¤ãƒ†ãƒ ã‚’é¸æŠ
+        GameObject selectedPrefab = whitePrefabs[Random.Range(0, whitePrefabs.Count)];
+
+        if (cameraX >= cameraX + triggerWhiteXPosission)
+            // ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç”Ÿæˆ
+            Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+    }
+
 }

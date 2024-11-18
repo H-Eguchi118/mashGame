@@ -10,14 +10,16 @@ public class ScoreCalculation : MonoBehaviour
     [SerializeField] private Button CloseButtonl;
 
     public ScoreUI scoreUI;
-    int flowersScore = 0;
-    int rareFlowersScore = 0;
-    int bouquetScore = 0;
+    int blueFlowersScore = 0;
+    int glayFlowersScore = 0;
+    int orangeFlowersScore = 0;
+    int whiteFlowersScore = 0;
     float time = 0;
 
-    int flowerHung = 1;
-    int rareFlowerHung = 5;
-    int bouquetHung = 20;
+    int blueFlowerHung = 1;
+    int glayFlowerHung = 5;
+    int orangeFlowerHung = 10;
+    int whiteFlowerHung = 20;
 
     public int timeBonusScore = 0;//タイムに伴うボーナス
     public int SspeedBonus = 30;
@@ -45,13 +47,16 @@ public class ScoreCalculation : MonoBehaviour
 
 
         yield return new WaitForSeconds(1.0f);//1秒待機
-        scoreUI.flowerImage.gameObject.SetActive(true);
+        scoreUI.blueFlowerImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);//1秒待機
-        scoreUI.rareFlowerImage.gameObject.SetActive(true);
+        scoreUI.glayFlowerImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);//1秒待機
-        scoreUI.bouquetImage.gameObject.SetActive(true);
+        scoreUI.orangeFlowerImage.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1.0f);//1秒待機
+        scoreUI.whiteFlowerImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);//1秒待機
         scoreUI.timeImage.gameObject.SetActive(true);
@@ -68,9 +73,10 @@ public class ScoreCalculation : MonoBehaviour
     public void SetScoreCanvas()
     {
         scoreUI.scoreCanvas.enabled = true;
-        scoreUI.flowerImage.gameObject.SetActive(false);
-        scoreUI.rareFlowerImage.gameObject.SetActive(false);
-        scoreUI.bouquetImage.gameObject.SetActive(false);
+        scoreUI.blueFlowerImage.gameObject.SetActive(false);
+        scoreUI.glayFlowerImage.gameObject.SetActive(false);
+        scoreUI.orangeFlowerImage.gameObject.SetActive(false);
+        scoreUI.whiteFlowerImage.gameObject.SetActive(false);
         scoreUI.timeImage.gameObject.SetActive(false);
         scoreUI.moneyImage.gameObject.SetActive(false);
 
@@ -79,27 +85,32 @@ public class ScoreCalculation : MonoBehaviour
     public void SetScoreData()
     {
         //saveLoadManagerの各データを取得する
-        _saveLoadManager.LoadItemData(out flowersScore, out rareFlowersScore, out bouquetScore);
+        _saveLoadManager.LoadItemData(out blueFlowersScore, out glayFlowersScore, out orangeFlowersScore, out whiteFlowersScore);
         _saveLoadManager.LoadTimeData(out time);
 
         //アイテムの所持数表示
-        scoreUI.flowersText.text = "×" + flowersScore;
-        scoreUI.rareFlowersText.text = "×" + rareFlowersScore;
-        scoreUI.bouquetText.text = "×" + bouquetScore;
+        scoreUI.blueFlowerText.text = "×" + blueFlowersScore;
+        scoreUI.glayFlowerText.text = "×" + glayFlowersScore;
+        scoreUI.orangeFlowerText.text = "×" + orangeFlowersScore;
+        scoreUI.whiteFlowerText.text = "×" + whiteFlowersScore;
         scoreUI.timeText.text = "" + time.ToString("F1");
 
         //各アイテムの換金処理
         ChangedMoney();
 
         // 各金額の表示（Nullチェックを追加）
-        if (scoreUI.flowerPriceText != null)
-            scoreUI.flowerPriceText.text = flowersScore + "マネ";
+        if (scoreUI.blueFlowerPriceText != null)
+            scoreUI.blueFlowerPriceText.text = blueFlowersScore + "マネ";
 
-        if (scoreUI.rareFlowerPriceText != null)
-            scoreUI.rareFlowerPriceText.text = rareFlowersScore + "マネ";
+        if (scoreUI.glayFlowerPriceText != null)
+            scoreUI.glayFlowerPriceText.text = glayFlowersScore + "マネ";
 
-        if (scoreUI.bouquetPriceText != null)
-            scoreUI.bouquetPriceText.text = bouquetScore + "マネ";
+        if (scoreUI.orangeFlowerPriceText != null)
+            scoreUI.orangeFlowerPriceText.text = orangeFlowersScore + "マネ";
+
+        if (scoreUI.orangeFlowerPriceText != null)
+            scoreUI.whiteFlowerPriceText.text = whiteFlowersScore + "マネ";
+
 
         if (scoreUI.timeBonusText != null)
             scoreUI.timeBonusText.text = timeBonusScore + "マネ";
@@ -131,15 +142,16 @@ public class ScoreCalculation : MonoBehaviour
     //各アイテムの換金処理
     private void ChangedMoney()
     {
-        flowersScore = flowersScore * flowerHung;
-        rareFlowersScore = rareFlowersScore * rareFlowerHung;
-        bouquetScore = bouquetScore * bouquetHung;
+        blueFlowersScore = blueFlowersScore * blueFlowerHung;
+        glayFlowersScore = glayFlowersScore * glayFlowerHung;
+        orangeFlowersScore = orangeFlowersScore * orangeFlowerHung;
+        whiteFlowersScore = whiteFlowersScore * whiteFlowerHung;
 
         TimeBonusList();
         Debug.Log("Money calculation completed");
 
         //合計金額
-        runMoney = flowersScore + rareFlowersScore + bouquetScore + timeBonusScore;
+        runMoney = blueFlowersScore + glayFlowersScore + orangeFlowersScore + whiteFlowersScore + timeBonusScore;
     }
 
     // 金額データを保存

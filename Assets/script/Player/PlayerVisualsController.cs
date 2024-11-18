@@ -93,19 +93,35 @@ public class PlayerVisualsController : MonoBehaviour
         }
 
         //それぞれのアイテムのトリガー
-        if (other.gameObject.tag == "Flower")
+        if (other.gameObject.tag == "BlueFlower")
         {
             Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
 
-            _item.GetFlower();
+            _item.GetBlueFlower();
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.tag == "RareFlower")
+        if (other.gameObject.tag == "GrayFlower")
         {
             Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
 
-            _item.GetRareFlower();
+            _item.GetGlayFlower();
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "OrangeFlower")
+        {
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetOrangeFlower();
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "WhiteFlower")
+        {
+            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetWhiteFlower();
             Destroy(other.gameObject);
         }
 

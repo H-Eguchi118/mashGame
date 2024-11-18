@@ -13,7 +13,8 @@ TagManager:
   - RareFlower
   - GrayFlower
   - WhiteFlower
-  - ReaFlower
+  - OrangeFlower
+  - BlueFlower
   layers:
   - Default
   - TransparentFX

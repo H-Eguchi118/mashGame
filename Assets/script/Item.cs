@@ -6,14 +6,15 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
 
-    [SerializeField]private SaveLoadManager _saveLoadManager;
+    [SerializeField] private SaveLoadManager _saveLoadManager;
     private RunPlayerController _runPlayerController;
     private RunGameDirector _runGameDirector;
-    public int flowersScore = 0;//花。換金アイテム
-    public int rareFlowersScore = 0;
-    public int bouquetScore = 0;//花束。花の倍の換金率
+    public int blueFlowersScore = 0;//花。換金アイテム
+    public int glayFlowersScore = 0;
+    public int orangeFlowersScore = 0;
+    public int whiteFlowersScore = 0;
     private float flightRimitTime = 0;//取得すると一定時間飛べるアイテム
-    public int money = 0;//所持金
+    public int runMoney = 0;//所持金
 
 
     private bool isFlightTimeRunning = false; // フライトタイマーが動作中かどうか
@@ -25,7 +26,6 @@ public class Item : MonoBehaviour
     {
         mainUI.mainCanvas.enabled = true;
 
-        mainUI.bouquetImage.gameObject.SetActive(false);
         mainUI.flightItemImage.gameObject.SetActive(false);
 
         if (_runPlayerController == null)
@@ -52,39 +52,41 @@ public class Item : MonoBehaviour
     // アイテムデータを保存
     private void SaveItemData()
     {
-        _saveLoadManager.SaveItemData(flowersScore, rareFlowersScore, bouquetScore);
+        _saveLoadManager.SaveItemData(blueFlowersScore, glayFlowersScore, orangeFlowersScore,whiteFlowersScore);
     }
 
     //花の所持数更新
-    public void GetFlower()
+    public void GetBlueFlower()
     {
-        flowersScore++;
-        mainUI.flowersText.text = flowersScore.ToString();
+        blueFlowersScore++;
+        mainUI.flowersText.text = blueFlowersScore.ToString();
 
-        Debug.Log("Flower：" + flowersScore);
+        Debug.Log("Flower：" + blueFlowersScore);
         SaveItemData();
     }
 
-    public void GetRareFlower()
+    public void GetGlayFlower()
     {
-        rareFlowersScore++;
-        mainUI.rareFlowersText.text = rareFlowersScore.ToString();
+        glayFlowersScore++;
+        mainUI.glayFlowersText.text = glayFlowersScore.ToString();
 
-        Debug.Log("Flower：" + flowersScore);
+        Debug.Log("Flower：" + blueFlowersScore);
         SaveItemData();
     }
 
-    public void Changebouquet()
+    public void GetOrangeFlower()
     {
-        //flowersScoreが10ごとに花束１つに交換
-        if (flowersScore >= 10)
-        {
-            bouquetScore++;
-            flowersScore -= 10;
+        orangeFlowersScore++;
+        mainUI.orangeFlowerText.text = orangeFlowersScore.ToString();
 
-            mainUI.bouquetImage.gameObject.SetActive(true);
-            mainUI.bouquetText.text = bouquetScore.ToString();
-        }
+        SaveItemData();
+
+    }
+    public void GetWhiteFlower()
+    {
+        whiteFlowersScore++;
+        mainUI.whiteFlowerText.text = orangeFlowersScore.ToString();
+
         SaveItemData();
 
     }
@@ -153,12 +155,12 @@ public class MainUI
 {
     public Canvas mainCanvas;
     public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
-    public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
-    public TextMeshProUGUI bouquetText;    // 花束の所持数のテキスト
+    public TextMeshProUGUI glayFlowersText;    // 花の所持数のテキスト
+    public TextMeshProUGUI orangeFlowerText;    // 花束の所持数のテキスト
+    public TextMeshProUGUI whiteFlowerText;    // 花束の所持数のテキスト
     public TextMeshProUGUI flightRimitTimeText;
     public TextMeshProUGUI timerText;      // タイマーのテキスト
 
-    public Image bouquetImage;
     public Image flightItemImage;
 
 

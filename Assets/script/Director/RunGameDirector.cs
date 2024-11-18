@@ -70,8 +70,8 @@ public class RunGameDirector : MonoBehaviour
         goalUI.goalCanvas.enabled = true;
         Debug.Log("ゴールキャンバスを表示しました");
 
-        goalUI.flowersText.text = "Flower：" + _item.flowersScore;  //花の最終所持数
-        goalUI.bouquetText.text = "Bouquet：" + _item.bouquetScore;  //ブーケの最終所持数
+        goalUI.flowersText.text = "Flower：" + _item.blueFlowersScore;  //花の最終所持数
+        goalUI.bouquetText.text = "Bouquet：" + _item.orangeFlowersScore;  //ブーケの最終所持数
         goalUI.timeText.text = "Time：" + time;  // 最終タイム
 
     }

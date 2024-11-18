@@ -19,7 +19,6 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Button closedButton;
 
     public ConfirmationUI ConfirmationUI;
-    public UnabelUI unabelUI;
     private int totalMoney = 0;//所持金(SaveLoadManagerから取得)
 
     private List<ItemData> items = new List<ItemData>();//アイテムデータ一覧のリスト
@@ -41,7 +40,6 @@ public class ShopManager : MonoBehaviour
         shoppingCanvas.gameObject.SetActive(true);
         selectCanvas.gameObject.SetActive(false);
         ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
-        unabelUI.unableCanvas.gameObject.SetActive(false);
 
         //所持金を取得
         _saveLoadManager.LoadTotalMoneyData(out totalMoney);
@@ -111,7 +109,6 @@ public class ShopManager : MonoBehaviour
 
             closedButton.onClick.AddListener(() => ClosedShoppingPanel());
             ConfirmationUI.noButton.onClick.AddListener(() => ClosedConfirmationPanel());
-            unabelUI.returnButton.onClick.AddListener(() => ClosedUnablePanel());
         }
 
 
@@ -133,11 +130,6 @@ public class ShopManager : MonoBehaviour
         {
             //購入確認のポップアップ表示
             ConfirmationUI.confirmationCanvas.gameObject.SetActive(true);
-        }
-        else
-        {
-            //買えないよのポップアップ表示
-            unabelUI.unableCanvas.gameObject.SetActive(true);
         }
     }
 
@@ -163,17 +155,6 @@ public class ShopManager : MonoBehaviour
 
         }
     }
-
-    //買えないよパネルの閉じる処理
-    private void ClosedUnablePanel()
-    {
-        if (unabelUI.unableCanvas)
-        {
-            unabelUI.unableCanvas.gameObject.SetActive(false);
-
-        }
-    }
-
 
 }
 
@@ -204,9 +185,3 @@ public class ConfirmationUI
     public Button noButton;
 }
 
-[System.Serializable]
-public class UnabelUI
-{
-    public Canvas unableCanvas;
-    public Button returnButton;
-}
