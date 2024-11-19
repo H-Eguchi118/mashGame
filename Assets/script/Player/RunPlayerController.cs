@@ -10,7 +10,6 @@ public class RunPlayerController : MonoBehaviour
     public float JumpForce;
     public float baseRunForce;
     public float maxRunForce;
-    public float decayRate;
     public float accelerationFactor;
 
     private float currentRunForce;
