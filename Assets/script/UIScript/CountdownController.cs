@@ -8,13 +8,21 @@ public class CountdownController : MonoBehaviour
     public TextMeshProUGUI countdownText;
     public Canvas startUI;          // カウントダウン用のUI
 
-    private MashGameDirector mashGameDirector;  // ゲームの開始を管理するスクリプトの参照
+    public MonoBehaviour gameDirectorObject; // UnityのInspectorで設定する    private IGameDirector _gameDirector;
+    private IGameDirector gameDirector;
     private bool isCountingDown = false; // カウントダウン中かどうかのフラグ
 
     void Start()
     {
-        // GameDirectorスクリプトを取得して関連付け
-        mashGameDirector = FindObjectOfType<MashGameDirector>();
+        // InspectorでアタッチされたオブジェクトをIGameDirectorとしてキャスト
+        if (gameDirectorObject is IGameDirector director)
+        {
+            gameDirector = director;
+        }
+        else
+        {
+            Debug.LogError("Assigned object does not implement IGameDirector.");
+        }
 
         ResetCountdown();
     }
@@ -60,7 +68,8 @@ public class CountdownController : MonoBehaviour
         startUI.gameObject.SetActive(false);
 
         // カウントダウンが終了したらゲーム開始
-        mashGameDirector.StartGame();
+        //mashGameDirector.StartGame();
+        gameDirector?.StartGame();  // ディレクターのStartGameを呼び出し
 
 
     }

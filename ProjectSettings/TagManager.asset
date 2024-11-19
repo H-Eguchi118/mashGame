@@ -8,10 +8,12 @@ TagManager:
   - Door
   - Enemy
   - Ground
-  - Flower
   - FlightItem
-  - RareFlower
-  - ReaFlower
+  - GrayFlower
+  - WhiteFlower
+  - OrangeFlower
+  - BlueFlower
+  - RareItem
   layers:
   - Default
   - TransparentFX
@@ -30,7 +32,7 @@ TagManager:
   - Weapon
   - Actor
   - Item
-  - 
+  - Ground
   - 
   - 
   - 

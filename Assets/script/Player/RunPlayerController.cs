@@ -10,7 +10,6 @@ public class RunPlayerController : MonoBehaviour
     public float JumpForce;
     public float baseRunForce;
     public float maxRunForce;
-    public float decayRate;
     public float accelerationFactor;
 
     private float currentRunForce;
@@ -46,13 +45,11 @@ public class RunPlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) && lastButtonPressed != "L")
         {
             lastButtonPressed = "L";
-            //_visualsController.UpdateFootSprite("L");
             RunRight();
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
         {
             lastButtonPressed = "R";
-            //_visualsController.UpdateFootSprite("R");
             RunRight();
         }
 
@@ -73,12 +70,6 @@ public class RunPlayerController : MonoBehaviour
 
             }
         }
-
-        //else if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    _visualsController.PlayJumpSound();
-        //    Jump();
-        //}
     }
 
     //走る動作
@@ -102,6 +93,7 @@ public class RunPlayerController : MonoBehaviour
             rigid2D.AddForce(transform.up * JumpForce);
             isGrounded = false;
             animator.SetBool("isJumping", true);
+            _visualsController.PlayJumpSound();
         }
 
     }
@@ -112,6 +104,8 @@ public class RunPlayerController : MonoBehaviour
         {
             rigid2D.AddForce(transform.up * JumpForce*0.5f);
             animator.SetBool("isJumping", true);
+            _visualsController.PlayJumpSound();
+
         }
 
     }
@@ -124,6 +118,9 @@ public class RunPlayerController : MonoBehaviour
             animator.SetBool("isRunning", false);
 
             rigid2D.velocity = new Vector2(0, rigid2D.velocity.y); // Y方向の速度はそのまま
+
+            currentRunForce = baseRunForce;
+
         }
     }
 

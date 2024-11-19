@@ -3,21 +3,23 @@ using UnityEngine;
 public class SaveLoadManager : MonoBehaviour
 {
     // データ保存
-    public void SaveItemData(int flowersScore, int rareFlowersScore, int bouquetScore)
+    public void SaveItemData(int blueFlowersScore, int glayFlowersScore, int orangeFlowersScore,int whiteFlowersScore)
     {
-        PlayerPrefs.SetInt("flowersScore", flowersScore);
-        PlayerPrefs.SetInt("rareFlowersScore", rareFlowersScore);
-        PlayerPrefs.SetInt("bouquetScore", bouquetScore);
+        PlayerPrefs.SetInt("blueFlowersScore", blueFlowersScore);
+        PlayerPrefs.SetInt("glayFlowersScore", glayFlowersScore);
+        PlayerPrefs.SetInt("orangeFlowersScore", orangeFlowersScore);
+        PlayerPrefs.SetInt("whiteFlowersScore", whiteFlowersScore);
         PlayerPrefs.Save(); // データを保存
         Debug.Log("アイテムデータを保存しました");
     }
 
     // データロード
-    public void LoadItemData(out int flowersScore, out int rareFlowersScore, out int bouquetScore)
+    public void LoadItemData(out int blueFlowersScore, out int glayFlowersScore, out int orangeFlowersScore, out int whiteFlowersScore)
     {
-        flowersScore = PlayerPrefs.GetInt("flowersScore", 0);
-        rareFlowersScore = PlayerPrefs.GetInt("rareFlowersScore", 0);
-        bouquetScore = PlayerPrefs.GetInt("bouquetScore", 0);
+        blueFlowersScore = PlayerPrefs.GetInt("blueFlowersScore", 0);
+        glayFlowersScore = PlayerPrefs.GetInt("glayFlowersScore", 0);
+        orangeFlowersScore = PlayerPrefs.GetInt("orangeFlowersScore", 0);
+        whiteFlowersScore = PlayerPrefs.GetInt("whiteFlowersScore", 0);
 
         Debug.Log("アイテムデータを読み込みました");
     }

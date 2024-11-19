@@ -7,20 +7,23 @@ public class ScoreUI
 {
     public Canvas scoreCanvas;
 
-    public Image flowerImage;
-    public Image rareFlowerImage;
-    public Image bouquetImage;
+    public Image blueFlowerImage;
+    public Image glayFlowerImage;
+    public Image orangeFlowerImage;
+    public Image whiteFlowerImage;
     public Image timeImage;
     public Image moneyImage;
 
-    public TextMeshProUGUI flowersText;    // 花の所持数のテキスト
-    public TextMeshProUGUI rareFlowersText;    // 花の所持数のテキスト
-    public TextMeshProUGUI bouquetText;    // 花束の所持数のテキスト
+    public TextMeshProUGUI blueFlowerText;    //花の所持数のテキスト
+    public TextMeshProUGUI glayFlowerText;    // 花の所持数のテキスト
+    public TextMeshProUGUI orangeFlowerText;    // 花束の所持数のテキスト
+    public TextMeshProUGUI whiteFlowerText;    // 花束の所持数のテキスト
     public TextMeshProUGUI timeText;      // タイマーのテキスト
 
-    public TextMeshProUGUI flowerPriceText;    // 花の所持数のテキスト
-    public TextMeshProUGUI rareFlowerPriceText;    // 花の所持数のテキスト
-    public TextMeshProUGUI bouquetPriceText;    // 花の所持数のテキスト
+    public TextMeshProUGUI blueFlowerPriceText;    // 花の所持数のテキスト
+    public TextMeshProUGUI glayFlowerPriceText;    // 花の所持数のテキスト
+    public TextMeshProUGUI orangeFlowerPriceText;    // 花の所持数のテキスト
+    public TextMeshProUGUI whiteFlowerPriceText;    // 花の所持数のテキスト
     public TextMeshProUGUI timeBonusText;    // 花の所持数のテキスト
     public TextMeshProUGUI runMoneyText;    // 合計金のテキスト
 
