@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class StartSceneManager : MonoBehaviour
 {
+    [SerializeField] private LoadImageManager _loadImageManager;
     [SerializeField] private Button stompGameBtn;
     [SerializeField] private Button runGameBtn;
     [SerializeField] private Button exitBtn;
@@ -18,23 +19,35 @@ public class StartSceneManager : MonoBehaviour
     }
     private void OnButtonClick()
     {
-        stompGameBtn.onClick.AddListener(()=>GoStompGame());
-        runGameBtn.onClick.AddListener(() => GoRunGame());
-        exitBtn.onClick.AddListener(() => GoExit());
+        stompGameBtn.onClick.AddListener(() => StartCoroutine(GoStompGame()));
+        runGameBtn.onClick.AddListener(() => StartCoroutine(GoRunGame()));
+        exitBtn.onClick.AddListener(() => StartCoroutine(GoExit()));
 
     }
-    private void GoStompGame()
+    private IEnumerator GoStompGame()
     {
-        SceneManager.LoadScene("StompGamescene");
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(3.0f);
+        SceneManager.LoadScene("StompGameScene");
     }
-    private void GoRunGame()
+    private IEnumerator GoRunGame()
     {
-        SceneManager.LoadScene("StoryScene");
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(3.0f);
+
+        SceneManager.LoadScene("RunGameScene");
 
     }
 
-    private void GoExit()
+    private IEnumerator GoExit()
     {
+        _loadImageManager.DisplayLoadCanvas();
+        _loadImageManager.text.text= "GOOD BYE!";
+
+        yield return new WaitForSeconds(3.0f);
+
         Application.Quit();
 
     }

@@ -14,6 +14,7 @@ public class PlayerVisualsController : MonoBehaviour
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private Item _item;
     [SerializeField] private RunGameDirector _runGameDirector;
+    [SerializeField] private LoadImageManager _loadImageManager;
 
 
 
@@ -55,7 +56,7 @@ public class PlayerVisualsController : MonoBehaviour
         {
             Debug.Log("ゴールしました");
             PlayGoalSound();
-            
+
             StartCoroutine(GoToShopScene());
 
             //動作を無効化
@@ -124,6 +125,8 @@ public class PlayerVisualsController : MonoBehaviour
     }
     private IEnumerator GoToShopScene()
     {
+        _loadImageManager.DisplayLoadCanvas();
+
         yield return new WaitForSeconds(4.0f);//4秒待機
         SceneManager.LoadScene("ShopScene");  // ShopSceneに遷移
     }

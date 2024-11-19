@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SelectManager : MonoBehaviour
 {
     [SerializeField]private ShopManager _shopManager;
+    [SerializeField]private LoadImageManager _loadImageManager;
     public SelectUI selectUI;
 
     void Start()
@@ -19,29 +20,42 @@ public class SelectManager : MonoBehaviour
     }
     private void OnButtonClick()
     {
+        
         selectUI.shoppingButton.onClick.AddListener(() => Shopping());
-        selectUI.goRunButton.onClick.AddListener(() => GoRunningScene());
-        selectUI.goBackButton.onClick.AddListener(() => GoStartScene());
-        selectUI.goStompButton.onClick.AddListener(() => GoStompScene());
+        selectUI.goRunButton.onClick.AddListener(() => StartCoroutine(GoRunningScene()));
+        selectUI.goBackButton.onClick.AddListener(() => StartCoroutine(GoStartScene()));
+        selectUI.goStompButton.onClick.AddListener(() => StartCoroutine(GoStompScene()));
     }
 
     private void Shopping()
     {
-        _shopManager.SetPanel();   //Šeƒpƒlƒ‹‚Ì‰ŠúƒZƒbƒg
+        _shopManager.SetPanel();   //å„ãƒ‘ãƒãƒ«ã®åˆæœŸã‚»ãƒƒãƒˆ
     }
 
-    private void GoRunningScene()
+    private IEnumerator GoRunningScene()
     {
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(4.0f);//4ç§’å¾…æ©Ÿ
+
         SceneManager.LoadScene("RunGameScene");
     }
-    private void GoStompScene()
+    private IEnumerator GoStompScene()
     {
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(4.0f);//4ç§’å¾…æ©Ÿ
+
         SceneManager.LoadScene("StompGameScene");
     }
 
 
-    private void GoStartScene()
+    private IEnumerator GoStartScene()
     {
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(4.0f);//4ç§’å¾…æ©Ÿ
+
         SceneManager.LoadScene("StartScene");
     }
 }

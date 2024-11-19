@@ -15,6 +15,7 @@ public class FinishController : MonoBehaviour
     [SerializeField] private AudioManager _audioManager;  // ゲームの開始を管理するスクリプトの参照
     [SerializeField] private MashGameDirector _mashGameDirector;  // ゲームの開始を管理するスクリプトの参照
     [SerializeField] private BreadImageManager _breadManager;  // ゲームの開始を管理するスクリプトの参照
+    [SerializeField]private LoadImageManager _loadImageManager;
 
     public FinishUI finishUI;
 
@@ -93,23 +94,35 @@ public class FinishController : MonoBehaviour
     }
     private void onClickButton()
     {
-        finishUI.reTryGameButton.onClick.AddListener(() => ReTryGame());
-        finishUI.returnBuutton.onClick.AddListener(() => GotoStartScene());
-        finishUI.goShopBuutton.onClick.AddListener(() => GotoShopScene());
+        finishUI.reTryGameButton.onClick.AddListener(() => StartCoroutine(ReTryGame()));
+        finishUI.returnBuutton.onClick.AddListener(() => StartCoroutine(GotoStartScene()));
+        finishUI.goShopBuutton.onClick.AddListener(() => StartCoroutine(GotoShopScene()));
     }
 
 
-    private void ReTryGame()
+    private IEnumerator ReTryGame()
     {
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(4.0f);//4秒待機
+
         SceneManager.LoadScene("StompGamescene");
     }
 
-    private void GotoStartScene()
+    private IEnumerator GotoStartScene()
     {
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(4.0f);//4秒待機
+
         SceneManager.LoadScene("StartScene");
     }
-    private void GotoShopScene()
+    private IEnumerator GotoShopScene()
     {
+        _loadImageManager.DisplayLoadCanvas();
+
+        yield return new WaitForSeconds(4.0f);//4秒待機
+
         SceneManager.LoadScene("ShopScene");
     }
 }
