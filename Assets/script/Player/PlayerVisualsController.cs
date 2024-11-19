@@ -17,34 +17,9 @@ public class PlayerVisualsController : MonoBehaviour
 
 
 
-    void Start()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = standingSprite;
-    }
-
-    public void UpdateFootSprite(string foot)
-    {
-        if (foot == "L")
-        {
-            spriteRenderer.sprite = leftFootSprite;
-            _audioManager.PlayLeftFootSound();
-        }
-        else if (foot == "R")
-        {
-            spriteRenderer.sprite = rightFootSprite;
-            _audioManager.PlayRightFootSound();
-        }
-    }
-
     public void PlayJumpSound()
     {
         _audioManager.PlayJumpSound();
-    }
-
-    public void PlayEnemyHitSound()
-    {
-        _audioManager.PlayEnemyHitSound();
     }
 
     public void PlayGoalSound()
@@ -95,7 +70,7 @@ public class PlayerVisualsController : MonoBehaviour
         //それぞれのアイテムのトリガー
         if (other.gameObject.tag == "BlueFlower")
         {
-            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+            Debug.Log($" {other.gameObject.name}を取りました"); // 衝突しているオブジェクトの名前を表示
 
             _item.GetBlueFlower();
             Destroy(other.gameObject);
@@ -103,7 +78,7 @@ public class PlayerVisualsController : MonoBehaviour
 
         if (other.gameObject.tag == "GrayFlower")
         {
-            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+            Debug.Log($" {other.gameObject.name}を取りました"); // 衝突しているオブジェクトの名前を表示
 
             _item.GetGlayFlower();
             Destroy(other.gameObject);
@@ -111,7 +86,7 @@ public class PlayerVisualsController : MonoBehaviour
 
         if (other.gameObject.tag == "OrangeFlower")
         {
-            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+            Debug.Log($" {other.gameObject.name}を取りました"); // 衝突しているオブジェクトの名前を表示
 
             _item.GetOrangeFlower();
             Destroy(other.gameObject);
@@ -119,7 +94,7 @@ public class PlayerVisualsController : MonoBehaviour
 
         if (other.gameObject.tag == "WhiteFlower")
         {
-            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+            Debug.Log($" {other.gameObject.name}を取りました"); // 衝突しているオブジェクトの名前を表示
 
             _item.GetWhiteFlower();
             Destroy(other.gameObject);
@@ -128,12 +103,23 @@ public class PlayerVisualsController : MonoBehaviour
 
         if (other.gameObject.tag == "FlightItem")
         {
-            Debug.Log($" {other.gameObject.name}+を取りました"); // 衝突しているオブジェクトの名前を表示
+            Debug.Log($" {other.gameObject.name}を取りました"); // 衝突しているオブジェクトの名前を表示
 
             _item.GetFightItem();
             Destroy(other.gameObject);
 
         }
+
+        if (other.gameObject.tag == "RareItem")
+        {
+            Debug.Log($" {other.gameObject.name}を取りました"); // 衝突しているオブジェクトの名前を表示
+
+            _item.GetRareItem();
+
+            Destroy(other.gameObject);
+
+        }
+
 
     }
     private IEnumerator GoToShopScene()

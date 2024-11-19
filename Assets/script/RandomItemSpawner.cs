@@ -19,6 +19,7 @@ public class RandomItemSpawner : MonoBehaviour
     public float whiteFixedY; // 白い花のY座標
 
     public float cameraX = 0.0f;
+    public float cameraY = 0.0f;
     public float triggerGlayXPosission;
     public float triggerOrangeXPosission;
     public float triggerWhiteXPosission;
@@ -36,6 +37,7 @@ public class RandomItemSpawner : MonoBehaviour
     private void Update()
     {
         cameraX = mainCamera.transform.position.x;
+        cameraY= mainCamera.transform.position.y;   
 
     }
 
@@ -59,12 +61,28 @@ public class RandomItemSpawner : MonoBehaviour
         }
     }
 
+    //レイキャストでタイルマップの地面座標を取得
+    private float GetGoundY(float x, float defaultY)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(x, defaultY), Vector2.down, Mathf.Infinity, LayerMask.GetMask("Ground"));
+        if (hit.collider != null)
+        {
+            return hit.point.y;//地面のY座標を返す
+        }
+        return Mathf.NegativeInfinity;//Groundが見つからない場合
+
+    }
     private void SpawnBlueFlower()
     {
 
         // カメラの右端の座標を計算し、生成位置を決定
         float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
-        Vector3 spawnPosition = new Vector3(spawnX, blueFixedY, 0);
+
+        //レイキャストを飛ばしてY座標を決定
+        float rayFiixedBrue = GetGoundY(spawnX, blueFixedY);
+        Debug.Log("青のレイキャストの位置" + rayFiixedBrue);
+        if (rayFiixedBrue == Mathf.NegativeInfinity && rayFiixedBrue < -1) return;//Groudが見つからない＆指定のY値以下の場合は生成しない
+        Vector3 spawnPosition = new Vector3(spawnX, rayFiixedBrue + 0.5f, 0);
 
         // ランダムなアイテムを選択
         GameObject selectedPrefab = bluePrefabs[Random.Range(0, bluePrefabs.Count)];
@@ -77,7 +95,12 @@ public class RandomItemSpawner : MonoBehaviour
     {
         // カメラの右端の座標を計算し、生成位置を決定
         float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
-        Vector3 spawnPosition = new Vector3(spawnX, glayFixedY, 0);
+
+        float rayFiixedGlay = GetGoundY(spawnX, glayFixedY);
+        Debug.Log("灰のレイキャストの位置" + rayFiixedGlay);
+        if (rayFiixedGlay == Mathf.NegativeInfinity && rayFiixedGlay <= cameraY+0.4f) return;//Groudが見つからない＆指定のY値以下の場合は生成しない
+
+        Vector3 spawnPosition = new Vector3(spawnX, rayFiixedGlay + 0.5f, 0);
 
         // ランダムなアイテムを選択
         GameObject selectedPrefab = glayPrefabs[Random.Range(0, glayPrefabs.Count)];
@@ -91,7 +114,12 @@ public class RandomItemSpawner : MonoBehaviour
     {
         // カメラの右端の座標を計算し、生成位置を決定
         float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
-        Vector3 spawnPosition = new Vector3(spawnX, orangeFixedY, 0);
+
+        float rayFiixedOrange = GetGoundY(spawnX, orangeFixedY);
+        Debug.Log("朱のレイキャストの位置" + rayFiixedOrange);
+        if (rayFiixedOrange == Mathf.NegativeInfinity && rayFiixedOrange < cameraY + 0.4f) return;//Groudが見つからない＆指定のY値以下の場合は生成しない
+
+        Vector3 spawnPosition = new Vector3(spawnX, rayFiixedOrange + 0.4f, 0);
 
         // ランダムなアイテムを選択
         GameObject selectedPrefab = orangePrefabs[Random.Range(0, orangePrefabs.Count)];
@@ -99,13 +127,20 @@ public class RandomItemSpawner : MonoBehaviour
         if (cameraX >= triggerOrangeXPosission)
             // アイテムを生成
             Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+
     }
 
     private void SpawnWhiteFlower()
     {
         // カメラの右端の座標を計算し、生成位置を決定
         float spawnX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0.5f, 0)).x + spawnOffset;
-        Vector3 spawnPosition = new Vector3(spawnX, whiteFixedY, 0);
+
+        float rayFiixedWhite = GetGoundY(spawnX, whiteFixedY);
+        Debug.Log("白のレイキャストの位置" + rayFiixedWhite);
+        if (rayFiixedWhite == Mathf.NegativeInfinity && rayFiixedWhite < cameraY + 0.4f) return;//Groudが見つからない＆指定のY値以下の場合は生成しない
+
+        Vector3 spawnPosition = new Vector3(spawnX, rayFiixedWhite + 1f, 0);
+
 
         // ランダムなアイテムを選択
         GameObject selectedPrefab = whitePrefabs[Random.Range(0, whitePrefabs.Count)];
@@ -113,6 +148,8 @@ public class RandomItemSpawner : MonoBehaviour
         if (cameraX >= triggerWhiteXPosission)
             // アイテムを生成
             Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+
+        Debug.Log("白の生成位置" + spawnPosition);
     }
 
 }

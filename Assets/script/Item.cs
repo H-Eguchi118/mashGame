@@ -14,6 +14,7 @@ public class Item : MonoBehaviour
     public int orangeFlowersScore = 0;
     public int whiteFlowersScore = 0;
     private float flightRimitTime = 0;//取得すると一定時間飛べるアイテム
+    private float rareItem = 0;//ご褒美アイテム(仮)
     public int runMoney = 0;//所持金
 
 
@@ -70,7 +71,7 @@ public class Item : MonoBehaviour
         glayFlowersScore++;
         mainUI.glayFlowersText.text = glayFlowersScore.ToString();
 
-        Debug.Log("Flower：" + blueFlowersScore);
+        Debug.Log("Flower：" + glayFlowersScore);
         SaveItemData();
     }
 
@@ -85,7 +86,7 @@ public class Item : MonoBehaviour
     public void GetWhiteFlower()
     {
         whiteFlowersScore++;
-        mainUI.whiteFlowerText.text = orangeFlowersScore.ToString();
+        mainUI.whiteFlowerText.text = whiteFlowersScore.ToString();
 
         SaveItemData();
 
@@ -107,6 +108,10 @@ public class Item : MonoBehaviour
         flightRimitTime += 10.0f;
     }
 
+    public void GetRareItem()
+    {
+        rareItem++;
+    }
     //フライトアイテムを入手した時の表示
     public void StartFlightTimer()
     {
