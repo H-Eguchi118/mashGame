@@ -104,6 +104,9 @@ public class ShopManager : MonoBehaviour
             // 各itemObj内のButtonを取得
             Button itemButton = itemObj.GetComponent<Button>();
 
+            // ボタンとアイテムを関連付ける
+            BindButtonToItem(itemButton, item);
+
             //ボタンの有効・無効
             itemButton.interactable = totalMoney >= item.Price;
 
@@ -114,13 +117,16 @@ public class ShopManager : MonoBehaviour
             closedButton.onClick.AddListener(() => ClosedShoppingPanel());
             ConfirmationUI.noButton.onClick.AddListener(() => ClosedConfirmationPanel());
 
-                ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem1(item));
+            ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem1(item));
 
-                ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem2(item));
-
-                ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem3(item));
         }
 
+    }
+
+    // ボタンとアイテムを関連付けるヘルパーメソッド
+    private void BindButtonToItem(Button button, ItemData item)
+    {
+        button.onClick.AddListener(() => OnSelectItem(item));
     }
 
     //各アイテムボタンのクリック処理
@@ -128,89 +134,25 @@ public class ShopManager : MonoBehaviour
     {
         _audioManager.PlayBuyButtonSound();
 
-        if (item.Name == "クリームソーダ")
+        if (totalMoney >= item.Price)
         {
-            if (totalMoney >= item.Price)
-            {
-                totalMoney -= item.Price;
-                Debug.Log(item.Name + "を" + item.Price + "マネで購入");
-                ConfirmationUI.boughtText.text = item.Name + "を買いました";
+            totalMoney -= item.Price;
+            Debug.Log($"{item.Name}を{item.Price}マネで購入");
+            ConfirmationUI.boughtText.text = $"{item.Name}を買いました";
 
-                ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
-                ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
-                totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
+            ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+            ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
+            totalMoneyText.text = $"持っているお金：{totalMoney}マネ";
 
-                SaveTotalMoney();
+            // 所持金を保存
+            SaveTotalMoney();
 
-                // リスナーをクリアしてから新しいリスナーを登録
-                ConfirmationUI.closeButton.onClick.RemoveAllListeners();
-                ConfirmationUI.closeButton.onClick.RemoveAllListeners();
-                ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
-
-
-            }
-        }
-
-        
-
-        
-
-    }
-
-    private void OnBuyItem2(ItemData item)
-    {
-        _audioManager.PlayBuyButtonSound();
-
-        if (item.Name == "かご")
-        {
-            if (totalMoney >= item.Price)
-            {
-                totalMoney -= item.Price;
-                Debug.Log(item.Name + "を" + item.Price + "マネで購入");
-                ConfirmationUI.boughtText.text = item.Name + "を買いました";
-
-                ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
-                ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
-                totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
-
-                SaveTotalMoney();
-
-                // リスナーをクリアしてから新しいリスナーを登録
-                ConfirmationUI.closeButton.onClick.RemoveAllListeners();
-
-                ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
-
-
-            }
-        }
-
-
-    }
-
-
-    private void OnBuyItem3(ItemData item)
-    {
-        _audioManager.PlayBuyButtonSound();
-
-        if (item.Name == "ニット帽")
-        {
-            if (totalMoney >= item.Price)
-            {
-                totalMoney -= item.Price;
-                Debug.Log(item.Name + "を" + item.Price + "マネで購入");
-                ConfirmationUI.boughtText.text = item.Name + "を買いました";
-
-                ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
-                ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
-                totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
-
-                SaveTotalMoney();
-
-                ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
-
-            }
+            // ボタンのリスナーを更新
+            ConfirmationUI.closeButton.onClick.RemoveAllListeners();
+            ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
         }
     }
+
 
 
     private void ConfirmationClosed(ItemData item)
@@ -229,6 +171,11 @@ public class ShopManager : MonoBehaviour
             ConfirmationUI.confirmationCanvas.gameObject.SetActive(true);
             ConfirmationUI.boughtCanvas.gameObject.SetActive(false);
         }
+        // ボタンリスナーを一旦クリア
+        ConfirmationUI.YesButton.onClick.RemoveAllListeners();
+
+        // 現在のアイテムでリスナーを設定
+        ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem1(item));
     }
 
     //各パネルを閉じる処理
