@@ -151,17 +151,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68491140f7c8a8b4392cd2419a1391a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 3
+  time: 30
   mashCount: 0
   timeUI: {fileID: 1022827456}
   countUI: {fileID: 1468822441}
   finishUI: {fileID: 208061402}
   startUI: {fileID: 8965188036964791536}
+  targetSceneName: 
   _gorstCharaController: {fileID: 686855038}
   _countdownController: {fileID: 1173681168}
   _audioManager: {fileID: 1004656034}
   _finishController: {fileID: 1392444078}
   _breadImageManager: {fileID: 1239257213}
+  _saveLoadManager: {fileID: 840817740}
 --- !u!4 &27252839
 Transform:
   m_ObjectHideFlags: 0
@@ -2371,7 +2373,8 @@ AudioSource:
   m_GameObject: {fileID: 1004656032}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: c4eaedcd713d01742a36342bfc3dce27,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 4477698973625cc46947f3efe36777f9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -2486,6 +2489,7 @@ MonoBehaviour:
     shopBGM: {fileID: 0}
     decisionBtn: {fileID: 1004656037}
     cancelBtn: {fileID: 0}
+    buyBtn: {fileID: 0}
 --- !u!4 &1004656035
 Transform:
   m_ObjectHideFlags: 0
@@ -2702,7 +2706,8 @@ AudioSource:
   m_GameObject: {fileID: 1004656032}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8945979406488189485, guid: c4eaedcd713d01742a36342bfc3dce27,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 002352a0cfd5b1148b248982249183a7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1

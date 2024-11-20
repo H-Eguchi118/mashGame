@@ -40,7 +40,7 @@ public class LoadImageManager : MonoBehaviour
 
 
         //移動アニメーションを開始する
-        transformCache.DOLocalMove(newPosition, 1.5f)
+        transformCache.DOLocalMove(newPosition, 2f)
             .SetEase(Ease.Linear)
             .OnComplete(() => { });
     }

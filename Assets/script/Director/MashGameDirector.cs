@@ -17,14 +17,19 @@ public class MashGameDirector : MonoBehaviour, IGameDirector
     public GameObject finishUI; // FinishUI のパネル
     public GameObject startUI;  // StartUI のパネル
 
+    public string targetSceneName = null;//シーン名の保存
+
     private bool isGameStarted = false;
     private string lastButtonPressed = ""; // 前回押されたボタンを記録
+
+
 
     [SerializeField] private GorstCharaController _gorstCharaController;  // ゲームの開始を管理するスクリプトの参照
     [SerializeField] private CountdownController _countdownController;  // CountdownControllerの参照
     [SerializeField] private AudioManager _audioManager;  // CountdownControllerの参照
     [SerializeField] private FinishController _finishController;  // CountdownControllerの参照
     [SerializeField] private BreadImageManager _breadImageManager;
+    [SerializeField] private SaveLoadManager _saveLoadManager;
 
     private void Start()
     {
@@ -101,6 +106,7 @@ public class MashGameDirector : MonoBehaviour, IGameDirector
         {
             time = 0;
             _audioManager.StopStompGameBgm();
+            SaveSceneName();
             GameOver();
         }
     }
@@ -115,4 +121,11 @@ public class MashGameDirector : MonoBehaviour, IGameDirector
 
         finishUI.SetActive(true); // FinishUI を表示
     }
+
+    public void SaveSceneName()
+    {
+        _saveLoadManager.SaveSceneName(SceneManager.GetActiveScene().name);
+
+    }
+
 }

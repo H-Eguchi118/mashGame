@@ -14,14 +14,15 @@ public class CountdownController : MonoBehaviour
     private IGameDirector gameDirector;
     private bool isCountingDown = false; // カウントダウン中かどうかのフラグ
 
+
     void Start()
     {
-        StartCoroutine(_loadImageManager.SetStompOpenning());
 
         // InspectorでアタッチされたオブジェクトをIGameDirectorとしてキャスト
         if (gameDirectorObject is IGameDirector director)
         {
             gameDirector = director;
+
         }
         else
         {

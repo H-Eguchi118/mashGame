@@ -11,6 +11,7 @@ public class SelectManager : MonoBehaviour
     [SerializeField]private ShopManager _shopManager;
     [SerializeField]private LoadImageManager _loadImageManager;
     [SerializeField] private ScoreCalculation _scoreCalculation;
+    [SerializeField] private AudioManager _audioManager;
 
     public SelectUI selectUI;
 
@@ -39,11 +40,14 @@ public class SelectManager : MonoBehaviour
 
     private void Shopping()
     {
+        _audioManager.PlayDecisionButtonSound();
         _shopManager.SetPanel();   //各パネルの初期セット
     }
 
     private IEnumerator GoRunningScene()
     {
+        _audioManager.PlayDecisionButtonSound();
+
         _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
@@ -52,6 +56,8 @@ public class SelectManager : MonoBehaviour
     }
     private IEnumerator GoStompScene()
     {
+        _audioManager.PlayDecisionButtonSound();
+
         _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
@@ -62,12 +68,15 @@ public class SelectManager : MonoBehaviour
 
     private IEnumerator GoStartScene()
     {
+        _audioManager.PlayDecisionButtonSound();
+
         _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
 
         SceneManager.LoadScene("StartScene");
     }
+
 
 }
 

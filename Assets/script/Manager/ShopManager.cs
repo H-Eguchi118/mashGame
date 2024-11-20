@@ -4,12 +4,14 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject itemPrefab;//アイテムのプレハブのゲームオブジェクト
     [SerializeField] private Transform gridLayoutGroup;//Grid Layout Groupのトランスフォーム
     [SerializeField] private SaveLoadManager _saveLoadManager;//SaveLoadManagerのスクリプト
+    [SerializeField] private AudioManager _audioManager;
 
     [SerializeField] private Sprite itemKnit;
     [SerializeField] private Sprite itemCreamSoda;
@@ -60,9 +62,9 @@ public class ShopManager : MonoBehaviour
     //アイテムデータを初期化するメソッド
     private void InitializeitemData()
     {
-        items.Add(new ItemData("クリームソーダ", 0, itemCreamSoda, "ハウス装飾アイテム。家に置けるが飲めない。"));
+        items.Add(new ItemData("クリームソーダ", 10, itemCreamSoda, "ハウス装飾アイテム。家に置けるが飲めない。"));
         items.Add(new ItemData("かご", 50, itemBusket, "ハウス装飾アイテム。家における。"));
-        items.Add(new ItemData("ニット帽", 100, itemKnit, "プレイヤー装飾アイテム。被れる。(条件：白い花×5)"));
+        items.Add(new ItemData("ニット帽", 100, itemKnit, "プレイヤー装飾アイテム。被れる。"));
     }
 
     //アイテムリストを生成するメソッド
@@ -105,36 +107,111 @@ public class ShopManager : MonoBehaviour
             //ボタンの有効・無効
             itemButton.interactable = totalMoney >= item.Price;
 
+
             //ボタンのクリック処理
             itemButton.onClick.AddListener(() => OnSelectItem(item));
 
             closedButton.onClick.AddListener(() => ClosedShoppingPanel());
             ConfirmationUI.noButton.onClick.AddListener(() => ClosedConfirmationPanel());
-            ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem(item));
+
+                ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem1(item));
+
+                ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem2(item));
+
+                ConfirmationUI.YesButton.onClick.AddListener(() => OnBuyItem3(item));
         }
 
     }
 
-    //アイテムボタンのクリック処理
-    private void OnBuyItem(ItemData item)
+    //各アイテムボタンのクリック処理
+    private void OnBuyItem1(ItemData item)
     {
-        if (totalMoney >= item.Price)
+        _audioManager.PlayBuyButtonSound();
+
+        if (item.Name == "クリームソーダ")
         {
-            totalMoney -= item.Price;
-            Debug.Log(item.Name + "を"+ item.Price + "マネで購入");
+            if (totalMoney >= item.Price)
+            {
+                totalMoney -= item.Price;
+                Debug.Log(item.Name + "を" + item.Price + "マネで購入");
+                ConfirmationUI.boughtText.text = item.Name + "を買いました";
 
-            ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
-            ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
-            ConfirmationUI.boughtText.text = item.Name + "を買いました";
-            totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
+                ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+                ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
+                totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
+
+                SaveTotalMoney();
+
+                // リスナーをクリアしてから新しいリスナーを登録
+                ConfirmationUI.closeButton.onClick.RemoveAllListeners();
+                ConfirmationUI.closeButton.onClick.RemoveAllListeners();
+                ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
 
 
+            }
+        }
 
-            SaveTotalMoney();
-            ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
+        
 
+        
+
+    }
+
+    private void OnBuyItem2(ItemData item)
+    {
+        _audioManager.PlayBuyButtonSound();
+
+        if (item.Name == "かご")
+        {
+            if (totalMoney >= item.Price)
+            {
+                totalMoney -= item.Price;
+                Debug.Log(item.Name + "を" + item.Price + "マネで購入");
+                ConfirmationUI.boughtText.text = item.Name + "を買いました";
+
+                ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+                ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
+                totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
+
+                SaveTotalMoney();
+
+                // リスナーをクリアしてから新しいリスナーを登録
+                ConfirmationUI.closeButton.onClick.RemoveAllListeners();
+
+                ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
+
+
+            }
+        }
+
+
+    }
+
+
+    private void OnBuyItem3(ItemData item)
+    {
+        _audioManager.PlayBuyButtonSound();
+
+        if (item.Name == "ニット帽")
+        {
+            if (totalMoney >= item.Price)
+            {
+                totalMoney -= item.Price;
+                Debug.Log(item.Name + "を" + item.Price + "マネで購入");
+                ConfirmationUI.boughtText.text = item.Name + "を買いました";
+
+                ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
+                ConfirmationUI.boughtCanvas.gameObject.SetActive(true);
+                totalMoneyText.text = "持っているお金：" + totalMoney + "マネ";
+
+                SaveTotalMoney();
+
+                ConfirmationUI.closeButton.onClick.AddListener(() => ConfirmationClosed(item));
+
+            }
         }
     }
+
 
     private void ConfirmationClosed(ItemData item)
     {
@@ -144,6 +221,8 @@ public class ShopManager : MonoBehaviour
 
     private void OnSelectItem(ItemData item)
     {
+        _audioManager.PlayDecisionButtonSound();
+
         if (totalMoney >= item.Price)
         {
             //購入確認のポップアップ表示
@@ -155,6 +234,8 @@ public class ShopManager : MonoBehaviour
     //各パネルを閉じる処理
     private void ClosedShoppingPanel()
     {
+        _audioManager.PlayCancelButtonSound();
+
         if (shoppingCanvas)
         {
             shoppingCanvas.gameObject.SetActive(false);
@@ -171,6 +252,8 @@ public class ShopManager : MonoBehaviour
     //購入確認パネルの閉じる処理
     private void ClosedConfirmationPanel()
     {
+        _audioManager.PlayCancelButtonSound();
+
         if (ConfirmationUI.confirmationCanvas)
         {
             ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);

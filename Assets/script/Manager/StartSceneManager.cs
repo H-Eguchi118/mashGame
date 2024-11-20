@@ -33,7 +33,7 @@ public class StartSceneManager : MonoBehaviour
     {
         _audioManager.PlayDecisionButtonSound();
         _loadImageManager.DisplayLoadInCanvas();
-        _loadImageManager.loadText.text = "ƒpƒ“‰®‚ğ‚¨è“`‚¢";
+        _loadImageManager.loadText.text = "¶’n‚ğ‚±‚Ë‚Äƒpƒ“‚ğì‚ë‚¤";
 
 
         yield return new WaitForSeconds(3.0f);
@@ -43,7 +43,7 @@ public class StartSceneManager : MonoBehaviour
     {
         _audioManager.PlayDecisionButtonSound();
         _loadImageManager.DisplayLoadInCanvas();
-        _loadImageManager.loadText.text = "‰Ô‰®‚ğ‚¨è“`‚¢";
+        _loadImageManager.loadText.text = "‰Ô‚ğ‚ ‚Â‚ß‚Ä“Í‚¯‚æ‚¤";
 
 
         yield return new WaitForSeconds(3.0f);

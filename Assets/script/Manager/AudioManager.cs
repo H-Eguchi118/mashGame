@@ -71,6 +71,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayBuyButtonSound()
+    {
+        if (otherAudio.buyBtn != null)
+        {
+            otherAudio.buyBtn.Play();
+        }
+    }
+
+
     public void PlayRunGameBgm()
     {
         if (runGame.runGameBGM != null)
@@ -160,6 +169,7 @@ public class OtherAudio
 
     public AudioSource decisionBtn;
     public AudioSource cancelBtn;
+    public AudioSource buyBtn;
 
 }
 
