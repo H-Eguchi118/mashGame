@@ -27,6 +27,7 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
+
         shoppingCanvas.gameObject.SetActive(false);
         ConfirmationUI.confirmationCanvas.gameObject.SetActive(false);
         ConfirmationUI.boughtCanvas.gameObject.SetActive(false);

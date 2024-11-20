@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScoreCalculation : MonoBehaviour
@@ -27,13 +28,27 @@ public class ScoreCalculation : MonoBehaviour
     public int runMoney = 0;
     public int totalMoney = 0;
 
-
+    public string targetSceneName = "";
 
     void Start()
     {
-        //キャンバス内順次表示
-        StartCoroutine(DisplayScoreCanvas());
+        scoreUI.scoreCanvas.gameObject.SetActive(false);
+        _saveLoadManager.LoadSceneName(out targetSceneName);
+        Debug.Log("取得したシーン名：" + targetSceneName);
+
+        if (targetSceneName == "RunGameScene")
+        {
+            scoreUI.scoreCanvas.gameObject.SetActive(true);
+
+
+            // 遷移元が指定したシーンの場合のみキャンバス内順次表示
+            StartCoroutine(DisplayScoreCanvas());
+        }
+        else return;
+
     }
+
+
 
     //順番にアイテムのスコアを表示させるメソッド
     public IEnumerator DisplayScoreCanvas()
@@ -44,9 +59,7 @@ public class ScoreCalculation : MonoBehaviour
         //スコアキャンバスの設定
         SetScoreCanvas();
 
-
-
-        yield return new WaitForSeconds(1.0f);//1秒待機
+        yield return new WaitForSeconds(2.0f);//1秒待機
         scoreUI.blueFlowerImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);//1秒待機
@@ -154,23 +167,6 @@ public class ScoreCalculation : MonoBehaviour
         runMoney = blueFlowersScore + glayFlowersScore + orangeFlowersScore + whiteFlowersScore + timeBonusScore;
     }
 
-    // 金額データを保存
-    //public void SaveRunMoneyData()
-    //{
-    //    if (_saveLoadManager != null)
-    //    {
-    //        _saveLoadManager.SaveRunMoneyData(runMoney);
-    //    }
-    //}
-
-    //// 金額データを読み込む
-    //public void LoadRunMoneyData()
-    //{
-    //    if (_saveLoadManager != null)
-    //    {
-    //        runMoney = _saveLoadManager.LoadRunMoneyData(out runMoney);
-    //    }
-    //}
 
 
     public void AddTotalMoneyScore()
@@ -184,7 +180,6 @@ public class ScoreCalculation : MonoBehaviour
             _saveLoadManager.SaveTotalMoneyData(totalMoney);
         }
     }
-
 
 
     private void closedCanvas()

@@ -3,16 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using UnityEngine.Events;
 
 public class SelectManager : MonoBehaviour
 {
     [SerializeField]private ShopManager _shopManager;
     [SerializeField]private LoadImageManager _loadImageManager;
+    [SerializeField] private ScoreCalculation _scoreCalculation;
+
     public SelectUI selectUI;
 
     void Start()
     {
         OnButtonClick();
+        _loadImageManager.DisplayLoadOutCanvas();
+        //_scoreCalculation.SetRanGameScore();
+    }
+
+    private void ViewRanGameScore()
+    {
     }
     public void SetCanvas()
     {
@@ -34,7 +44,7 @@ public class SelectManager : MonoBehaviour
 
     private IEnumerator GoRunningScene()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
 
@@ -42,7 +52,7 @@ public class SelectManager : MonoBehaviour
     }
     private IEnumerator GoStompScene()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
 
@@ -52,12 +62,13 @@ public class SelectManager : MonoBehaviour
 
     private IEnumerator GoStartScene()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
 
         SceneManager.LoadScene("StartScene");
     }
+
 }
 
 

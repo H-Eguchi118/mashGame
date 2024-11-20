@@ -30,6 +30,9 @@ public class RunPlayerController : MonoBehaviour
         this.rigid2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         currentRunForce = baseRunForce;
+
+        MoveStop();
+
     }
 
     void Update()
@@ -122,6 +125,13 @@ public class RunPlayerController : MonoBehaviour
             currentRunForce = baseRunForce;
 
         }
+
+    }
+
+    void MoveStop()
+    {
+        if (_visualsController.isGoalIn)
+            rigid2D.velocity = Vector2.zero;
     }
 
     //加速処理
