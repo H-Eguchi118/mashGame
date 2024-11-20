@@ -3916,6 +3916,7 @@ MonoBehaviour:
   normalBonus: 10
   runMoney: 0
   totalMoney: 0
+  targetSceneName: 
 --- !u!1 &1085239871
 GameObject:
   m_ObjectHideFlags: 0
@@ -5574,6 +5575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shopManager: {fileID: 24588093}
   _loadImageManager: {fileID: 1011289769}
+  _scoreCalculation: {fileID: 1012764556}
   selectUI:
     selectCanvas: {fileID: 1347516584}
     shoppingButton: {fileID: 840827060}

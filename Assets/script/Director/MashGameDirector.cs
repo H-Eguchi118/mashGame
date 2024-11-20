@@ -47,10 +47,10 @@ public class MashGameDirector : MonoBehaviour, IGameDirector
     // ゲーム開始時に呼び出される
     public void StartGame()
     {
-        Debug.Log("mashh game Started");
+        Debug.Log("mash game Started");
 
         isGameStarted = true;
-        _audioManager.PlayCountBgm();
+        _audioManager.PlayStompGameBgm();
     }
 
     // 時間を減らしてUIを更新する処理
@@ -71,6 +71,7 @@ public class MashGameDirector : MonoBehaviour, IGameDirector
             UpdateCountUI();
             _gorstCharaController.ViewGorstL();
             _breadImageManager.CheckBreadScore();
+            _audioManager.PlayStompSE();
 
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && lastButtonPressed != "R")
@@ -79,6 +80,7 @@ public class MashGameDirector : MonoBehaviour, IGameDirector
             lastButtonPressed = "R";
             UpdateCountUI();
             _gorstCharaController.ViewGorstR();
+            _audioManager.PlayStompSE();
             _breadImageManager.CheckBreadScore();
 
         }
@@ -98,7 +100,7 @@ public class MashGameDirector : MonoBehaviour, IGameDirector
         if (time <= 0)
         {
             time = 0;
-            _audioManager.StopCountBgm();
+            _audioManager.StopStompGameBgm();
             GameOver();
         }
     }
