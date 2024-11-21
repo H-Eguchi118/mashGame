@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using TreeEditor; // シーン管理用のライブラリを追加
 
 public class RunGameDirector : MonoBehaviour, IGameDirector
 {
