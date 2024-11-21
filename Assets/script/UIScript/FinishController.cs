@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Net.NetworkInformation;
+using Boomerang2DFramework.Framework.AudioManagement;
 public class FinishController : MonoBehaviour
 {
 
@@ -22,6 +23,7 @@ public class FinishController : MonoBehaviour
 
     void Start()
     {
+        _loadImageManager.HideLoadImage();
         filePath = Application.persistentDataPath + "/scoreData.json";  // 保存先ファイルパスを設定
         finishUI.finishCanvas.gameObject.SetActive(false);  // ゲーム開始時は終了画面を非表示
         finishUI.newText.gameObject.SetActive(false);   // 初期状態では「new Record!」を非表示
@@ -102,7 +104,8 @@ public class FinishController : MonoBehaviour
 
     private IEnumerator ReTryGame()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _audioManager.PlayDecisionButtonSound();
+        _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
 
@@ -111,7 +114,9 @@ public class FinishController : MonoBehaviour
 
     private IEnumerator GotoStartScene()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _audioManager.PlayDecisionButtonSound();
+
+        _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
 
@@ -119,7 +124,9 @@ public class FinishController : MonoBehaviour
     }
     private IEnumerator GotoShopScene()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _audioManager.PlayDecisionButtonSound();
+
+        _loadImageManager.DisplayLoadInCanvas();
 
         yield return new WaitForSeconds(4.0f);//4秒待機
 

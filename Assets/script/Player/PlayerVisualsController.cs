@@ -16,11 +16,23 @@ public class PlayerVisualsController : MonoBehaviour
     [SerializeField] private RunGameDirector _runGameDirector;
     [SerializeField] private LoadImageManager _loadImageManager;
 
+    public bool isGoalIn = true;
 
+    private void Start()
+    {
+        _loadImageManager.DisplayLoadOutCanvas();
+
+        isGoalIn = false;
+
+        // 現在のシーン名を保存
+        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
+
+    }
 
     public void PlayJumpSound()
     {
         _audioManager.PlayJumpSound();
+
     }
 
     public void PlayGoalSound()
@@ -54,13 +66,16 @@ public class PlayerVisualsController : MonoBehaviour
     {
         if (other.gameObject.tag == "Goal")
         {
+            
             Debug.Log("ゴールしました");
             PlayGoalSound();
+            isGoalIn = true;
 
             StartCoroutine(GoToShopScene());
 
             //動作を無効化
             GetComponent<RunPlayerController>().isGoalIn = true;
+            
 
             _runGameDirector.StopTimer(); // 必要に応じてタイマーを管理
 
@@ -125,9 +140,10 @@ public class PlayerVisualsController : MonoBehaviour
     }
     private IEnumerator GoToShopScene()
     {
-        _loadImageManager.DisplayLoadCanvas();
-
         yield return new WaitForSeconds(4.0f);//4秒待機
+        _loadImageManager.DisplayLoadInCanvas();
+
+        yield return new WaitForSeconds(2.0f);//4秒待機
         SceneManager.LoadScene("ShopScene");  // ShopSceneに遷移
     }
 }

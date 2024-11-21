@@ -1,21 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource leftFootSound;//左足音
-    [SerializeField] private AudioSource rightFootSound;//右足音
-    [SerializeField] private AudioSource jumpSound;//ジャンプ音
-    [SerializeField] private AudioSource enemyHitSound;//敵との衝突音
 
-    [SerializeField] private AudioSource runningGoalSound;//ゴール音
-    [SerializeField] private AudioSource buttonSound;//ボタン音
-    [SerializeField] private AudioSource countFinishSound;//カウントフィニッシュUI音
+    public StompGame stompGame;
+    public RunGame runGame;
+    public OtherAudio otherAudio;
 
-    [SerializeField] private AudioSource runningBgm;//ランニングシーンBGM
-    [SerializeField] private AudioSource countBgm;//カウントシーンBGM
-    [SerializeField] private AudioSource selectBgm;//カウントシーンBGM
 
     private void Start()
     {
@@ -24,106 +18,180 @@ public class AudioManager : MonoBehaviour
 
     public void PlayLeftFootSound()
     {
-        if (leftFootSound != null)
+        if (runGame.leftFootSound != null)
         {
-            leftFootSound.Play();
+            runGame.leftFootSound.Play();
         }
     }
     public void PlayRightFootSound()
     {
-        if (rightFootSound != null)
+        if (runGame.rightFootSound != null)
         {
-            rightFootSound.Play();
+            runGame.rightFootSound.Play();
         }
     }
 
     public void PlayJumpSound()
     {
-        if (jumpSound != null)
+        if (runGame.jumpSound != null)
         {
-            jumpSound.Play();
+            runGame.jumpSound.Play();
         }
     }
 
     public void PlayEnemyHitSound()
     {
-        if (enemyHitSound != null)
+        if (runGame.enemyHitSound != null)
         {
-            enemyHitSound.Play();
+            runGame.enemyHitSound.Play();
         }
     }
 
     public void PlayRunningGoalSound()
     {
-        if (runningGoalSound != null)
+        if (runGame.runningGoalSound != null)
         {
-            runningGoalSound.Play();
+            runGame.runningGoalSound.Play();
         }
 
     }
 
-    public void PlayButtonSound()
+    public void PlayDecisionButtonSound()
     {
-        if (buttonSound != null)
+        if (otherAudio.decisionBtn != null)
         {
-            buttonSound.Play();
+            otherAudio.decisionBtn.Play();
+        }
+    }
+    public void PlayCancelButtonSound()
+    {
+        if (otherAudio.cancelBtn != null)
+        {
+            otherAudio.cancelBtn.Play();
         }
     }
 
-    public void PlayRunningBgm()
+    public void PlayBuyButtonSound()
     {
-        if (runningBgm != null)
+        if (otherAudio.buyBtn != null)
         {
-            runningBgm.Play();
-        }
-    }
-    public void StopRunningBgm()
-    {
-        if (runningBgm != null)
-        {
-            runningBgm.Stop();
-        }
-    }
-
-    public void PlayCountBgm()
-    {
-        if (countBgm != null)
-        {
-            countBgm.Play();
-        }
-    }
-    public void StopCountBgm()
-    {
-        if (countBgm != null)
-        {
-            countBgm.Stop();
+            otherAudio.buyBtn.Play();
         }
     }
 
 
-    public void PlaySelectBgm()
+    public void PlayRunGameBgm()
     {
-        if (selectBgm != null)
+        if (runGame.runGameBGM != null)
         {
-            selectBgm.Play();
+            runGame.runGameBGM.Play();
         }
     }
+    public void StopRunGameBgm()
+    {
+        if (runGame.runGameBGM != null)
+        {
+            runGame.runGameBGM.Stop();
+        }
+    }
+
+    public void PlayStompGameBgm()
+    {
+        if (stompGame.stompGameBGM != null)
+        {
+            stompGame.stompGameBGM.Play();
+        }
+    }
+    public void StopStompGameBgm()
+    {
+        if (stompGame.stompGameBGM != null)
+        {
+            stompGame.stompGameBGM.Stop();
+        }
+    }
+
+
+    public void PlayShopBgm()
+    {
+        if (otherAudio.shopBGM != null)
+        {
+            otherAudio.shopBGM.Play();
+        }
+    }
+
+    public void StopShopBgm()
+    {
+        if (otherAudio.shopBGM != null)
+        {
+            otherAudio.shopBGM.Stop();
+        }
+    }
+
+    public void StopStartBgm()
+    {
+        if (otherAudio.startBGM != null)
+        {
+            otherAudio.startBGM.Stop();
+        }
+    }
+
+
+
 
     public void PlayCountFinishSound()
     {
-        if (countFinishSound != null)
+        if (stompGame.stompFinishSound != null)
         {
-            countFinishSound.Play();
+            stompGame.  stompFinishSound.Play();
         }
     }
 
     public void StopCountFinishSound()
     {
-        if (countFinishSound != null)
+        if (stompGame.stompFinishSound != null)
         {
-            countFinishSound.Stop();
+            stompGame.stompFinishSound.Stop();
         }
     }
 
+    public void PlayStompSE()
+    {
+        stompGame.stompSE.Play();
+    }
+
+
+}
+[System.Serializable]
+public class OtherAudio
+{
+    public AudioSource startBGM;//スタートシーンBGM
+    public AudioSource shopBGM;//ショップBGM
+
+    public AudioSource decisionBtn;
+    public AudioSource cancelBtn;
+    public AudioSource buyBtn;
+
+}
+
+[System.Serializable]
+public class RunGame
+{
+
+    public AudioSource runGameBGM;//ランゲームBGM
+    public AudioSource leftFootSound;//左足音
+    public AudioSource rightFootSound;//右足音
+    public AudioSource jumpSound;//ジャンプ音
+    public AudioSource enemyHitSound;//敵との衝突音
+    public AudioSource runningGoalSound;//ゴール音
+
+
+}
+
+[System.Serializable]
+public class StompGame
+{
+    public AudioSource stompGameBGM;//カウントゲームBGM
+    public AudioSource stompFinishSound;//カウントフィニッシュUI音
+    public AudioSource stompSE;//踏む音
 
 }

@@ -21,6 +21,8 @@ public class RunGameDirector : MonoBehaviour, IGameDirector
     private bool isTimerRunning = true;//タイマーが動作しているか
     private bool isGameStarted = false;
 
+    public string targetSceneName = null;
+
 
 
     void Start()
@@ -51,7 +53,7 @@ public class RunGameDirector : MonoBehaviour, IGameDirector
         // Ranゲーム専用の開始処理
         Debug.Log("Ran Game Started");
 
-        _audioManager.PlayRunningBgm();
+        _audioManager.PlayRunGameBgm();
 
     }
 
@@ -71,10 +73,15 @@ public class RunGameDirector : MonoBehaviour, IGameDirector
     {
         isTimerRunning = false;
         goalText.gameObject.SetActive(true);
-        _audioManager.StopRunningBgm();
+        _audioManager.StopRunGameBgm();
         SaveTimeData();
+        SaveSceneName();
 
     }
 
-    
+    public void SaveSceneName()
+    {
+        _saveLoadManager.SaveSceneName(SceneManager.GetActiveScene().name);
+
+    }
 }

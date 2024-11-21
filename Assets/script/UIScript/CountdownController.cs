@@ -4,6 +4,8 @@ using TMPro;
 
 public class CountdownController : MonoBehaviour
 {
+    [SerializeField] private LoadImageManager _loadImageManager;
+
     public int countdown = 3;  // Unityから調整できるようにpublicに
     public TextMeshProUGUI countdownText;
     public Canvas startUI;          // カウントダウン用のUI
@@ -12,12 +14,15 @@ public class CountdownController : MonoBehaviour
     private IGameDirector gameDirector;
     private bool isCountingDown = false; // カウントダウン中かどうかのフラグ
 
+
     void Start()
     {
+
         // InspectorでアタッチされたオブジェクトをIGameDirectorとしてキャスト
         if (gameDirectorObject is IGameDirector director)
         {
             gameDirector = director;
+
         }
         else
         {

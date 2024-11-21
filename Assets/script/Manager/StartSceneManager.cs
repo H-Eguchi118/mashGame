@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,12 +10,16 @@ using UnityEngine.UI;
 public class StartSceneManager : MonoBehaviour
 {
     [SerializeField] private LoadImageManager _loadImageManager;
+    [SerializeField] private AudioManager _audioManager;
     [SerializeField] private Button stompGameBtn;
     [SerializeField] private Button runGameBtn;
     [SerializeField] private Button exitBtn;
 
     private void Start()
     {
+
+        StartCoroutine(_loadImageManager.SetOpenning());
+
         OnButtonClick();
     }
     private void OnButtonClick()
@@ -26,14 +31,20 @@ public class StartSceneManager : MonoBehaviour
     }
     private IEnumerator GoStompGame()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _audioManager.PlayDecisionButtonSound();
+        _loadImageManager.DisplayLoadInCanvas();
+        _loadImageManager.loadText.text = "生地をこねてパンを作ろう";
+
 
         yield return new WaitForSeconds(3.0f);
         SceneManager.LoadScene("StompGameScene");
     }
     private IEnumerator GoRunGame()
     {
-        _loadImageManager.DisplayLoadCanvas();
+        _audioManager.PlayDecisionButtonSound();
+        _loadImageManager.DisplayLoadInCanvas();
+        _loadImageManager.loadText.text = "花をあつめて届けよう";
+
 
         yield return new WaitForSeconds(3.0f);
 
@@ -43,12 +54,18 @@ public class StartSceneManager : MonoBehaviour
 
     private IEnumerator GoExit()
     {
-        _loadImageManager.DisplayLoadCanvas();
-        _loadImageManager.text.text= "GOOD BYE!";
+        _audioManager.PlayDecisionButtonSound();
 
-        yield return new WaitForSeconds(3.0f);
+        _loadImageManager.DisplayLoadInCanvas();
+        _loadImageManager.loadText.text = "おつかれさま!";
 
-        Application.Quit();
+        yield return new WaitForSeconds(5.0f);
+        _audioManager.StopStartBgm();
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;  // エディタ用
+#else
+    Application.Quit();  // ビルド済みアプリ用
+#endif
 
     }
 

@@ -1,4 +1,6 @@
+using UnityEditor.Media;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveLoadManager : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class SaveLoadManager : MonoBehaviour
         PlayerPrefs.SetInt("whiteFlowersScore", whiteFlowersScore);
         PlayerPrefs.Save(); // データを保存
         Debug.Log("アイテムデータを保存しました");
+
     }
 
     // データロード
@@ -22,6 +25,7 @@ public class SaveLoadManager : MonoBehaviour
         whiteFlowersScore = PlayerPrefs.GetInt("whiteFlowersScore", 0);
 
         Debug.Log("アイテムデータを読み込みました");
+
     }
 
     public void SaveTimeData(float time)
@@ -53,6 +57,22 @@ public class SaveLoadManager : MonoBehaviour
         Debug.Log("totalMoney：" + totalMoney);
         return totalMoney;
     }
+
+    public void SaveSceneName(string targetSceneName)
+    {
+        PlayerPrefs.SetString("targetSceneName", SceneManager.GetActiveScene().name);
+        PlayerPrefs.Save();
+        Debug.Log("シーンの名前をを保存しました。targetSceneName：" + targetSceneName);
+
+
+    }
+
+    public string LoadSceneName(out string targetSceneName)
+    {
+        targetSceneName = PlayerPrefs.GetString("targetSceneName","");
+        return targetSceneName;
+    }
+    
 
     //run gameの金額を保存する
     //public void SaveRunMoneyData(int runMoney)
