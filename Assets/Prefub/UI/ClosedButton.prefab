@@ -188,8 +188,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\xD7"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e4629357a9a3e4945a614feb4fcbdfeb, type: 2}
-  m_sharedMaterial: {fileID: 3736659730294612201, guid: e4629357a9a3e4945a614feb4fcbdfeb,
+  m_fontAsset: {fileID: 11400000, guid: 20ad61fd1fc566b47ba8ec63aee75d67, type: 2}
+  m_sharedMaterial: {fileID: 3642455726744336974, guid: 20ad61fd1fc566b47ba8ec63aee75d67,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
